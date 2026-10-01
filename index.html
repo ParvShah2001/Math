@@ -61,7 +61,10 @@
       color: #ffffff;
       height: 100%;
       height: 100dvh;
-      overflow-x: hidden;
+      width: 100%;
+      overflow: hidden !important;
+      position: fixed;
+      inset: 0;
       touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
@@ -71,8 +74,10 @@
     .app-viewport {
       height: 100%;
       height: 100dvh;
+      width: 100%;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     .custom-scroll::-webkit-scrollbar {
@@ -110,7 +115,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 0.85rem;
+      border-radius: 0.75rem;
       background: #121214;
       border: 1.5px solid #27272a;
       color: #ffffff;
@@ -128,10 +133,10 @@
     }
 
     .safe-top {
-      padding-top: max(0.5rem, env(safe-area-inset-top));
+      padding-top: max(0.4rem, env(safe-area-inset-top));
     }
     .safe-bottom {
-      padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
     }
   </style>
 </head>
@@ -140,158 +145,158 @@
   <div class="app-viewport">
     
     <!-- Top Header Bar -->
-    <header class="safe-top shrink-0 border-b border-mono-800 bg-black/95 backdrop-blur z-20 px-4 sm:px-6 py-3 flex items-center justify-between">
+    <header class="safe-top shrink-0 border-b border-mono-800 bg-black/95 backdrop-blur z-20 px-3 sm:px-6 py-2.5 flex items-center justify-between">
       <div class="flex items-center gap-2">
-        <h1 class="text-lg sm:text-xl font-black tracking-wider text-white font-mono uppercase">MATH</h1>
+        <h1 class="text-base sm:text-xl font-black tracking-wider text-white font-mono uppercase">MATH</h1>
       </div>
 
       <!-- Reference Book Modal Button -->
-      <button id="openCheatSheetBtn" class="h-9 px-3.5 sm:px-4 rounded-xl border border-white bg-transparent hover:bg-white hover:text-black text-xs sm:text-sm font-mono font-bold transition flex items-center gap-1.5 shadow-sm">
+      <button id="openCheatSheetBtn" class="h-8 sm:h-9 px-3 sm:px-4 rounded-xl border border-white bg-transparent hover:bg-white hover:text-black text-xs sm:text-sm font-mono font-bold transition flex items-center gap-1.5 shadow-sm">
         <span>REFERENCE BOOK</span>
       </button>
     </header>
 
-    <!-- Main Viewport -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-3 sm:p-6 w-full">
+    <!-- Main Viewport (Strictly Non-Scrolling) -->
+    <main class="flex-1 overflow-hidden flex flex-col items-center justify-center p-2 sm:p-4 w-full h-full min-h-0">
       
       <!-- =========================================================================
-           VIEW 1: PRACTICE SETUP SCREEN
+           VIEW 1: PRACTICE SETUP SCREEN (Fit 100% into Viewport)
            ========================================================================= -->
-      <div id="lobbyScreen" class="w-full max-w-2xl mx-auto flex flex-col gap-6 py-3 sm:py-6 my-auto">
+      <div id="lobbyScreen" class="w-full max-w-xl mx-auto h-full flex flex-col justify-center items-center gap-3 sm:gap-5 py-1 px-1 sm:px-4 overflow-hidden">
         
-        <div class="text-center space-y-2">
-          <h2 class="text-4xl sm:text-6xl font-black tracking-tight text-white font-mono uppercase">PRACTICE</h2>
-          <p class="text-sm sm:text-lg text-mono-400 font-mono">Tables (1–20) · Squares (1–30) · Cubes (1–15) · Fractions</p>
+        <div class="text-center space-y-0.5 sm:space-y-1 shrink-0">
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white font-mono uppercase">PRACTICE</h2>
+          <p class="text-xs sm:text-base text-mono-400 font-mono">Tables (1–20) · Squares (1–30) · Cubes (1–15) · Fractions</p>
         </div>
 
         <!-- Configuration Card -->
-        <div class="bg-mono-900 border border-mono-800 rounded-3xl p-5 sm:p-8 space-y-6 shadow-2xl">
+        <div class="w-full bg-mono-900 border border-mono-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-3 sm:space-y-4 shadow-2xl shrink-0">
           
           <!-- Concept Selection -->
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <label class="text-xs sm:text-sm font-bold uppercase tracking-wider text-mono-400 font-mono">Select Topic</label>
-              <span id="topicBadgeInfo" class="text-xs sm:text-sm text-white font-mono font-bold">Tables 1–10</span>
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-mono-400 font-mono">Select Topic</label>
+              <span id="topicBadgeInfo" class="text-[11px] sm:text-xs text-white font-mono font-bold">Tables 1–10</span>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 text-sm sm:text-base">
-              <button type="button" data-topic="tables_basic" class="topic-btn opt-active py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+              <button type="button" data-topic="tables_basic" class="topic-btn opt-active py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
                 Tables (1–10)
               </button>
-              <button type="button" data-topic="tables_advanced" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+              <button type="button" data-topic="tables_advanced" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
                 Tables (11–20)
               </button>
-              <button type="button" data-topic="tables_all" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+              <button type="button" data-topic="tables_all" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
                 All Tables (1–20)
               </button>
-              <button type="button" data-topic="squares" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+              <button type="button" data-topic="squares" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
                 Squares (1–30)
               </button>
-              <button type="button" data-topic="cubes" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+              <button type="button" data-topic="cubes" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
                 Cubes (1–15)
               </button>
-              <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+              <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
                 Fractions → %
               </button>
-              <button type="button" data-topic="mixed" class="topic-btn opt-inactive col-span-2 sm:col-span-3 py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
+              <button type="button" data-topic="mixed" class="topic-btn opt-inactive col-span-2 sm:col-span-3 py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
                 Mixed All
               </button>
             </div>
           </div>
 
           <!-- Instant Check Toggle -->
-          <div class="pt-3 border-t border-mono-800 flex items-center justify-between text-sm sm:text-base">
+          <div class="pt-2 border-t border-mono-800 flex items-center justify-between text-xs sm:text-sm">
             <span class="text-mono-300 font-mono">Instant advance on correct:</span>
-            <button id="instantSubmitToggleBtn" type="button" class="px-3.5 py-1.5 rounded-xl border border-white bg-white text-black font-mono font-bold text-xs sm:text-sm transition">
+            <button id="instantSubmitToggleBtn" type="button" class="px-3 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-xs transition">
               ON
             </button>
           </div>
 
           <!-- Start Practice Button -->
-          <button id="startPracticeBtn" class="w-full py-4 sm:py-5 rounded-2xl bg-white hover:bg-mono-200 text-black font-mono font-black text-base sm:text-xl tracking-wider uppercase transition active:scale-[0.98] shadow-xl">
+          <button id="startPracticeBtn" class="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white hover:bg-mono-200 text-black font-mono font-black text-sm sm:text-lg tracking-wider uppercase transition active:scale-[0.98] shadow-lg">
             START PRACTICE →
           </button>
         </div>
 
-        <div class="text-center text-xs sm:text-sm text-mono-500 font-mono">
+        <div class="text-center text-[10px] sm:text-xs text-mono-500 font-mono shrink-0">
           Endless practice · ESC or EXIT anytime to finish
         </div>
       </div>
 
 
       <!-- =========================================================================
-           VIEW 2: ACTIVE GAMEPLAY SCREEN (Expansive & Screen Filling)
+           VIEW 2: ACTIVE GAMEPLAY SCREEN (Strictly Zero-Scroll Responsive Fit)
            ========================================================================= -->
-      <div id="gameplayScreen" class="hidden w-full max-w-2xl mx-auto flex-1 flex flex-col justify-between py-2 sm:py-4 px-1 sm:px-4">
+      <div id="gameplayScreen" class="hidden w-full max-w-xl mx-auto h-full flex flex-col justify-between py-1 px-1 sm:px-3 overflow-hidden">
         
         <!-- Top HUD -->
-        <div class="shrink-0 flex items-center justify-between px-4 py-2 sm:py-2.5 rounded-2xl bg-mono-900 border border-mono-800 text-xs sm:text-sm font-mono font-bold shadow-md">
-          <button id="exitGameBtn" class="text-mono-300 hover:text-white px-2.5 py-1 rounded-lg bg-mono-800 border border-mono-700 text-xs sm:text-sm transition font-bold">
+        <div class="shrink-0 h-10 px-3 sm:px-4 rounded-xl bg-mono-900 border border-mono-800 text-xs sm:text-sm font-mono font-bold flex items-center justify-between shadow-md">
+          <button id="exitGameBtn" class="text-mono-300 hover:text-white px-2 py-0.5 rounded-lg bg-mono-800 border border-mono-700 text-xs transition font-bold">
             ✕ EXIT
           </button>
 
-          <div class="flex items-center gap-4 sm:gap-6">
-            <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-3 sm:gap-5">
+            <div class="flex items-center gap-1">
               <span class="text-mono-500">SOLVED:</span>
               <span id="solvedCountDisplay" class="font-extrabold text-white">0</span>
             </div>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1">
               <span class="text-mono-500">STREAK:</span>
               <span id="streakDisplay" class="font-extrabold text-white">0</span>
             </div>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1">
               <span class="text-mono-500">ACC:</span>
               <span id="accuracyLiveBadge" class="font-extrabold text-white">100%</span>
             </div>
           </div>
         </div>
 
-        <!-- Center Challenge Box (Fills Screen Generously) -->
-        <div id="challengeCard" class="flex-1 my-3 sm:my-5 py-6 sm:py-12 px-4 sm:px-8 flex flex-col items-center justify-center text-center transition-all duration-150 rounded-3xl border border-mono-800 bg-mono-950 shadow-2xl">
+        <!-- Center Challenge Box (Flexible, Fits 100% without scroll) -->
+        <div id="challengeCard" class="flex-1 my-1.5 sm:my-2 py-2 sm:py-4 px-3 flex flex-col items-center justify-center text-center transition-all duration-150 rounded-2xl sm:rounded-3xl border border-mono-800 bg-mono-950 shadow-xl overflow-hidden min-h-0">
           
-          <div class="w-full flex items-center justify-center text-xs sm:text-sm text-mono-400 mb-2 font-mono font-bold px-1">
+          <div class="w-full flex items-center justify-center text-[11px] sm:text-xs text-mono-400 mb-1 font-mono font-bold px-1 shrink-0">
             <span id="cardCategoryBadge" class="uppercase tracking-widest">TABLE</span>
           </div>
 
-          <!-- Problem Display (Huge & Screen Dominant) -->
-          <div id="promptEquation" class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black font-mono tracking-tight text-white my-3 sm:my-6 select-none">
+          <!-- Problem Display (Fluid Clamp to Always Fit Screen) -->
+          <div id="promptEquation" class="font-black font-mono tracking-tight text-white my-1 sm:my-3 select-none text-[clamp(2.75rem,8vh,6rem)] leading-none">
             7 × 8
           </div>
 
-          <!-- Answer Input Field (Large & Bold) -->
-          <div class="w-full max-w-xs sm:max-w-md mt-2 sm:mt-4">
-            <div id="answerDisplayBox" class="w-full h-16 sm:h-20 rounded-2xl bg-black border-2 border-mono-600 flex items-center justify-center text-4xl sm:text-5xl font-mono font-black text-white tracking-widest px-4 overflow-hidden shadow-inner">
+          <!-- Answer Input Field -->
+          <div class="w-full max-w-[280px] sm:max-w-xs mt-1 sm:mt-2 shrink-0">
+            <div id="answerDisplayBox" class="w-full h-12 sm:h-16 rounded-xl sm:rounded-2xl bg-black border-2 border-mono-600 flex items-center justify-center text-3xl sm:text-4xl font-mono font-black text-white tracking-widest px-3 overflow-hidden shadow-inner">
               <span id="userInputText"></span>
               <span id="cursorBar" class="animate-pulse text-mono-400 ml-1 font-light">_</span>
             </div>
           </div>
 
           <!-- Hint Link -->
-          <div class="min-h-[28px] mt-3 sm:mt-4 flex items-center justify-center">
-            <button id="showHintBtn" class="text-xs sm:text-sm font-mono text-mono-400 hover:text-white underline">
+          <div class="h-6 sm:h-7 mt-1.5 flex items-center justify-center shrink-0">
+            <button id="showHintBtn" class="text-xs font-mono text-mono-400 hover:text-white underline">
               [hint]
             </button>
-            <p id="hintText" class="hidden text-xs sm:text-sm text-white text-center font-mono bg-mono-900 px-3 py-1.5 rounded-xl border border-mono-700"></p>
+            <p id="hintText" class="hidden text-xs text-white text-center font-mono bg-mono-900 px-2.5 py-1 rounded-lg border border-mono-700"></p>
           </div>
         </div>
 
-        <!-- Bottom Virtual Numpad (Expanded & Thumb-Accessible) -->
+        <!-- Bottom Virtual Numpad -->
         <div class="shrink-0 safe-bottom w-full">
-          <div class="grid grid-cols-3 gap-2 sm:gap-2.5 select-none">
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="1">1</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="2">2</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="3">3</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="4">4</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="5">5</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="6">6</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="7">7</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="8">8</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="9">9</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl text-mono-300" data-val=".">.</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="0">0</button>
-            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl text-mono-400 hover:text-white" data-action="backspace">⌫</button>
+          <div class="grid grid-cols-3 gap-1.5 sm:gap-2 select-none">
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="1">1</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="2">2</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="3">3</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="4">4</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="5">5</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="6">6</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="7">7</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="8">8</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="9">9</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl text-mono-300 font-bold" data-val=".">.</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="0">0</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl text-mono-400 hover:text-white" data-action="backspace">⌫</button>
           </div>
-          <div class="mt-2 select-none">
-            <button class="w-full h-12 sm:h-14 rounded-2xl bg-white text-black font-mono font-black text-base sm:text-lg uppercase hover:bg-mono-200 active:scale-[0.98] transition flex items-center justify-center gap-2 shadow-lg" data-action="submit">
+          <div class="mt-1.5 select-none">
+            <button class="w-full h-10 sm:h-12 rounded-xl bg-white text-black font-mono font-black text-sm sm:text-base uppercase hover:bg-mono-200 active:scale-[0.98] transition flex items-center justify-center gap-1.5 shadow-md" data-action="submit">
               <span>ENTER</span>
               <span>↵</span>
             </button>
@@ -302,57 +307,57 @@
 
 
       <!-- =========================================================================
-           VIEW 3: RESULTS / SUMMARY SCREEN
+           VIEW 3: RESULTS / SUMMARY SCREEN (Zero-Scroll Responsive Fit)
            ========================================================================= -->
-      <div id="resultsScreen" class="hidden w-full max-w-2xl mx-auto my-auto flex flex-col gap-6 py-4">
-        <div class="bg-mono-900 border border-mono-800 rounded-3xl p-6 sm:p-8 space-y-6 text-center shadow-2xl">
+      <div id="resultsScreen" class="hidden w-full max-w-xl mx-auto h-full flex flex-col justify-center items-center py-2 px-2 overflow-hidden">
+        <div class="w-full bg-mono-900 border border-mono-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-3 sm:space-y-4 text-center shadow-2xl shrink-0 overflow-hidden">
           
           <div>
-            <span class="px-3 py-1 rounded-lg border border-mono-700 text-xs font-mono uppercase tracking-wider text-mono-400">
+            <span class="px-2.5 py-0.5 rounded-lg border border-mono-700 text-[10px] font-mono uppercase tracking-wider text-mono-400">
               PRACTICE DEBRIEF
             </span>
-            <h2 class="text-3xl sm:text-4xl font-black text-white font-mono mt-3 uppercase">SUMMARY</h2>
+            <h2 class="text-2xl sm:text-3xl font-black text-white font-mono mt-1 uppercase">SUMMARY</h2>
           </div>
 
           <!-- Key Metrics -->
-          <div class="grid grid-cols-3 gap-3 text-center font-mono">
-            <div class="bg-black border border-mono-800 rounded-2xl p-4 sm:p-5">
-              <span class="text-xs text-mono-500 block uppercase font-bold">SOLVED</span>
-              <span id="resultScore" class="text-2xl sm:text-4xl font-black text-white mt-1 block">0</span>
+          <div class="grid grid-cols-3 gap-2 text-center font-mono">
+            <div class="bg-black border border-mono-800 rounded-xl p-2.5 sm:p-3">
+              <span class="text-[10px] text-mono-500 block uppercase font-bold">SOLVED</span>
+              <span id="resultScore" class="text-xl sm:text-2xl font-black text-white mt-0.5 block">0</span>
             </div>
-            <div class="bg-black border border-mono-800 rounded-2xl p-4 sm:p-5">
-              <span class="text-xs text-mono-500 block uppercase font-bold">ACCURACY</span>
-              <span id="resultAccuracy" class="text-2xl sm:text-4xl font-black text-white mt-1 block">100%</span>
+            <div class="bg-black border border-mono-800 rounded-xl p-2.5 sm:p-3">
+              <span class="text-[10px] text-mono-500 block uppercase font-bold">ACCURACY</span>
+              <span id="resultAccuracy" class="text-xl sm:text-2xl font-black text-white mt-0.5 block">100%</span>
             </div>
-            <div class="bg-black border border-mono-800 rounded-2xl p-4 sm:p-5">
-              <span class="text-xs text-mono-500 block uppercase font-bold">AVG PACE</span>
-              <span id="resultPace" class="text-2xl sm:text-4xl font-black text-white mt-1 block">0.0s</span>
+            <div class="bg-black border border-mono-800 rounded-xl p-2.5 sm:p-3">
+              <span class="text-[10px] text-mono-500 block uppercase font-bold">AVG PACE</span>
+              <span id="resultPace" class="text-xl sm:text-2xl font-black text-white mt-0.5 block">0.0s</span>
             </div>
           </div>
 
           <!-- Mistakes List -->
-          <div id="mistakesSection" class="text-left space-y-2">
-            <div class="flex items-center justify-between text-xs sm:text-sm font-mono text-mono-400">
+          <div id="mistakesSection" class="text-left space-y-1.5">
+            <div class="flex items-center justify-between text-xs font-mono text-mono-400">
               <span class="uppercase font-bold">MISTAKES (<span id="mistakeCount">0</span>)</span>
               <span class="text-mono-500">Review</span>
             </div>
-            <div id="mistakesList" class="max-h-48 overflow-y-auto space-y-2 custom-scroll pr-1 font-mono text-sm"></div>
+            <div id="mistakesList" class="max-h-24 sm:max-h-28 overflow-y-auto space-y-1.5 custom-scroll pr-1 font-mono text-xs"></div>
           </div>
 
           <!-- Focus Tip -->
-          <div id="recommendationCard" class="text-left bg-black border border-mono-800 rounded-2xl p-4 font-mono text-xs sm:text-sm text-mono-300">
-            <div class="text-white font-bold mb-1">NOTE:</div>
-            <div id="recommendationText" class="text-mono-400 leading-relaxed">
+          <div id="recommendationCard" class="text-left bg-black border border-mono-800 rounded-xl p-2.5 font-mono text-xs text-mono-300">
+            <div class="text-white font-bold mb-0.5">NOTE:</div>
+            <div id="recommendationText" class="text-mono-400 leading-relaxed text-[11px]">
               Consistent daily practice reinforces instant recall.
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="grid grid-cols-2 gap-3 pt-2 font-mono text-sm sm:text-base">
-            <button id="retrySessionBtn" class="py-4 px-4 rounded-2xl bg-white text-black font-bold hover:bg-mono-200 transition shadow-lg">
+          <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm">
+            <button id="retrySessionBtn" class="py-3 px-3 rounded-xl bg-white text-black font-bold hover:bg-mono-200 transition shadow-lg">
               AGAIN ↻
             </button>
-            <button id="backToMenuBtn" class="py-4 px-4 rounded-2xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
+            <button id="backToMenuBtn" class="py-3 px-3 rounded-xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
               MENU ⚙
             </button>
           </div>
@@ -365,7 +370,7 @@
 
 
   <!-- =========================================================================
-       MODAL: REFERENCE BOOK (Full Screen Responsive View)
+       MODAL: REFERENCE BOOK (The ONLY place where scrolling is enabled)
        ========================================================================= -->
   <div id="referenceModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex items-center justify-center p-0 sm:p-4">
     <div class="bg-mono-950 w-full h-full sm:h-[95vh] sm:max-w-6xl sm:rounded-3xl border-0 sm:border border-mono-800 flex flex-col overflow-hidden font-mono shadow-2xl">
@@ -381,7 +386,7 @@
         </button>
       </div>
 
-      <!-- Tabs Navigation (Shortcuts removed) -->
+      <!-- Tabs Navigation -->
       <div class="flex border-b border-mono-800 bg-black px-3 pt-2 gap-1.5 text-xs sm:text-sm overflow-x-auto custom-scroll shrink-0">
         <button data-tab="tab-tables-basic" class="tab-btn px-4 py-2.5 border-b-2 border-white text-white font-bold whitespace-nowrap">Tables (1–10)</button>
         <button data-tab="tab-tables-adv" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Tables (11–20)</button>
@@ -390,7 +395,7 @@
         <button data-tab="tab-fractions" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Fractions → %</button>
       </div>
 
-      <!-- Tab Content Area (Full Screen Utilization) -->
+      <!-- Tab Content Area (Scrolling allowed here!) -->
       <div class="p-4 sm:p-6 overflow-y-auto custom-scroll flex-1">
         <!-- Tables 1 to 10 -->
         <div id="tab-tables-basic" class="tab-content grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4"></div>
@@ -812,8 +817,8 @@
       engine.instantSubmit = !engine.instantSubmit;
       instantSubmitToggleBtn.textContent = engine.instantSubmit ? 'ON' : 'OFF';
       instantSubmitToggleBtn.className = engine.instantSubmit
-        ? 'px-3.5 py-1.5 rounded-xl border border-white bg-white text-black font-mono font-bold text-xs sm:text-sm transition'
-        : 'px-3.5 py-1.5 rounded-xl border border-mono-700 bg-mono-900 text-mono-400 font-mono font-bold text-xs sm:text-sm transition';
+        ? 'px-3 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-xs transition'
+        : 'px-3 py-1 rounded-lg border border-mono-700 bg-mono-900 text-mono-400 font-mono font-bold text-xs transition';
     });
 
     // Start Session
@@ -973,17 +978,17 @@
 
       if (engine.mistakes.length === 0) {
         mistakeListEl.innerHTML = `
-          <div class="text-sm text-white bg-black p-4 rounded-2xl border border-mono-800 text-center font-mono font-bold">
+          <div class="text-xs text-white bg-black p-2.5 rounded-xl border border-mono-800 text-center font-mono font-bold">
             ★ Clean session! Zero errors made.
           </div>
         `;
       } else {
         engine.mistakes.forEach(item => {
           const row = document.createElement('div');
-          row.className = 'flex items-center justify-between p-3 rounded-2xl bg-black border border-mono-800 text-sm sm:text-base font-mono';
+          row.className = 'flex items-center justify-between p-2 rounded-xl bg-black border border-mono-800 text-xs font-mono';
           row.innerHTML = `
             <span class="font-bold text-white">${item.prompt}</span>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
               <span class="text-mono-500 line-through">You: ${item.userVal}</span>
               <span class="text-white font-black">Ans: ${item.correct}</span>
             </div>
@@ -1016,7 +1021,7 @@
       lobbyScreen.classList.remove('hidden');
     });
 
-    /* 5. POPULATE REFERENCE BOOK TABLES (Large, Screen-Covering Cards) */
+    /* 5. POPULATE REFERENCE BOOK TABLES (Scrollable only inside this modal) */
     function populateReferenceSheets() {
       // Tables 1 to 10
       const tbContainer = document.getElementById('tab-tables-basic');
