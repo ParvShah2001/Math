@@ -41,8 +41,8 @@
           keyframes: {
             shake: {
               '0%, 100%': { transform: 'translateX(0)' },
-              '20%, 60%': { transform: 'translateX(-6px)' },
-              '40%, 80%': { transform: 'translateX(6px)' },
+              '20%, 60%': { transform: 'translateX(-8px)' },
+              '40%, 80%': { transform: 'translateX(8px)' },
             }
           }
         }
@@ -76,8 +76,8 @@
     }
 
     .custom-scroll::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
     }
     .custom-scroll::-webkit-scrollbar-track {
       background: #09090b;
@@ -92,7 +92,7 @@
       background-color: #ffffff !important;
       color: #000000 !important;
       border-color: #ffffff !important;
-      font-weight: 700 !important;
+      font-weight: 800 !important;
     }
     .opt-inactive {
       background-color: #121214;
@@ -110,13 +110,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 0.75rem;
+      border-radius: 0.85rem;
       background: #121214;
-      border: 1px solid #27272a;
+      border: 1.5px solid #27272a;
       color: #ffffff;
       font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-      font-size: 1.4rem;
-      font-weight: 700;
+      font-weight: 800;
       touch-action: manipulation;
       transition: background-color 0.06s ease, transform 0.06s ease;
       cursor: pointer;
@@ -141,158 +140,158 @@
   <div class="app-viewport">
     
     <!-- Top Header Bar -->
-    <header class="safe-top shrink-0 border-b border-mono-800 bg-black/90 backdrop-blur z-20 px-4 py-2.5 flex items-center justify-between">
+    <header class="safe-top shrink-0 border-b border-mono-800 bg-black/95 backdrop-blur z-20 px-4 sm:px-6 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2">
-        <h1 class="text-base font-black tracking-tight text-white font-mono uppercase">MATH</h1>
+        <h1 class="text-lg sm:text-xl font-black tracking-wider text-white font-mono uppercase">MATH</h1>
       </div>
 
-      <!-- Reference Tables Modal Button -->
-      <button id="openCheatSheetBtn" class="h-8 px-3 rounded-lg border border-white bg-transparent hover:bg-white hover:text-black text-xs font-mono font-bold transition flex items-center gap-1">
-        <span>TABLES</span>
+      <!-- Reference Book Modal Button -->
+      <button id="openCheatSheetBtn" class="h-9 px-3.5 sm:px-4 rounded-xl border border-white bg-transparent hover:bg-white hover:text-black text-xs sm:text-sm font-mono font-bold transition flex items-center gap-1.5 shadow-sm">
+        <span>REFERENCE BOOK</span>
       </button>
     </header>
 
     <!-- Main Viewport -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-3 sm:p-5">
+    <main class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-3 sm:p-6 w-full">
       
       <!-- =========================================================================
            VIEW 1: PRACTICE SETUP SCREEN
            ========================================================================= -->
-      <div id="lobbyScreen" class="w-full max-w-lg mx-auto flex flex-col gap-4 py-2 my-auto">
+      <div id="lobbyScreen" class="w-full max-w-2xl mx-auto flex flex-col gap-6 py-3 sm:py-6 my-auto">
         
-        <div class="text-center space-y-1">
-          <h2 class="text-2xl font-black tracking-tight text-white font-mono uppercase">PRACTICE</h2>
-          <p class="text-xs text-mono-400 font-mono">Tables (1–20) · Squares (1–30) · Cubes (1–15) · Fractions</p>
+        <div class="text-center space-y-2">
+          <h2 class="text-4xl sm:text-6xl font-black tracking-tight text-white font-mono uppercase">PRACTICE</h2>
+          <p class="text-sm sm:text-lg text-mono-400 font-mono">Tables (1–20) · Squares (1–30) · Cubes (1–15) · Fractions</p>
         </div>
 
         <!-- Configuration Card -->
-        <div class="bg-mono-900 border border-mono-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xl">
+        <div class="bg-mono-900 border border-mono-800 rounded-3xl p-5 sm:p-8 space-y-6 shadow-2xl">
           
           <!-- Concept Selection -->
           <div>
-            <div class="flex items-center justify-between mb-2">
-              <label class="text-[11px] font-bold uppercase tracking-wider text-mono-400 font-mono">Select Topic</label>
-              <span id="topicBadgeInfo" class="text-[11px] text-white font-mono">Tables 1–10</span>
+            <div class="flex items-center justify-between mb-3">
+              <label class="text-xs sm:text-sm font-bold uppercase tracking-wider text-mono-400 font-mono">Select Topic</label>
+              <span id="topicBadgeInfo" class="text-xs sm:text-sm text-white font-mono font-bold">Tables 1–10</span>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-              <button type="button" data-topic="tables_basic" class="topic-btn opt-active py-2.5 px-2 rounded-xl border text-center font-mono">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 text-sm sm:text-base">
+              <button type="button" data-topic="tables_basic" class="topic-btn opt-active py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 Tables (1–10)
               </button>
-              <button type="button" data-topic="tables_advanced" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="tables_advanced" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 Tables (11–20)
               </button>
-              <button type="button" data-topic="tables_all" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="tables_all" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 All Tables (1–20)
               </button>
-              <button type="button" data-topic="squares" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="squares" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 Squares (1–30)
               </button>
-              <button type="button" data-topic="cubes" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="cubes" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 Cubes (1–15)
               </button>
-              <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 Fractions → %
               </button>
-              <button type="button" data-topic="mixed" class="topic-btn opt-inactive col-span-2 sm:col-span-3 py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="mixed" class="topic-btn opt-inactive col-span-2 sm:col-span-3 py-3.5 sm:py-4 px-3 rounded-2xl border text-center font-mono">
                 Mixed All
               </button>
             </div>
           </div>
 
           <!-- Instant Check Toggle -->
-          <div class="pt-2 border-t border-mono-800 flex items-center justify-between text-xs">
-            <span class="text-mono-400 font-mono text-[11px]">Instant advance on correct:</span>
-            <button id="instantSubmitToggleBtn" type="button" class="px-2.5 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-[11px] transition">
+          <div class="pt-3 border-t border-mono-800 flex items-center justify-between text-sm sm:text-base">
+            <span class="text-mono-300 font-mono">Instant advance on correct:</span>
+            <button id="instantSubmitToggleBtn" type="button" class="px-3.5 py-1.5 rounded-xl border border-white bg-white text-black font-mono font-bold text-xs sm:text-sm transition">
               ON
             </button>
           </div>
 
           <!-- Start Practice Button -->
-          <button id="startPracticeBtn" class="w-full py-3.5 rounded-xl bg-white hover:bg-mono-200 text-black font-mono font-black text-sm tracking-wider uppercase transition active:scale-[0.98] shadow-lg">
+          <button id="startPracticeBtn" class="w-full py-4 sm:py-5 rounded-2xl bg-white hover:bg-mono-200 text-black font-mono font-black text-base sm:text-xl tracking-wider uppercase transition active:scale-[0.98] shadow-xl">
             START PRACTICE →
           </button>
         </div>
 
-        <div class="text-center text-[11px] text-mono-500 font-mono">
-          Endless practice · ESC or EXIT to finish
+        <div class="text-center text-xs sm:text-sm text-mono-500 font-mono">
+          Endless practice · ESC or EXIT anytime to finish
         </div>
       </div>
 
 
       <!-- =========================================================================
-           VIEW 2: ACTIVE GAMEPLAY SCREEN (Endless & Mobile Viewport Locked)
+           VIEW 2: ACTIVE GAMEPLAY SCREEN (Expansive & Screen Filling)
            ========================================================================= -->
-      <div id="gameplayScreen" class="hidden w-full max-w-sm mx-auto flex-1 flex flex-col justify-between py-1">
+      <div id="gameplayScreen" class="hidden w-full max-w-2xl mx-auto flex-1 flex flex-col justify-between py-2 sm:py-4 px-1 sm:px-4">
         
         <!-- Top HUD -->
-        <div class="shrink-0 flex items-center justify-between px-3 py-1.5 rounded-xl bg-mono-900 border border-mono-800 text-xs font-mono">
-          <button id="exitGameBtn" class="text-mono-400 hover:text-white px-2 py-0.5 rounded bg-mono-800 border border-mono-700 text-[11px] transition font-bold">
+        <div class="shrink-0 flex items-center justify-between px-4 py-2 sm:py-2.5 rounded-2xl bg-mono-900 border border-mono-800 text-xs sm:text-sm font-mono font-bold shadow-md">
+          <button id="exitGameBtn" class="text-mono-300 hover:text-white px-2.5 py-1 rounded-lg bg-mono-800 border border-mono-700 text-xs sm:text-sm transition font-bold">
             ✕ EXIT
           </button>
 
-          <div class="flex items-center gap-3">
-            <div class="flex items-center gap-1">
+          <div class="flex items-center gap-4 sm:gap-6">
+            <div class="flex items-center gap-1.5">
               <span class="text-mono-500">SOLVED:</span>
-              <span id="solvedCountDisplay" class="font-bold text-white">0</span>
+              <span id="solvedCountDisplay" class="font-extrabold text-white">0</span>
             </div>
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1.5">
               <span class="text-mono-500">STREAK:</span>
-              <span id="streakDisplay" class="font-bold text-white">0</span>
+              <span id="streakDisplay" class="font-extrabold text-white">0</span>
             </div>
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1.5">
               <span class="text-mono-500">ACC:</span>
-              <span id="accuracyLiveBadge" class="font-bold text-white">100%</span>
+              <span id="accuracyLiveBadge" class="font-extrabold text-white">100%</span>
             </div>
           </div>
         </div>
 
-        <!-- Center Challenge Box -->
-        <div id="challengeCard" class="my-auto py-4 px-3 flex flex-col items-center justify-center text-center transition-all duration-150 rounded-2xl border border-mono-800 bg-mono-950">
+        <!-- Center Challenge Box (Fills Screen Generously) -->
+        <div id="challengeCard" class="flex-1 my-3 sm:my-5 py-6 sm:py-12 px-4 sm:px-8 flex flex-col items-center justify-center text-center transition-all duration-150 rounded-3xl border border-mono-800 bg-mono-950 shadow-2xl">
           
-          <div class="w-full flex items-center justify-center text-[11px] text-mono-500 mb-2 font-mono px-1">
-            <span id="cardCategoryBadge" class="uppercase tracking-wider">TABLE</span>
+          <div class="w-full flex items-center justify-center text-xs sm:text-sm text-mono-400 mb-2 font-mono font-bold px-1">
+            <span id="cardCategoryBadge" class="uppercase tracking-widest">TABLE</span>
           </div>
 
-          <!-- Problem Display -->
-          <div id="promptEquation" class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white my-2">
+          <!-- Problem Display (Huge & Screen Dominant) -->
+          <div id="promptEquation" class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black font-mono tracking-tight text-white my-3 sm:my-6 select-none">
             7 × 8
           </div>
 
-          <!-- Answer Input Field -->
-          <div class="w-full max-w-[240px] mt-2">
-            <div id="answerDisplayBox" class="w-full h-12 rounded-xl bg-black border-2 border-mono-700 flex items-center justify-center text-2xl font-mono font-bold text-white tracking-widest px-3 overflow-hidden">
+          <!-- Answer Input Field (Large & Bold) -->
+          <div class="w-full max-w-xs sm:max-w-md mt-2 sm:mt-4">
+            <div id="answerDisplayBox" class="w-full h-16 sm:h-20 rounded-2xl bg-black border-2 border-mono-600 flex items-center justify-center text-4xl sm:text-5xl font-mono font-black text-white tracking-widest px-4 overflow-hidden shadow-inner">
               <span id="userInputText"></span>
-              <span id="cursorBar" class="animate-pulse text-mono-400 ml-0.5 font-light">_</span>
+              <span id="cursorBar" class="animate-pulse text-mono-400 ml-1 font-light">_</span>
             </div>
           </div>
 
           <!-- Hint Link -->
-          <div class="min-h-[24px] mt-2 flex items-center justify-center">
-            <button id="showHintBtn" class="text-[11px] font-mono text-mono-400 hover:text-white underline">
+          <div class="min-h-[28px] mt-3 sm:mt-4 flex items-center justify-center">
+            <button id="showHintBtn" class="text-xs sm:text-sm font-mono text-mono-400 hover:text-white underline">
               [hint]
             </button>
-            <p id="hintText" class="hidden text-xs text-white text-center font-mono bg-mono-900 px-2.5 py-1 rounded-lg border border-mono-700"></p>
+            <p id="hintText" class="hidden text-xs sm:text-sm text-white text-center font-mono bg-mono-900 px-3 py-1.5 rounded-xl border border-mono-700"></p>
           </div>
         </div>
 
-        <!-- Bottom Virtual Numpad -->
+        <!-- Bottom Virtual Numpad (Expanded & Thumb-Accessible) -->
         <div class="shrink-0 safe-bottom w-full">
-          <div class="grid grid-cols-3 gap-1.5 sm:gap-2 select-none">
-            <button class="numpad-key h-11 sm:h-12" data-val="1">1</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="2">2</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="3">3</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="4">4</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="5">5</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="6">6</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="7">7</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="8">8</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="9">9</button>
-            <button class="numpad-key h-11 sm:h-12 text-mono-300 font-bold" data-val=".">.</button>
-            <button class="numpad-key h-11 sm:h-12" data-val="0">0</button>
-            <button class="numpad-key h-11 sm:h-12 text-mono-400 hover:text-white" data-action="backspace">⌫</button>
+          <div class="grid grid-cols-3 gap-2 sm:gap-2.5 select-none">
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="1">1</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="2">2</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="3">3</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="4">4</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="5">5</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="6">6</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="7">7</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="8">8</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="9">9</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl text-mono-300" data-val=".">.</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl" data-val="0">0</button>
+            <button class="numpad-key h-13 sm:h-16 text-2xl sm:text-3xl text-mono-400 hover:text-white" data-action="backspace">⌫</button>
           </div>
-          <div class="mt-1.5 select-none">
-            <button class="w-full h-11 sm:h-12 rounded-xl bg-white text-black font-mono font-black text-sm uppercase hover:bg-mono-200 active:scale-[0.98] transition flex items-center justify-center gap-1.5" data-action="submit">
+          <div class="mt-2 select-none">
+            <button class="w-full h-12 sm:h-14 rounded-2xl bg-white text-black font-mono font-black text-base sm:text-lg uppercase hover:bg-mono-200 active:scale-[0.98] transition flex items-center justify-center gap-2 shadow-lg" data-action="submit">
               <span>ENTER</span>
               <span>↵</span>
             </button>
@@ -305,55 +304,55 @@
       <!-- =========================================================================
            VIEW 3: RESULTS / SUMMARY SCREEN
            ========================================================================= -->
-      <div id="resultsScreen" class="hidden w-full max-w-md mx-auto my-auto flex flex-col gap-4 py-3">
-        <div class="bg-mono-900 border border-mono-800 rounded-2xl p-5 space-y-5 text-center">
+      <div id="resultsScreen" class="hidden w-full max-w-2xl mx-auto my-auto flex flex-col gap-6 py-4">
+        <div class="bg-mono-900 border border-mono-800 rounded-3xl p-6 sm:p-8 space-y-6 text-center shadow-2xl">
           
           <div>
-            <span class="px-2.5 py-0.5 rounded border border-mono-700 text-[10px] font-mono uppercase tracking-wider text-mono-400">
+            <span class="px-3 py-1 rounded-lg border border-mono-700 text-xs font-mono uppercase tracking-wider text-mono-400">
               PRACTICE DEBRIEF
             </span>
-            <h2 class="text-2xl font-black text-white font-mono mt-2 uppercase">SUMMARY</h2>
+            <h2 class="text-3xl sm:text-4xl font-black text-white font-mono mt-3 uppercase">SUMMARY</h2>
           </div>
 
           <!-- Key Metrics -->
-          <div class="grid grid-cols-3 gap-2 text-center font-mono">
-            <div class="bg-black border border-mono-800 rounded-xl p-3">
-              <span class="text-[10px] text-mono-500 block uppercase">SOLVED</span>
-              <span id="resultScore" class="text-xl font-black text-white mt-0.5 block">0</span>
+          <div class="grid grid-cols-3 gap-3 text-center font-mono">
+            <div class="bg-black border border-mono-800 rounded-2xl p-4 sm:p-5">
+              <span class="text-xs text-mono-500 block uppercase font-bold">SOLVED</span>
+              <span id="resultScore" class="text-2xl sm:text-4xl font-black text-white mt-1 block">0</span>
             </div>
-            <div class="bg-black border border-mono-800 rounded-xl p-3">
-              <span class="text-[10px] text-mono-500 block uppercase">ACCURACY</span>
-              <span id="resultAccuracy" class="text-xl font-black text-white mt-0.5 block">100%</span>
+            <div class="bg-black border border-mono-800 rounded-2xl p-4 sm:p-5">
+              <span class="text-xs text-mono-500 block uppercase font-bold">ACCURACY</span>
+              <span id="resultAccuracy" class="text-2xl sm:text-4xl font-black text-white mt-1 block">100%</span>
             </div>
-            <div class="bg-black border border-mono-800 rounded-xl p-3">
-              <span class="text-[10px] text-mono-500 block uppercase">AVG PACE</span>
-              <span id="resultPace" class="text-xl font-black text-white mt-0.5 block">0.0s</span>
+            <div class="bg-black border border-mono-800 rounded-2xl p-4 sm:p-5">
+              <span class="text-xs text-mono-500 block uppercase font-bold">AVG PACE</span>
+              <span id="resultPace" class="text-2xl sm:text-4xl font-black text-white mt-1 block">0.0s</span>
             </div>
           </div>
 
           <!-- Mistakes List -->
           <div id="mistakesSection" class="text-left space-y-2">
-            <div class="flex items-center justify-between text-[11px] font-mono text-mono-400">
+            <div class="flex items-center justify-between text-xs sm:text-sm font-mono text-mono-400">
               <span class="uppercase font-bold">MISTAKES (<span id="mistakeCount">0</span>)</span>
               <span class="text-mono-500">Review</span>
             </div>
-            <div id="mistakesList" class="max-h-40 overflow-y-auto space-y-1.5 custom-scroll pr-1 font-mono text-xs"></div>
+            <div id="mistakesList" class="max-h-48 overflow-y-auto space-y-2 custom-scroll pr-1 font-mono text-sm"></div>
           </div>
 
           <!-- Focus Tip -->
-          <div id="recommendationCard" class="text-left bg-black border border-mono-800 rounded-xl p-3 font-mono text-xs text-mono-300">
+          <div id="recommendationCard" class="text-left bg-black border border-mono-800 rounded-2xl p-4 font-mono text-xs sm:text-sm text-mono-300">
             <div class="text-white font-bold mb-1">NOTE:</div>
-            <div id="recommendationText" class="text-mono-400 leading-relaxed text-[11px]">
+            <div id="recommendationText" class="text-mono-400 leading-relaxed">
               Consistent daily practice reinforces instant recall.
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-xs">
-            <button id="retrySessionBtn" class="py-3 px-3 rounded-xl bg-white text-black font-bold hover:bg-mono-200 transition">
+          <div class="grid grid-cols-2 gap-3 pt-2 font-mono text-sm sm:text-base">
+            <button id="retrySessionBtn" class="py-4 px-4 rounded-2xl bg-white text-black font-bold hover:bg-mono-200 transition shadow-lg">
               AGAIN ↻
             </button>
-            <button id="backToMenuBtn" class="py-3 px-3 rounded-xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
+            <button id="backToMenuBtn" class="py-4 px-4 rounded-2xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
               MENU ⚙
             </button>
           </div>
@@ -366,130 +365,110 @@
 
 
   <!-- =========================================================================
-       MODAL: REFERENCE BOOK
+       MODAL: REFERENCE BOOK (Full Screen Responsive View)
        ========================================================================= -->
-  <div id="referenceModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden flex items-center justify-center p-2 sm:p-4">
-    <div class="bg-mono-950 w-full max-w-3xl max-h-[92vh] rounded-2xl border border-mono-800 flex flex-col overflow-hidden font-mono shadow-2xl">
+  <div id="referenceModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex items-center justify-center p-0 sm:p-4">
+    <div class="bg-mono-950 w-full h-full sm:h-[95vh] sm:max-w-6xl sm:rounded-3xl border-0 sm:border border-mono-800 flex flex-col overflow-hidden font-mono shadow-2xl">
       
       <!-- Modal Header -->
-      <div class="p-3 sm:p-4 border-b border-mono-800 flex items-center justify-between shrink-0">
+      <div class="p-4 sm:p-5 border-b border-mono-800 flex items-center justify-between shrink-0 bg-black">
         <div>
-          <h3 class="text-sm font-bold text-white">REFERENCE BOOK</h3>
-          <p class="text-[11px] text-mono-400">Tables (1–20), Squares (1–30), Cubes (1–15), Fractions</p>
+          <h3 class="text-base sm:text-xl font-black text-white">REFERENCE BOOK</h3>
+          <p class="text-xs sm:text-sm text-mono-400">Tables (1–20), Squares (1–30), Cubes (1–15), Fractions → %</p>
         </div>
-        <button id="closeCheatSheetBtn" class="p-1.5 px-2.5 rounded-lg border border-mono-700 hover:border-white text-mono-400 hover:text-white text-xs transition">
+        <button id="closeCheatSheetBtn" class="p-2 px-3 rounded-xl border border-mono-700 hover:border-white text-mono-400 hover:text-white text-sm sm:text-base transition font-bold">
           ✕
         </button>
       </div>
 
-      <!-- Tabs Navigation -->
-      <div class="flex border-b border-mono-800 bg-black px-2 pt-2 gap-1 text-xs overflow-x-auto custom-scroll shrink-0">
-        <button data-tab="tab-tables-basic" class="tab-btn px-3 py-1.5 border-b-2 border-white text-white font-bold whitespace-nowrap">Tables (1–10)</button>
-        <button data-tab="tab-tables-adv" class="tab-btn px-3 py-1.5 border-b-2 border-transparent text-mono-400 hover:text-white whitespace-nowrap">Tables (11–20)</button>
-        <button data-tab="tab-squares" class="tab-btn px-3 py-1.5 border-b-2 border-transparent text-mono-400 hover:text-white whitespace-nowrap">Squares (1–30)</button>
-        <button data-tab="tab-cubes" class="tab-btn px-3 py-1.5 border-b-2 border-transparent text-mono-400 hover:text-white whitespace-nowrap">Cubes (1–15)</button>
-        <button data-tab="tab-fractions" class="tab-btn px-3 py-1.5 border-b-2 border-transparent text-mono-400 hover:text-white whitespace-nowrap">Fractions → %</button>
-        <button data-tab="tab-rules" class="tab-btn px-3 py-1.5 border-b-2 border-transparent text-mono-400 hover:text-white whitespace-nowrap">Shortcuts</button>
+      <!-- Tabs Navigation (Shortcuts removed) -->
+      <div class="flex border-b border-mono-800 bg-black px-3 pt-2 gap-1.5 text-xs sm:text-sm overflow-x-auto custom-scroll shrink-0">
+        <button data-tab="tab-tables-basic" class="tab-btn px-4 py-2.5 border-b-2 border-white text-white font-bold whitespace-nowrap">Tables (1–10)</button>
+        <button data-tab="tab-tables-adv" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Tables (11–20)</button>
+        <button data-tab="tab-squares" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Squares (1–30)</button>
+        <button data-tab="tab-cubes" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Cubes (1–15)</button>
+        <button data-tab="tab-fractions" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Fractions → %</button>
       </div>
 
-      <!-- Tab Content Area -->
-      <div class="p-3 sm:p-4 overflow-y-auto custom-scroll flex-1 text-xs">
+      <!-- Tab Content Area (Full Screen Utilization) -->
+      <div class="p-4 sm:p-6 overflow-y-auto custom-scroll flex-1">
         <!-- Tables 1 to 10 -->
-        <div id="tab-tables-basic" class="tab-content grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2"></div>
+        <div id="tab-tables-basic" class="tab-content grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4"></div>
 
         <!-- Tables 11 to 20 -->
-        <div id="tab-tables-adv" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2"></div>
+        <div id="tab-tables-adv" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4"></div>
 
         <!-- Squares 1 to 30 -->
-        <div id="tab-squares" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1.5"></div>
+        <div id="tab-squares" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3"></div>
 
         <!-- Cubes 1 to 15 -->
-        <div id="tab-cubes" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1.5"></div>
+        <div id="tab-cubes" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3"></div>
 
         <!-- Fractions to % -->
-        <div id="tab-fractions" class="tab-content hidden space-y-3 font-mono">
-          <div class="p-2.5 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-2 pb-1 border-b border-mono-800">Halves, Quarters & Eighths</div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              <div class="flex justify-between"><span class="text-mono-400">1/2</span><span class="text-white font-bold">50%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/4</span><span class="text-white font-bold">25%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">3/4</span><span class="text-white font-bold">75%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/8</span><span class="text-white font-bold">12.5%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">3/8</span><span class="text-white font-bold">37.5%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">5/8</span><span class="text-white font-bold">62.5%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">7/8</span><span class="text-white font-bold">87.5%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/16</span><span class="text-white font-bold">6.25%</span></div>
+        <div id="tab-fractions" class="tab-content hidden space-y-4 font-mono">
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Halves, Quarters & Eighths</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm sm:text-base">
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/2</span><span class="text-white font-black">50%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/4</span><span class="text-white font-black">25%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/4</span><span class="text-white font-black">75%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/8</span><span class="text-white font-black">12.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/8</span><span class="text-white font-black">37.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/8</span><span class="text-white font-black">62.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">7/8</span><span class="text-white font-black">87.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/16</span><span class="text-white font-black">6.25%</span></div>
             </div>
           </div>
 
-          <div class="p-2.5 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-2 pb-1 border-b border-mono-800">Thirds, Sixths & Ninths</div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-              <div class="flex justify-between"><span class="text-mono-400">1/3</span><span class="text-white font-bold">33.33%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">2/3</span><span class="text-white font-bold">66.67%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/6</span><span class="text-white font-bold">16.67%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">5/6</span><span class="text-white font-bold">83.33%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/9</span><span class="text-white font-bold">11.11%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">2/9</span><span class="text-white font-bold">22.22%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">4/9</span><span class="text-white font-bold">44.44%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">5/9</span><span class="text-white font-bold">55.55%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">7/9</span><span class="text-white font-bold">77.77%</span></div>
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Thirds, Sixths & Ninths</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm sm:text-base">
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/3</span><span class="text-white font-black">33.33%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/3</span><span class="text-white font-black">66.67%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/6</span><span class="text-white font-black">16.67%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/6</span><span class="text-white font-black">83.33%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/9</span><span class="text-white font-black">11.11%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/9</span><span class="text-white font-black">22.22%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">4/9</span><span class="text-white font-black">44.44%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/9</span><span class="text-white font-black">55.55%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">7/9</span><span class="text-white font-black">77.77%</span></div>
             </div>
           </div>
 
-          <div class="p-2.5 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-2 pb-1 border-b border-mono-800">Fifths, Tenths & Decimal Multiples</div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              <div class="flex justify-between"><span class="text-mono-400">1/5</span><span class="text-white font-bold">20%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">2/5</span><span class="text-white font-bold">40%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">3/5</span><span class="text-white font-bold">60%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">4/5</span><span class="text-white font-bold">80%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/10</span><span class="text-white font-bold">10%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/20</span><span class="text-white font-bold">5%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/25</span><span class="text-white font-bold">4%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/50</span><span class="text-white font-bold">2%</span></div>
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Fifths, Tenths & Decimal Multiples</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm sm:text-base">
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/5</span><span class="text-white font-black">20%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/5</span><span class="text-white font-black">40%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/5</span><span class="text-white font-black">60%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">4/5</span><span class="text-white font-black">80%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/10</span><span class="text-white font-black">10%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/20</span><span class="text-white font-black">5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/25</span><span class="text-white font-black">4%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/50</span><span class="text-white font-black">2%</span></div>
             </div>
           </div>
 
-          <div class="p-2.5 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-2 pb-1 border-b border-mono-800">Sevenths, Elevenths & Others</div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-              <div class="flex justify-between"><span class="text-mono-400">1/7</span><span class="text-white font-bold">14.28%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">2/7</span><span class="text-white font-bold">28.57%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">3/7</span><span class="text-white font-bold">42.85%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/11</span><span class="text-white font-bold">9.09%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">2/11</span><span class="text-white font-bold">18.18%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/12</span><span class="text-white font-bold">8.33%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/14</span><span class="text-white font-bold">7.14%</span></div>
-              <div class="flex justify-between"><span class="text-mono-400">1/15</span><span class="text-white font-bold">6.67%</span></div>
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Sevenths, Elevenths & Others</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm sm:text-base">
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/7</span><span class="text-white font-black">14.28%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/7</span><span class="text-white font-black">28.57%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/7</span><span class="text-white font-black">42.85%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/11</span><span class="text-white font-black">9.09%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/11</span><span class="text-white font-black">18.18%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/12</span><span class="text-white font-black">8.33%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/14</span><span class="text-white font-black">7.14%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/15</span><span class="text-white font-black">6.67%</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Shortcuts -->
-        <div id="tab-rules" class="tab-content hidden space-y-3 text-mono-300 leading-relaxed text-xs">
-          <div class="p-3 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-1">1. The 9's Table Rule</div>
-            <p class="text-mono-400">For 9 × n: Tens digit is (n - 1). Units digit adds up to 9 with the tens digit. Example: 9 × 7 = 63 (6 + 3 = 9).</p>
-          </div>
-          <div class="p-3 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-1">2. Squaring Numbers Ending in 5</div>
-            <p class="text-mono-400">For any number ending in 5 (e.g. n5): multiply n × (n + 1), then write 25 at the end.<br>Example: 25² = (2 × 3) & 25 = 625. 35² = (3 × 4) & 25 = 1225.</p>
-          </div>
-          <div class="p-3 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-1">3. Cubes Last Digit Invariant</div>
-            <p class="text-mono-400">Cubes of 0, 1, 4, 5, 6, 9 retain the exact same last digit! 2 and 8 swap (2³=8, 8³=...2). 3 and 7 swap (3³=27, 7³=...3).</p>
-          </div>
-          <div class="p-3 rounded-xl border border-mono-800 bg-mono-900">
-            <div class="text-white font-bold mb-1">4. Tables 11 to 20 Mental Splitting</div>
-            <p class="text-mono-400">Split into 10s and units:<br>19 × 7 = (20 × 7) - 7 = 140 - 7 = 133.<br>14 × 8 = (10 × 8) + (4 × 8) = 80 + 32 = 112.</p>
-          </div>
-        </div>
       </div>
 
       <!-- Modal Footer -->
-      <div class="p-2.5 bg-black border-t border-mono-800 text-right shrink-0">
-        <button id="modalDoneBtn" class="px-4 py-1.5 rounded-lg bg-white text-black font-bold text-xs hover:bg-mono-200 transition">
+      <div class="p-3 sm:p-4 bg-black border-t border-mono-800 text-right shrink-0">
+        <button id="modalDoneBtn" class="px-5 py-2 rounded-xl bg-white text-black font-black text-xs sm:text-sm hover:bg-mono-200 transition">
           CLOSE
         </button>
       </div>
@@ -647,8 +626,8 @@
 
         } else if (selectedType === 'tables_advanced') {
           // Tables 11 to 20
-          n = Math.floor(Math.random() * 10) + 11; // 11 to 20
-          m = Math.floor(Math.random() * 10) + 1;  // 1 to 10
+          n = Math.floor(Math.random() * 10) + 11;
+          m = Math.floor(Math.random() * 10) + 1;
           const ans = n * m;
           acceptableAnswers = [ans.toString()];
           promptText = `${n} × ${m}`;
@@ -732,7 +711,6 @@
         const elapsed = (performance.now() - this.questionStartTime) / 1000;
         this.times.push(elapsed);
 
-        // Check if input matches any acceptable answer
         const isCorrect = this.currentQuestion.acceptableAnswers.some(ans => {
           return ans.toLowerCase().replace('%', '') === rawInput.toLowerCase().replace('%', '');
         });
@@ -765,11 +743,9 @@
 
       appendInput(val) {
         if (this.currentInput.length >= 8) return;
-        // Don't allow multiple dots
         if (val === '.' && this.currentInput.includes('.')) return;
         this.currentInput += val;
 
-        // Auto check if enabled and typed input exactly matches
         if (this.instantSubmit && this.currentQuestion) {
           const raw = this.currentInput.trim().replace('%', '');
           const isMatch = this.currentQuestion.acceptableAnswers.some(ans => ans.replace('%', '') === raw);
@@ -836,8 +812,8 @@
       engine.instantSubmit = !engine.instantSubmit;
       instantSubmitToggleBtn.textContent = engine.instantSubmit ? 'ON' : 'OFF';
       instantSubmitToggleBtn.className = engine.instantSubmit
-        ? 'px-2.5 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-[11px] transition'
-        : 'px-2.5 py-1 rounded-lg border border-mono-700 bg-mono-900 text-mono-400 font-mono font-bold text-[11px] transition';
+        ? 'px-3.5 py-1.5 rounded-xl border border-white bg-white text-black font-mono font-bold text-xs sm:text-sm transition'
+        : 'px-3.5 py-1.5 rounded-xl border border-mono-700 bg-mono-900 text-mono-400 font-mono font-bold text-xs sm:text-sm transition';
     });
 
     // Start Session
@@ -997,19 +973,19 @@
 
       if (engine.mistakes.length === 0) {
         mistakeListEl.innerHTML = `
-          <div class="text-xs text-white bg-black p-3 rounded-xl border border-mono-800 text-center font-mono">
+          <div class="text-sm text-white bg-black p-4 rounded-2xl border border-mono-800 text-center font-mono font-bold">
             ★ Clean session! Zero errors made.
           </div>
         `;
       } else {
         engine.mistakes.forEach(item => {
           const row = document.createElement('div');
-          row.className = 'flex items-center justify-between p-2 rounded-xl bg-black border border-mono-800 text-xs font-mono';
+          row.className = 'flex items-center justify-between p-3 rounded-2xl bg-black border border-mono-800 text-sm sm:text-base font-mono';
           row.innerHTML = `
             <span class="font-bold text-white">${item.prompt}</span>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
               <span class="text-mono-500 line-through">You: ${item.userVal}</span>
-              <span class="text-white font-bold">Ans: ${item.correct}</span>
+              <span class="text-white font-black">Ans: ${item.correct}</span>
             </div>
           `;
           mistakeListEl.appendChild(row);
@@ -1040,20 +1016,20 @@
       lobbyScreen.classList.remove('hidden');
     });
 
-    /* 5. POPULATE REFERENCE BOOK TABLES */
+    /* 5. POPULATE REFERENCE BOOK TABLES (Large, Screen-Covering Cards) */
     function populateReferenceSheets() {
       // Tables 1 to 10
       const tbContainer = document.getElementById('tab-tables-basic');
       let tbHtml = '';
       for (let t = 1; t <= 10; t++) {
         tbHtml += `
-          <div class="p-2 rounded-xl bg-black border border-mono-800 flex flex-col font-mono text-xs">
-            <div class="font-bold text-white mb-1 pb-1 border-b border-mono-800 text-center">${t}×</div>
-            <div class="space-y-0.5 text-[11px]">
+          <div class="p-3 sm:p-4 rounded-2xl bg-black border border-mono-800 flex flex-col font-mono text-sm sm:text-base shadow-sm">
+            <div class="font-extrabold text-white text-base sm:text-lg mb-2 pb-1.5 border-b border-mono-800 text-center">${t}×</div>
+            <div class="space-y-1 text-xs sm:text-sm">
               ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(m => `
-                <div class="flex justify-between text-mono-400">
+                <div class="flex justify-between text-mono-400 hover:text-white">
                   <span>${t}×${m}</span>
-                  <span class="text-white font-semibold">${t * m}</span>
+                  <span class="text-white font-bold">${t * m}</span>
                 </div>
               `).join('')}
             </div>
@@ -1067,13 +1043,13 @@
       let taHtml = '';
       for (let t = 11; t <= 20; t++) {
         taHtml += `
-          <div class="p-2 rounded-xl bg-black border border-mono-800 flex flex-col font-mono text-xs">
-            <div class="font-bold text-white mb-1 pb-1 border-b border-mono-800 text-center">${t}×</div>
-            <div class="space-y-0.5 text-[11px]">
+          <div class="p-3 sm:p-4 rounded-2xl bg-black border border-mono-800 flex flex-col font-mono text-sm sm:text-base shadow-sm">
+            <div class="font-extrabold text-white text-base sm:text-lg mb-2 pb-1.5 border-b border-mono-800 text-center">${t}×</div>
+            <div class="space-y-1 text-xs sm:text-sm">
               ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(m => `
-                <div class="flex justify-between text-mono-400">
+                <div class="flex justify-between text-mono-400 hover:text-white">
                   <span>${t}×${m}</span>
-                  <span class="text-white font-semibold">${t * m}</span>
+                  <span class="text-white font-bold">${t * m}</span>
                 </div>
               `).join('')}
             </div>
@@ -1087,9 +1063,9 @@
       let sqHtml = '';
       for (let i = 1; i <= 30; i++) {
         sqHtml += `
-          <div class="p-1.5 px-2 rounded-lg bg-black border border-mono-800 flex items-center justify-between font-mono text-xs">
-            <span class="text-mono-400">${i}²</span>
-            <span class="text-white font-bold">${i * i}</span>
+          <div class="p-2.5 sm:p-3.5 rounded-2xl bg-black border border-mono-800 flex items-center justify-between font-mono text-sm sm:text-base">
+            <span class="text-mono-400 font-bold">${i}²</span>
+            <span class="text-white font-black">${i * i}</span>
           </div>
         `;
       }
@@ -1100,9 +1076,9 @@
       let cbHtml = '';
       for (let i = 1; i <= 15; i++) {
         cbHtml += `
-          <div class="p-1.5 px-2 rounded-lg bg-black border border-mono-800 flex items-center justify-between font-mono text-xs">
-            <span class="text-mono-400">${i}³</span>
-            <span class="text-white font-bold">${i * i * i}</span>
+          <div class="p-2.5 sm:p-3.5 rounded-2xl bg-black border border-mono-800 flex items-center justify-between font-mono text-sm sm:text-base">
+            <span class="text-mono-400 font-bold">${i}³</span>
+            <span class="text-white font-black">${i * i * i}</span>
           </div>
         `;
       }
