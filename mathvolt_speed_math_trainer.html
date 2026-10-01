@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MathVolt | Tables, Squares & Cubes Trainer</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            cyber: {
+              emerald: '#10b981',
+              rose: '#f43f5e',
+              amber: '#f59e0b',
+              sky: '#0284c7',
+              violet: '#a855f7'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'monospace'],
+          },
+          animation: {
+            'shake': 'shake 0.35s ease-in-out',
+            'pulse-fast': 'pulse 0.7s cubic-bezier(0.4, 0, 0.6, 1) 2',
+          },
+          keyframes: {
+            shake: {
+              '0%, 100%': { transform: 'translateX(0)' },
+              '20%, 60%': { transform: 'translateX(-7px)' },
+              '40%, 80%': { transform: 'translateX(7px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(31, 41, 55, 0.5);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.5);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+  <!-- Ambient Glow Effects -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute -top-36 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-brand-600/15 rounded-full blur-[120px]"></div>
+    <div class="absolute -bottom-24 -left-20 w-[400px] h-[300px] bg-cyber-sky/10 rounded-full blur-[100px]"></div>
+    <div class="absolute top-1/2 -right-24 w-[350px] h-[350px] bg-cyber-emerald/10 rounded-full blur-[100px]"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="relative z-10 w-full max-w-4xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between border-b border-slate-800/80">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center shadow-lg shadow-brand-500/25 ring-1 ring-white/20">
+        <span class="text-white font-mono font-black text-xl">x⚡</span>
+      </div>
+      <div>
+        <h1 class="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+          MathVolt
+        </h1>
+        <p class="text-[11px] text-slate-400 font-medium">Tables (1–25) · Squares · Cubes up to 30</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions Header -->
+    <div class="flex items-center gap-2">
+      <button id="soundToggleBtn" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 transition-all text-xs flex items-center gap-1.5" title="Toggle Sound">
+        <span id="soundIcon">🔊</span>
+      </button>
+      <button id="openCheatSheetBtn" class="px-3.5 py-2 rounded-xl bg-indigo-950/70 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-700/50 hover:border-indigo-500 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+        <span>📖</span> Reference Book
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Viewport -->
+  <main class="relative z-10 flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-start">
+    
+    <!-- View 1: Configuration / Lobby Screen -->
+    <div id="lobbyScreen" class="w-full flex flex-col gap-5 max-w-xl mx-auto my-auto py-2">
+      <div class="text-center space-y-1">
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Mental Math Engine</h2>
+        <p class="text-xs sm:text-sm text-slate-400">Lock down multiplication tables, squares & cubes with active recall.</p>
+      </div>
+
+      <!-- Config Cards -->
+      <div class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl shadow-black/40">
+        <!-- Math Topic Selector -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. Target Concept</label>
+            <span id="topicBadgeInfo" class="text-[11px] text-brand-400 font-medium font-mono">Foundations 1–10</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <button type="button" data-topic="tables_basic" class="topic-btn active-option px-2.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex flex-col items-center justify-center gap-1">
+              <span class="text-sm sm:text-base font-mono font-bold text-amber-400">7 × 8</span>
+              <span>Tables (1–10)</span>
+            </button>
+            <button type="button" data-topic="tables_advanced" class="topic-btn inactive-option px-2.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex flex-col items-center justify-center gap-1">
+              <span class="text-sm sm:text-base font-mono font-bold text-cyber-sky">19 × 7</span>
+              <span>Tables (11–25)</span>
+            </button>
+            <button type="button" data-topic="tables_all" class="topic-btn inactive-option px-2.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex flex-col items-center justify-center gap-1">
+              <span class="text-sm sm:text-base font-mono font-bold text-cyber-emerald">1–25 ×</span>
+              <span>All Tables (1–25)</span>
+            </button>
+            <button type="button" data-topic="squares" class="topic-btn inactive-option px-2.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex flex-col items-center justify-center gap-1">
+              <span class="text-sm sm:text-base font-mono font-bold text-indigo-400">17²</span>
+              <span>Squares (1–30)</span>
+            </button>
+            <button type="button" data-topic="cubes" class="topic-btn inactive-option px-2.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex flex-col items-center justify-center gap-1">
+              <span class="text-sm sm:text-base font-mono font-bold text-cyber-violet">12³</span>
+              <span>Cubes (1–30)</span>
+            </button>
+            <button type="button" data-topic="mixed" class="topic-btn inactive-option px-2.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex flex-col items-center justify-center gap-1">
+              <span class="text-sm sm:text-base font-mono font-bold text-rose-400">All ⚡</span>
+              <span>Mixed Gauntlet</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Range / Scope Selector (Applies dynamically to squares, cubes or fine-tuning) -->
+        <div id="rangeSelectorBlock">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">2. Sub-Range / Scope</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" data-range="basic" class="range-btn active-option px-2 sm:px-3 py-2 rounded-xl border text-xs font-semibold transition-all text-center">
+              Tier 1 (1–10 / 15)
+            </button>
+            <button type="button" data-range="advanced" class="range-btn inactive-option px-2 sm:px-3 py-2 rounded-xl border text-xs font-semibold transition-all text-center">
+              Tier 2 (11–20 / 30)
+            </button>
+            <button type="button" data-range="mastery" class="range-btn inactive-option px-2 sm:px-3 py-2 rounded-xl border text-xs font-semibold transition-all text-center">
+              Full Range
+            </button>
+          </div>
+          <p id="rangeHelp" class="text-[11px] text-slate-400 mt-1.5 px-1 italic">Focuses on essential tables from 1 to 10 multiplied up to 10.</p>
+        </div>
+
+        <!-- Training Mode Selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">3. Workout Mode</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" data-mode="drill" class="mode-btn active-option px-3 py-2.5 rounded-xl border text-center transition-all flex flex-col items-center gap-0.5">
+              <span class="text-xs sm:text-sm font-bold">🎯 Standard</span>
+              <span class="text-[10px] opacity-75">20 Questions</span>
+            </button>
+            <button type="button" data-mode="sprint" class="mode-btn inactive-option px-3 py-2.5 rounded-xl border text-center transition-all flex flex-col items-center gap-0.5">
+              <span class="text-xs sm:text-sm font-bold">⚡ Sprint</span>
+              <span class="text-[10px] opacity-75">60s Countdown</span>
+            </button>
+            <button type="button" data-mode="endless" class="mode-btn inactive-option px-3 py-2.5 rounded-xl border text-center transition-all flex flex-col items-center gap-0.5">
+              <span class="text-xs sm:text-sm font-bold">💡 Flashcard</span>
+              <span class="text-[10px] opacity-75">Hints & Practice</span>
+            </button>
+          </div>
+        </div>
+
+        <button id="startPracticeBtn" class="w-full mt-1 py-3.5 sm:py-4 px-6 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-brand-500 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-indigo-600/30 ring-1 ring-white/20 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+          <span>Start Workout Session</span>
+          <span class="text-lg">→</span>
+        </button>
+      </div>
+
+      <!-- Quick Heuristics Teaser -->
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+          <div class="text-amber-400 font-bold mb-1">⚡ 9's Table Trick</div>
+          <div class="text-slate-400 text-[11px] leading-relaxed">For $9 \times n$: tens digit is $n - 1$, units digit adds up to $9$ ($9 \times 7 = 63$).</div>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+          <div class="text-cyber-emerald font-bold mb-1">🎯 Unit Digit Invariant</div>
+          <div class="text-slate-400 text-[11px] leading-relaxed">Cubes of $0, 1, 4, 5, 6, 9$ retain exact same last digit!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View 2: Active Gameplay Screen -->
+    <div id="gameplayScreen" class="hidden w-full max-w-xl mx-auto my-auto flex flex-col gap-4">
+      
+      <!-- Top HUD Stats -->
+      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-medium">
+        <div class="flex items-center gap-3">
+          <button id="exitGameBtn" class="text-slate-400 hover:text-white px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 transition-colors text-[11px]">
+            ✕ Abort
+          </button>
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400">Streak:</span>
+            <span id="streakDisplay" class="font-bold text-amber-400 font-mono">0 🔥</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div id="timerContainer" class="flex items-center gap-1 text-slate-300">
+            <span id="timerLabel">⏱️</span>
+            <span id="timerDisplay" class="font-mono font-bold text-cyber-sky">60s</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400" id="progressLabel">Q:</span>
+            <span id="progressDisplay" class="font-mono font-semibold text-white">1/20</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Challenge Card -->
+      <div id="challengeCard" class="relative glass-card rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-center shadow-2xl transition-all duration-200">
+        
+        <!-- Accuracy & Pace Mini Bar -->
+        <div class="w-full flex items-center justify-between text-[11px] text-slate-400 mb-4 font-mono">
+          <span id="cardCategoryBadge" class="px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 font-semibold uppercase tracking-wider text-[10px]">
+            Table 1–10
+          </span>
+          <span id="accuracyLiveBadge">Accuracy: 100%</span>
+        </div>
+
+        <!-- Question Prompt Area -->
+        <div class="my-4 sm:my-6 text-center select-none">
+          <div id="promptEquation" class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white font-mono drop-shadow-md">
+            7 × 8 = ?
+          </div>
+        </div>
+
+        <!-- Answer Input Display Box -->
+        <div class="w-full max-w-xs flex flex-col items-center gap-2">
+          <div id="answerDisplayBox" class="w-full h-14 sm:h-16 rounded-2xl bg-slate-950/80 border-2 border-slate-700 flex items-center justify-center text-2xl sm:text-3xl font-mono font-bold text-brand-400 tracking-wider transition-all duration-150 shadow-inner px-4 overflow-hidden">
+            <span id="userInputText" class="text-white"></span>
+            <span id="cursorBar" class="animate-pulse text-indigo-400 ml-0.5 font-light">|</span>
+          </div>
+
+          <!-- Hint trigger / message -->
+          <div class="h-6 flex items-center justify-center">
+            <button id="showHintBtn" class="text-[11px] text-indigo-400 hover:text-indigo-300 underline font-medium">
+              Need a mental math trick? 💡
+            </button>
+            <p id="hintText" class="hidden text-xs text-amber-300/90 text-center font-medium bg-amber-950/40 px-3 py-1 rounded-lg border border-amber-800/40"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive On-Screen Keypad -->
+      <div class="w-full max-w-sm mx-auto grid grid-cols-3 gap-2 sm:gap-2.5 pt-1 select-none">
+        <button class="numpad-btn key-touch" data-val="1">1</button>
+        <button class="numpad-btn key-touch" data-val="2">2</button>
+        <button class="numpad-btn key-touch" data-val="3">3</button>
+        <button class="numpad-btn key-touch" data-val="4">4</button>
+        <button class="numpad-btn key-touch" data-val="5">5</button>
+        <button class="numpad-btn key-touch" data-val="6">6</button>
+        <button class="numpad-btn key-touch" data-val="7">7</button>
+        <button class="numpad-btn key-touch" data-val="8">8</button>
+        <button class="numpad-btn key-touch" data-val="9">9</button>
+        <button class="numpad-btn key-touch bg-rose-950/50 hover:bg-rose-900/60 border-rose-800/40 text-rose-300 font-bold" data-action="backspace">⌫</button>
+        <button class="numpad-btn key-touch" data-val="0">0</button>
+        <button class="numpad-btn key-touch bg-emerald-950/60 hover:bg-emerald-900/70 border-emerald-800/50 text-emerald-300 font-bold" data-action="submit">↵</button>
+      </div>
+
+      <!-- Desktop Numpad Tip -->
+      <div class="text-center text-[11px] text-slate-500 hidden sm:block">
+        Pro tip: Use your physical keyboard number row or numpad. Press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Enter</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Backspace</kbd>.
+      </div>
+    </div>
+
+    <!-- View 3: Session Results / Review Screen -->
+    <div id="resultsScreen" class="hidden w-full max-w-xl mx-auto my-auto flex flex-col gap-5 py-4">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 text-center border-slate-800">
+        
+        <div>
+          <span id="resultsBadge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-cyber-emerald">
+            Workout Completed
+          </span>
+          <h2 class="text-3xl font-extrabold text-white mt-3">Workout Debrief</h2>
+          <p id="resultsSubtext" class="text-xs text-slate-400 mt-1">Here is how your speed and recall held up.</p>
+        </div>
+
+        <!-- Key Metrics Cards -->
+        <div class="grid grid-cols-3 gap-2.5 sm:gap-3">
+          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 flex flex-col items-center">
+            <span class="text-[11px] text-slate-400 font-medium">Final Score</span>
+            <span id="resultScore" class="text-2xl font-black text-white font-mono mt-1">18/20</span>
+          </div>
+          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 flex flex-col items-center">
+            <span class="text-[11px] text-slate-400 font-medium">Accuracy</span>
+            <span id="resultAccuracy" class="text-2xl font-black text-cyber-emerald font-mono mt-1">90%</span>
+          </div>
+          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 flex flex-col items-center">
+            <span class="text-[11px] text-slate-400 font-medium">Avg Speed</span>
+            <span id="resultPace" class="text-2xl font-black text-cyber-sky font-mono mt-1">1.8s</span>
+          </div>
+        </div>
+
+        <!-- Mistake Review Drawer -->
+        <div id="mistakesSection" class="text-left space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Gaps to Review (<span id="mistakeCount">0</span>)</h4>
+            <span class="text-[11px] text-slate-500">Spaced repetition target</span>
+          </div>
+          <div id="mistakesList" class="max-h-48 overflow-y-auto space-y-1.5 custom-scroll pr-1"></div>
+        </div>
+
+        <!-- Recommendations Pill -->
+        <div id="recommendationCard" class="text-left bg-indigo-950/40 border border-indigo-800/40 rounded-2xl p-4 text-xs text-slate-300">
+          <div class="font-bold text-indigo-300 mb-1 flex items-center gap-1.5">
+            <span>💡</span> Recommended Focus Next:
+          </div>
+          <div id="recommendationText" class="text-slate-300 leading-relaxed">
+            Practice the $7$, $8$, and $9$ tables to solidify instant response under 1.5 seconds.
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <button id="retrySessionBtn" class="py-3 px-4 rounded-xl bg-brand-600 hover:bg-brand-500 font-bold text-sm text-white transition-all shadow-lg shadow-indigo-600/30">
+            Play Again ↻
+          </button>
+          <button id="backToMenuBtn" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 font-semibold text-sm text-slate-300 transition-all">
+            Change Setup ⚙️
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Reference Modal (Cheat Sheet 1-25 & 1-30) -->
+  <div id="referenceModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-6">
+    <div class="glass-card w-full max-w-4xl max-h-[92vh] rounded-3xl border border-slate-700/80 shadow-2xl flex flex-col overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">📖</span>
+          <div>
+            <h3 class="text-base font-bold text-white">Mental Math Mastery Book</h3>
+            <p class="text-xs text-slate-400">Complete reference tables from 1 to 25 and squares & cubes up to 30</p>
+          </div>
+        </div>
+        <button id="closeCheatSheetBtn" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex border-b border-slate-800 bg-slate-900/60 px-3 sm:px-4 pt-2 gap-1.5 sm:gap-2 text-xs font-semibold overflow-x-auto custom-scroll">
+        <button data-tab="tab-tables-basic" class="tab-btn px-3 sm:px-4 py-2 rounded-t-lg border-b-2 border-brand-500 text-white bg-slate-800/40 whitespace-nowrap">Tables (1–10)</button>
+        <button data-tab="tab-tables-adv" class="tab-btn px-3 sm:px-4 py-2 rounded-t-lg border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Tables (11–25)</button>
+        <button data-tab="tab-squares" class="tab-btn px-3 sm:px-4 py-2 rounded-t-lg border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Squares (1–30)</button>
+        <button data-tab="tab-cubes" class="tab-btn px-3 sm:px-4 py-2 rounded-t-lg border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Cubes (1–30)</button>
+        <button data-tab="tab-rules" class="tab-btn px-3 sm:px-4 py-2 rounded-t-lg border-b-2 border-transparent text-slate-400 hover:text-white whitespace-nowrap">Tricks & Rules ⚡</button>
+      </div>
+
+      <!-- Tab Contents (Scrollable) -->
+      <div class="p-3 sm:p-6 overflow-y-auto custom-scroll flex-1 text-xs">
+        
+        <!-- Tab 0: Tables 1 to 10 -->
+        <div id="tab-tables-basic" class="tab-content grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          <!-- Dynamically generated via JS -->
+        </div>
+
+        <!-- Tab 1: Tables 11 to 25 -->
+        <div id="tab-tables-adv" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          <!-- Dynamically generated via JS -->
+        </div>
+
+        <!-- Tab 2: Squares 1 to 30 -->
+        <div id="tab-squares" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          <!-- Dynamically generated via JS -->
+        </div>
+
+        <!-- Tab 3: Cubes 1 to 30 -->
+        <div id="tab-cubes" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          <!-- Dynamically generated via JS -->
+        </div>
+
+        <!-- Tab 4: Rules & Patterns -->
+        <div id="tab-rules" class="tab-content hidden space-y-4 text-slate-300">
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-amber-400 text-sm mb-1.5">1. Foundational Tables (1 to 10) Shortcuts</h4>
+            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-300 leading-relaxed">
+              <li><strong>9's Finger/Digit Rule:</strong> Digits always add to 9 ($9 \times 4 = 36 \rightarrow 3+6=9$). The tens digit is $(n - 1)$.</li>
+              <li><strong>6's Even Rule:</strong> $6 \times \text{even digit}$ ends in that same digit ($6 \times 4 = 24$, $6 \times 8 = 48$).</li>
+              <li><strong>8's Double-Double-Double:</strong> $8 \times n = ((n \times 2) \times 2) \times 2$.</li>
+              <li><strong>7's Rhyme Anchor:</strong> $7 \times 8 = 56 \rightarrow$ consecutive digits 5, 6, 7, 8 ($56 = 7 \times 8$).</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-cyber-sky text-sm mb-1.5">2. High Tables (11 to 25) Mental Splitting</h4>
+            <p class="text-xs leading-relaxed text-slate-300">
+              Break into easy tens and units: $19 \times 7 = (20 \times 7) - 7 = 140 - 7 = 133$.<br>
+              $14 \times 8 = (10 \times 8) + (4 \times 8) = 80 + 32 = 112$.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-cyber-emerald text-sm mb-1.5">3. The "Ending in 5" Square Rule</h4>
+            <p class="text-xs leading-relaxed text-slate-300">
+              For any number ending in 5 ($n5$): Multiply $n \times (n + 1)$, then append $25$.<br>
+              $25^2 = 2 \times 3 = 6 \rightarrow 625$. $35^2 = 3 \times 4 = 12 \rightarrow 1225$.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-cyber-violet text-sm mb-1.5">4. Cube Unit-Digit Determinant</h4>
+            <p class="text-xs leading-relaxed text-slate-300">
+              Cubes of $0, 1, 4, 5, 6, 9$ end with the <strong>same</strong> unit digit. Numbers ending in $2 \leftrightarrow 8$ and $3 \leftrightarrow 7$ swap with their complements to 10!
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 bg-slate-900/80 border-t border-slate-800 text-right">
+        <button id="modalDoneBtn" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white">
+          Back to Drill
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    .topic-btn, .range-btn, .mode-btn {
+      cursor: pointer;
+    }
+    .active-option {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+    }
+    .inactive-option {
+      background: rgba(15, 23, 42, 0.6);
+      border-color: rgba(51, 65, 85, 0.7);
+      color: #94a3b8;
+    }
+    .inactive-option:hover {
+      background: rgba(30, 41, 59, 0.8);
+      color: #e2e8f0;
+      border-color: #475569;
+    }
+    .numpad-btn {
+      height: 3.25rem;
+      border-radius: 0.875rem;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(71, 85, 105, 0.4);
+      color: #f8fafc;
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.08s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .numpad-btn:active, .numpad-btn.key-pressed {
+      transform: scale(0.95);
+      background: rgba(99, 102, 241, 0.4);
+      border-color: #818cf8;
+    }
+  </style>
+
+  <script>
+    /* =========================================================================
+       AUDIO SYNTHESIS SYSTEM (Web Audio API - zero external sound files)
+       ========================================================================= */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      toggle() {
+        this.enabled = !this.enabled;
+        return this.enabled;
+      }
+      playCorrect() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.12); // G5
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.25);
+      }
+      playWrong() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(146.83, now + 0.2);
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.28);
+      }
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, now);
+
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.04);
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    /* =========================================================================
+       MENTAL MATH HINTS & ENGINE
+       ========================================================================= */
+    function getMentalMathHint(question) {
+      const { type, n, m } = question;
+      if (type === 'table_basic') {
+        if (n === 9 || m === 9) {
+          const other = n === 9 ? m : n;
+          return `9's Rule: (${other} - 1 = ${other - 1}) followed by (9 - ${other - 1} = ${9 - (other - 1)}) ➔ ${(other - 1) * 10 + (9 - (other - 1))}`;
+        }
+        if (n === 8 || m === 8) {
+          const other = n === 8 ? m : n;
+          return `8's Rule: Double-double-double! (${other} × 2 = ${other * 2} ➔ ${other * 4} ➔ ${other * 8})`;
+        }
+        if ((n === 7 && m === 8) || (n === 8 && m === 7)) {
+          return `5-6-7-8 rhyme! 56 = 7 × 8`;
+        }
+        if (n === 6 || m === 6) {
+          const other = n === 6 ? m : n;
+          return `6's Rule: (${other} × 5) + ${other} = ${other * 5} + ${other} = ${other * 6}`;
+        }
+        if (n === 5 || m === 5) {
+          const other = n === 5 ? m : n;
+          return `5's Rule: Half of (${other} × 10 = ${other * 10}) is ${(other * 10) / 2}`;
+        }
+        return `Breakdown: (${n} × ${m - 1}) + ${n} = ${n * (m - 1)} + ${n}`;
+      }
+
+      if (type === 'table_adv') {
+        if (n === 19 || m === 19) {
+          const other = n === 19 ? m : n;
+          return `19's Shortcut: (${other} × 20) - ${other} = ${other * 20} - ${other} = ${other * 19}`;
+        }
+        if (n === 15 || m === 15) {
+          const other = n === 15 ? m : n;
+          return `15's Shortcut: (${other} × 10) + half = ${other * 10} + ${(other * 10) / 2} = ${other * 15}`;
+        }
+        if (n === 12 || m === 12) {
+          const other = n === 12 ? m : n;
+          return `12's Shortcut: (${other} × 10) + (${other} × 2) = ${other * 10} + ${other * 2} = ${other * 12}`;
+        }
+        return `Split tens and units: (${n} × 10) + (${n} × ${m - 10}) or near friendly tens.`;
+      }
+
+      if (type === 'square') {
+        if (n % 10 === 5) {
+          const t = Math.floor(n / 10);
+          return `Ends in 5: (${t} × ${t + 1}) = ${t * (t + 1)}, append 25 ➔ ${t * (t + 1)}25`;
+        }
+        if (n === 11) return `11² = 121 (Palindromic sequence)`;
+        if (n === 12) return `12² = 144 (Inverts to 21² = 441)`;
+        if (n === 13) return `13² = 169 (Inverts to 14² = 196)`;
+        if (n === 14) return `14² = 196 (Flip tens/units of 13² = 169)`;
+        if (n === 25) return `25² = 625`;
+        if (n === 24) return `24² = 576 (25² - 49)`;
+        if (n === 26) return `26² = 676 (25² + 51)`;
+        if (n === 19) return `19² = (20 - 1)² = 400 - 40 + 1 = 361`;
+        if (n === 29) return `29² = (30 - 1)² = 900 - 60 + 1 = 841`;
+        return `Unit digit of ${n} is ${n % 10}, so answer must end in ${(n * n) % 10}.`;
+      }
+
+      if (type === 'cube') {
+        const lastDigit = n % 10;
+        let complementText = '';
+        if (lastDigit === 2) complementText = '2 ends in 8!';
+        else if (lastDigit === 8) complementText = '8 ends in 2!';
+        else if (lastDigit === 3) complementText = '3 ends in 7!';
+        else if (lastDigit === 7) complementText = '7 ends in 3!';
+        else complementText = `Unit digit stays ${lastDigit}!`;
+
+        if (n === 11) return `11³ = 1331 (Pascal's row 1-3-3-1)`;
+        if (n === 12) return `12³ = 1728 (The dozen gross number)`;
+        if (n === 15) return `15³ = 3375`;
+        if (n === 20) return `20³ = 2³ × 1000 = 8000`;
+        return `Cube rule: ${complementText} Estimating: ${n}³ is near ${(Math.round(n / 5) * 5) ** 3}.`;
+      }
+
+      return `Look closely at the unit digit.`;
+    }
+
+    class GameEngine {
+      constructor() {
+        this.topic = 'tables_basic'; // tables_basic, tables_advanced, tables_all, squares, cubes, mixed
+        this.range = 'basic'; // basic, advanced, mastery
+        this.mode = 'drill'; // drill (20 Q), sprint (60s), endless
+        
+        // Running state
+        this.currentQuestion = null;
+        this.currentInput = '';
+        this.questionIndex = 0;
+        this.totalQuestions = 20;
+        this.score = 0;
+        this.streak = 0;
+        this.maxStreak = 0;
+        this.mistakes = [];
+        this.times = [];
+        this.questionStartTime = 0;
+        this.sprintTimeLeft = 60;
+        this.timerInterval = null;
+        this.isSessionActive = false;
+      }
+
+      setTopic(t) { this.topic = t; }
+      setRange(r) { this.range = r; }
+      setMode(m) { this.mode = m; }
+
+      generateQuestion() {
+        let selectedType = this.topic;
+        if (this.topic === 'mixed') {
+          const pool = ['tables_basic', 'tables_advanced', 'squares', 'cubes'];
+          selectedType = pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        let n = 1, m = 1, answer = 0, promptText = '', categoryName = '', internalCategory = '';
+
+        if (selectedType === 'tables_basic') {
+          // Tables 1 to 10
+          if (this.range === 'basic') {
+            n = Math.floor(Math.random() * 5) + 1; // 1-5
+          } else if (this.range === 'advanced') {
+            n = Math.floor(Math.random() * 5) + 6; // 6-10
+          } else {
+            n = Math.floor(Math.random() * 10) + 1; // 1-10
+          }
+          m = Math.floor(Math.random() * 10) + 1; // 1-10
+          answer = n * m;
+          promptText = `${n} × ${m} = ?`;
+          categoryName = `Table of ${n}`;
+          internalCategory = 'table_basic';
+
+        } else if (selectedType === 'tables_advanced') {
+          // Tables 11 to 25
+          if (this.range === 'basic') {
+            n = Math.floor(Math.random() * 7) + 11; // 11-17
+          } else if (this.range === 'advanced') {
+            n = Math.floor(Math.random() * 8) + 18; // 18-25
+          } else {
+            n = Math.floor(Math.random() * 15) + 11; // 11-25
+          }
+          m = Math.floor(Math.random() * 9) + 2; // 2-10
+          answer = n * m;
+          promptText = `${n} × ${m} = ?`;
+          categoryName = `Table of ${n}`;
+          internalCategory = 'table_adv';
+
+        } else if (selectedType === 'tables_all') {
+          // All tables 1 to 25
+          if (this.range === 'basic') {
+            n = Math.floor(Math.random() * 10) + 1; // 1-10
+          } else if (this.range === 'advanced') {
+            n = Math.floor(Math.random() * 15) + 11; // 11-25
+          } else {
+            n = Math.floor(Math.random() * 25) + 1; // 1-25
+          }
+          m = Math.floor(Math.random() * 10) + 1; // 1-10
+          answer = n * m;
+          promptText = `${n} × ${m} = ?`;
+          categoryName = `Table of ${n}`;
+          internalCategory = n <= 10 ? 'table_basic' : 'table_adv';
+
+        } else if (selectedType === 'squares') {
+          if (this.range === 'basic') {
+            n = Math.floor(Math.random() * 15) + 1; // 1-15
+          } else if (this.range === 'advanced') {
+            n = Math.floor(Math.random() * 15) + 16; // 16-30
+          } else {
+            n = Math.floor(Math.random() * 30) + 1; // 1-30
+          }
+          answer = n * n;
+          promptText = `${n}² = ?`;
+          categoryName = 'Square';
+          internalCategory = 'square';
+
+        } else if (selectedType === 'cubes') {
+          if (this.range === 'basic') {
+            n = Math.floor(Math.random() * 12) + 1; // 1-12
+          } else if (this.range === 'advanced') {
+            n = Math.floor(Math.random() * 18) + 13; // 13-30
+          } else {
+            n = Math.floor(Math.random() * 30) + 1; // 1-30
+          }
+          answer = n * n * n;
+          promptText = `${n}³ = ?`;
+          categoryName = 'Cube';
+          internalCategory = 'cube';
+        }
+
+        // Avoid immediate repeat
+        if (this.currentQuestion && this.currentQuestion.prompt === promptText) {
+          return this.generateQuestion();
+        }
+
+        const question = {
+          type: internalCategory,
+          n: n,
+          m: m,
+          answer: answer,
+          prompt: promptText,
+          categoryName: categoryName
+        };
+
+        this.currentQuestion = question;
+        this.questionStartTime = performance.now();
+        return question;
+      }
+
+      start() {
+        this.isSessionActive = true;
+        this.currentInput = '';
+        this.questionIndex = 0;
+        this.score = 0;
+        this.streak = 0;
+        this.maxStreak = 0;
+        this.mistakes = [];
+        this.times = [];
+        this.sprintTimeLeft = 60;
+        clearInterval(this.timerInterval);
+
+        if (this.mode === 'drill') {
+          this.totalQuestions = 20;
+        } else if (this.mode === 'sprint') {
+          this.totalQuestions = 999;
+          this.startSprintTimer();
+        } else {
+          this.totalQuestions = Infinity;
+        }
+
+        return this.generateQuestion();
+      }
+
+      startSprintTimer() {
+        this.timerInterval = setInterval(() => {
+          this.sprintTimeLeft--;
+          renderTimer();
+          if (this.sprintTimeLeft <= 5 && this.sprintTimeLeft > 0) {
+            sound.playTick();
+          }
+          if (this.sprintTimeLeft <= 0) {
+            clearInterval(this.timerInterval);
+            this.finishSession();
+          }
+        }, 1000);
+      }
+
+      submitInput() {
+        if (!this.currentInput.length || !this.currentQuestion) return null;
+        const numericVal = parseInt(this.currentInput, 10);
+        const elapsed = (performance.now() - this.questionStartTime) / 1000;
+        this.times.push(elapsed);
+
+        const isCorrect = numericVal === this.currentQuestion.answer;
+        this.questionIndex++;
+
+        if (isCorrect) {
+          this.score++;
+          this.streak++;
+          if (this.streak > this.maxStreak) this.maxStreak = this.streak;
+          sound.playCorrect();
+        } else {
+          this.streak = 0;
+          sound.playWrong();
+          this.mistakes.push({
+            prompt: this.currentQuestion.prompt,
+            correct: this.currentQuestion.answer,
+            userVal: numericVal,
+            timeSpent: elapsed.toFixed(1)
+          });
+        }
+
+        const wasEnd = (this.mode === 'drill' && this.questionIndex >= this.totalQuestions);
+        if (wasEnd) {
+          this.finishSession();
+          return { isCorrect, finished: true };
+        }
+
+        this.currentInput = '';
+        this.generateQuestion();
+        return { isCorrect, finished: false };
+      }
+
+      finishSession() {
+        this.isSessionActive = false;
+        clearInterval(this.timerInterval);
+        showResultsScreen();
+      }
+
+      appendDigit(digit) {
+        if (this.currentInput.length >= 6) return;
+        this.currentInput += digit;
+      }
+
+      backspace() {
+        this.currentInput = this.currentInput.slice(0, -1);
+      }
+
+      clearInput() {
+        this.currentInput = '';
+      }
+    }
+
+    const engine = new GameEngine();
+
+    /* =========================================================================
+       DOM CONTROLLER & BINDINGS
+       ========================================================================= */
+    const lobbyScreen = document.getElementById('lobbyScreen');
+    const gameplayScreen = document.getElementById('gameplayScreen');
+    const resultsScreen = document.getElementById('resultsScreen');
+
+    const promptEquation = document.getElementById('promptEquation');
+    const userInputText = document.getElementById('userInputText');
+    const challengeCard = document.getElementById('challengeCard');
+    const cardCategoryBadge = document.getElementById('cardCategoryBadge');
+    const accuracyLiveBadge = document.getElementById('accuracyLiveBadge');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerLabel = document.getElementById('timerLabel');
+    const progressDisplay = document.getElementById('progressDisplay');
+    const progressLabel = document.getElementById('progressLabel');
+    const topicBadgeInfo = document.getElementById('topicBadgeInfo');
+    const rangeHelp = document.getElementById('rangeHelp');
+
+    const showHintBtn = document.getElementById('showHintBtn');
+    const hintText = document.getElementById('hintText');
+
+    function updateRangeHelpText() {
+      const topic = engine.topic;
+      const range = engine.range;
+
+      if (topic === 'tables_basic') {
+        topicBadgeInfo.textContent = 'Foundations 1–10';
+        if (range === 'basic') rangeHelp.textContent = 'Tables 1 to 5 (Up to × 10).';
+        else if (range === 'advanced') rangeHelp.textContent = 'Tables 6 to 10 (Up to × 10).';
+        else rangeHelp.textContent = 'Complete elementary tables 1 to 10.';
+      } else if (topic === 'tables_advanced') {
+        topicBadgeInfo.textContent = 'Advanced 11–25';
+        if (range === 'basic') rangeHelp.textContent = 'Tables 11 to 17.';
+        else if (range === 'advanced') rangeHelp.textContent = 'Tables 18 to 25.';
+        else rangeHelp.textContent = 'Complete high tables 11 to 25.';
+      } else if (topic === 'tables_all') {
+        topicBadgeInfo.textContent = 'Full Spectrum 1–25';
+        if (range === 'basic') rangeHelp.textContent = 'Foundations subset 1 to 10.';
+        else if (range === 'advanced') rangeHelp.textContent = 'High tables subset 11 to 25.';
+        else rangeHelp.textContent = 'All tables 1 to 25 completely mixed!';
+      } else if (topic === 'squares') {
+        topicBadgeInfo.textContent = 'Squares 1–30';
+        if (range === 'basic') rangeHelp.textContent = 'Squares from 1² to 15².';
+        else if (range === 'advanced') rangeHelp.textContent = 'High squares from 16² to 30².';
+        else rangeHelp.textContent = 'Full square set from 1² to 30².';
+      } else if (topic === 'cubes') {
+        topicBadgeInfo.textContent = 'Cubes 1–30';
+        if (range === 'basic') rangeHelp.textContent = 'Cubes from 1³ to 12³.';
+        else if (range === 'advanced') rangeHelp.textContent = 'High cubes from 13³ to 30³.';
+        else rangeHelp.textContent = 'Full cube set from 1³ to 30³.';
+      } else {
+        topicBadgeInfo.textContent = 'Mixed Challenge';
+        rangeHelp.textContent = 'Combines tables 1–10, tables 11–25, squares, and cubes dynamically!';
+      }
+    }
+
+    // Option selectors
+    document.querySelectorAll('.topic-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.topic-btn').forEach(b => {
+          b.classList.remove('active-option');
+          b.classList.add('inactive-option');
+        });
+        btn.classList.add('active-option');
+        btn.classList.remove('inactive-option');
+        engine.setTopic(btn.dataset.topic);
+        updateRangeHelpText();
+      });
+    });
+
+    document.querySelectorAll('.range-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.range-btn').forEach(b => {
+          b.classList.remove('active-option');
+          b.classList.add('inactive-option');
+        });
+        btn.classList.add('active-option');
+        btn.classList.remove('inactive-option');
+        engine.setRange(btn.dataset.range);
+        updateRangeHelpText();
+      });
+    });
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => {
+          b.classList.remove('active-option');
+          b.classList.add('inactive-option');
+        });
+        btn.classList.add('active-option');
+        btn.classList.remove('inactive-option');
+        engine.setMode(btn.dataset.mode);
+      });
+    });
+
+    // Start Button
+    document.getElementById('startPracticeBtn').addEventListener('click', () => {
+      lobbyScreen.classList.add('hidden');
+      resultsScreen.classList.add('hidden');
+      gameplayScreen.classList.remove('hidden');
+
+      engine.start();
+      renderQuestion();
+    });
+
+    // Abort button
+    document.getElementById('exitGameBtn').addEventListener('click', () => {
+      engine.isSessionActive = false;
+      clearInterval(engine.timerInterval);
+      gameplayScreen.classList.add('hidden');
+      lobbyScreen.classList.remove('hidden');
+    });
+
+    // Hint trigger
+    showHintBtn.addEventListener('click', () => {
+      if (!engine.currentQuestion) return;
+      const hint = getMentalMathHint(engine.currentQuestion);
+      hintText.textContent = hint;
+      hintText.classList.remove('hidden');
+      showHintBtn.classList.add('hidden');
+    });
+
+    // Keyboard & Keypad Handling
+    function handleKeyInput(val) {
+      if (!engine.isSessionActive) return;
+
+      if (val === 'backspace') {
+        engine.backspace();
+        updateInputView();
+      } else if (val === 'submit') {
+        processSubmission();
+      } else if (!isNaN(parseInt(val, 10))) {
+        engine.appendDigit(val);
+        updateInputView();
+      }
+    }
+
+    function processSubmission() {
+      if (!engine.currentInput.length) return;
+      const result = engine.submitInput();
+      if (!result) return;
+
+      if (result.isCorrect) {
+        triggerSuccessFlash();
+      } else {
+        triggerFailureShake();
+      }
+
+      if (!result.finished) {
+        renderQuestion();
+      }
+    }
+
+    function updateInputView() {
+      userInputText.textContent = engine.currentInput;
+    }
+
+    // Virtual Numpad listeners
+    document.querySelectorAll('.numpad-btn').forEach(btn => {
+      const clickHandler = (e) => {
+        e.preventDefault();
+        btn.classList.add('key-pressed');
+        setTimeout(() => btn.classList.remove('key-pressed'), 100);
+
+        if (btn.dataset.val) {
+          handleKeyInput(btn.dataset.val);
+        } else if (btn.dataset.action) {
+          handleKeyInput(btn.dataset.action);
+        }
+      };
+      btn.addEventListener('click', clickHandler);
+      btn.addEventListener('touchstart', clickHandler, { passive: true });
+    });
+
+    // Physical Keyboard Listener
+    window.addEventListener('keydown', (e) => {
+      if (!engine.isSessionActive) return;
+
+      if (e.key >= '0' && e.key <= '9') {
+        handleKeyInput(e.key);
+      } else if (e.key === 'Backspace') {
+        handleKeyInput('backspace');
+      } else if (e.key === 'Enter') {
+        handleKeyInput('submit');
+      } else if (e.key.toLowerCase() === 'h') {
+        showHintBtn.click();
+      }
+    });
+
+    function renderQuestion() {
+      const q = engine.currentQuestion;
+      promptEquation.textContent = q.prompt;
+      cardCategoryBadge.textContent = q.categoryName;
+      userInputText.textContent = '';
+      
+      // Reset hint
+      hintText.classList.add('hidden');
+      showHintBtn.classList.remove('hidden');
+
+      // Update HUD
+      streakDisplay.textContent = `${engine.streak} 🔥`;
+      
+      if (engine.mode === 'drill') {
+        progressLabel.textContent = 'Q:';
+        progressDisplay.textContent = `${engine.questionIndex + 1}/${engine.totalQuestions}`;
+        timerLabel.textContent = '⏱️';
+        timerDisplay.textContent = `20 Max`;
+      } else if (engine.mode === 'sprint') {
+        progressLabel.textContent = 'Done:';
+        progressDisplay.textContent = `${engine.questionIndex}`;
+        timerLabel.textContent = '⚡';
+        renderTimer();
+      } else {
+        progressLabel.textContent = 'Solved:';
+        progressDisplay.textContent = `${engine.score}`;
+        timerLabel.textContent = '♾️️';
+        timerDisplay.textContent = 'Chill';
+      }
+
+      // Live accuracy
+      const totalAttempts = engine.questionIndex;
+      const acc = totalAttempts === 0 ? 100 : Math.round((engine.score / totalAttempts) * 100);
+      accuracyLiveBadge.textContent = `Acc: ${acc}%`;
+    }
+
+    function renderTimer() {
+      timerDisplay.textContent = `${engine.sprintTimeLeft}s`;
+      if (engine.sprintTimeLeft <= 10) {
+        timerDisplay.classList.add('text-rose-400');
+        timerDisplay.classList.remove('text-cyber-sky');
+      } else {
+        timerDisplay.classList.remove('text-rose-400');
+        timerDisplay.classList.add('text-cyber-sky');
+      }
+    }
+
+    function triggerSuccessFlash() {
+      challengeCard.classList.add('ring-2', 'ring-emerald-400', 'bg-emerald-950/20');
+      setTimeout(() => {
+        challengeCard.classList.remove('ring-2', 'ring-emerald-400', 'bg-emerald-950/20');
+      }, 220);
+    }
+
+    function triggerFailureShake() {
+      challengeCard.classList.add('animate-shake', 'ring-2', 'ring-rose-500', 'bg-rose-950/25');
+      setTimeout(() => {
+        challengeCard.classList.remove('animate-shake', 'ring-2', 'ring-rose-500', 'bg-rose-950/25');
+      }, 350);
+    }
+
+    function showResultsScreen() {
+      gameplayScreen.classList.add('hidden');
+      resultsScreen.classList.remove('hidden');
+
+      const total = engine.questionIndex;
+      const correct = engine.score;
+      const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+      
+      const avgTime = engine.times.length 
+        ? (engine.times.reduce((a, b) => a + b, 0) / engine.times.length).toFixed(1)
+        : '0.0';
+
+      document.getElementById('resultScore').textContent = `${correct}/${total}`;
+      document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
+      document.getElementById('resultPace').textContent = `${avgTime}s`;
+
+      const mistakeListEl = document.getElementById('mistakesList');
+      const mistakeCountEl = document.getElementById('mistakeCount');
+      mistakeListEl.innerHTML = '';
+      mistakeCountEl.textContent = engine.mistakes.length;
+
+      if (engine.mistakes.length === 0) {
+        mistakeListEl.innerHTML = `
+          <div class="text-xs text-cyber-emerald bg-emerald-950/40 p-3 rounded-xl border border-emerald-800/40 text-center font-medium">
+            🎯 Clean sweep! 100% correct answers with zero errors.
+          </div>
+        `;
+      } else {
+        engine.mistakes.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs';
+          row.innerHTML = `
+            <span class="font-mono font-bold text-white">${item.prompt}</span>
+            <div class="flex items-center gap-3">
+              <span class="text-rose-400 line-through font-mono">You: ${item.userVal}</span>
+              <span class="text-emerald-400 font-bold font-mono">Ans: ${item.correct}</span>
+            </div>
+          `;
+          mistakeListEl.appendChild(row);
+        });
+      }
+
+      // Context-aware recommendations
+      const recText = document.getElementById('recommendationText');
+      if (engine.mistakes.length > 0) {
+        const errorNums = engine.mistakes.map(m => m.prompt.split(' ')[0]);
+        recText.innerHTML = `Prioritize drilling <strong class="text-white">${[...new Set(errorNums)].join(', ')}</strong>. Review the shortcuts in the Reference Book before attempting another sprint!`;
+      } else if (parseFloat(avgTime) > 2.0) {
+        recText.textContent = `Great accuracy! Focus on speed now: aim for sub-1.5 second recall using the 60s sprint mode.`;
+      } else {
+        recText.textContent = `World-class lightning recall! You're ready to test yourself on Mixed Gauntlet mode or higher cubes!`;
+      }
+    }
+
+    // Results Actions
+    document.getElementById('retrySessionBtn').addEventListener('click', () => {
+      resultsScreen.classList.add('hidden');
+      gameplayScreen.classList.remove('hidden');
+      engine.start();
+      renderQuestion();
+    });
+
+    document.getElementById('backToMenuBtn').addEventListener('click', () => {
+      resultsScreen.classList.add('hidden');
+      lobbyScreen.classList.remove('hidden');
+    });
+
+    /* =========================================================================
+       POPULATE COMPLETE REFERENCE HANDBOOK
+       ========================================================================= */
+    function populateReferenceSheets() {
+      // 1. Tables 1 to 10
+      const tablesBasicContainer = document.getElementById('tab-tables-basic');
+      let tbHtml = '';
+      for (let t = 1; t <= 10; t++) {
+        tbHtml += `
+          <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col">
+            <div class="font-bold text-amber-400 text-xs mb-1.5 pb-1 border-b border-slate-800 text-center">${t} Times Table</div>
+            <div class="space-y-0.5 font-mono text-[11px]">
+              ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(m => `
+                <div class="flex justify-between text-slate-400 hover:text-slate-200">
+                  <span>${t}×${m}</span>
+                  <span class="text-white font-semibold">${t * m}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      tablesBasicContainer.innerHTML = tbHtml;
+
+      // 2. Tables 11 to 25
+      const tablesAdvContainer = document.getElementById('tab-tables-adv');
+      let taHtml = '';
+      for (let t = 11; t <= 25; t++) {
+        taHtml += `
+          <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col">
+            <div class="font-bold text-cyber-sky text-xs mb-1.5 pb-1 border-b border-slate-800 text-center">${t} Times Table</div>
+            <div class="space-y-0.5 font-mono text-[11px]">
+              ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(m => `
+                <div class="flex justify-between text-slate-400 hover:text-slate-200">
+                  <span>${t}×${m}</span>
+                  <span class="text-white font-semibold">${t * m}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      tablesAdvContainer.innerHTML = taHtml;
+
+      // 3. Squares 1 to 30
+      const squaresContainer = document.getElementById('tab-squares');
+      let sqHtml = '';
+      for (let i = 1; i <= 30; i++) {
+        sqHtml += `
+          <div class="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <span class="font-mono text-slate-400">${i}²</span>
+            <span class="font-mono font-bold text-indigo-300">${i * i}</span>
+          </div>
+        `;
+      }
+      squaresContainer.innerHTML = sqHtml;
+
+      // 4. Cubes 1 to 30
+      const cubesContainer = document.getElementById('tab-cubes');
+      let cbHtml = '';
+      for (let i = 1; i <= 30; i++) {
+        cbHtml += `
+          <div class="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <span class="font-mono text-slate-400">${i}³</span>
+            <span class="font-mono font-bold text-cyber-violet">${(i * i * i).toLocaleString()}</span>
+          </div>
+        `;
+      }
+      cubesContainer.innerHTML = cbHtml;
+    }
+
+    populateReferenceSheets();
+
+    // Reference Modal Controls
+    const refModal = document.getElementById('referenceModal');
+    document.getElementById('openCheatSheetBtn').addEventListener('click', () => refModal.classList.remove('hidden'));
+    document.getElementById('closeCheatSheetBtn').addEventListener('click', () => refModal.classList.add('hidden'));
+    document.getElementById('modalDoneBtn').addEventListener('click', () => refModal.classList.add('hidden'));
+
+    // Modal Tabs Navigation
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('border-brand-500', 'text-white', 'bg-slate-800/40');
+          b.classList.add('border-transparent', 'text-slate-400');
+        });
+        btn.classList.add('border-brand-500', 'text-white', 'bg-slate-800/40');
+        btn.classList.remove('border-transparent', 'text-slate-400');
+
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+        document.getElementById(btn.dataset.tab).classList.remove('hidden');
+      });
+    });
+
+    // Sound toggle
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    soundToggleBtn.addEventListener('click', () => {
+      const active = sound.toggle();
+      soundIcon.textContent = active ? '🔊' : '🔇';
+      soundToggleBtn.classList.toggle('opacity-60', !active);
+    });
+
+    // Initialize help text
+    updateRangeHelpText();
+  </script>
+</body>
+</html>
