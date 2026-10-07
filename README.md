@@ -1,5 +1,9 @@
 # MATH
 
+<p align="center">
+  <img src="docs/assets/social-preview.png" alt="MATH - Minimalist Mental Math Trainer" width="100%">
+</p>
+
 > Minimalist, mobile-first mental math trainer for multiplication tables, squares, cubes, and fraction-to-percentage conversions.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg?style=flat-square)](LICENSE)
