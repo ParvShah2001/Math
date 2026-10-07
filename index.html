@@ -485,7 +485,14 @@
        APPLICATION LOGIC
        ========================================================================= -->
   <script>
-    /* 1. COMMON FRACTIONS DATA */
+    /**
+     * @typedef {Object} FractionItem
+     * @property {string} fraction - Fractional representation (e.g., '1/8')
+     * @property {string[]} answers - Array of acceptable representations
+     * @property {string} hint - Mnemonic explanation or calculation breakdown
+     */
+
+    /** @type {FractionItem[]} Benchmark fraction-to-percentage reference dataset */
     const FRACTION_DATA = [
       { fraction: '1/2', answers: ['50', '50%'], hint: 'Half of 100% = 50%' },
       { fraction: '1/3', answers: ['33.33', '33.3', '33.33%'], hint: '100 ÷ 3 = 33.33%' },
@@ -523,7 +530,11 @@
       { fraction: '1/50', answers: ['2', '2%'], hint: '100 ÷ 50 = 2%' }
     ];
 
-    /* 2. MENTAL MATH TRICK HINTS */
+    /**
+     * Resolves mental math shortcut hints and mnemonics for a generated question.
+     * @param {Object} question - The active question object
+     * @returns {string} Explanatory hint or decomposition pattern
+     */
     function getMentalMathHint(question) {
       if (question.customHint) return question.customHint;
       const { type, n, m } = question;
@@ -590,26 +601,49 @@
       return `Inspect the last digit.`;
     }
 
-    /* 3. GAMEPLAY ENGINE (Endless) */
+    /**
+     * Core game engine managing active drills, question queues, input tolerance, and metrics.
+     */
     class GameEngine {
       constructor() {
+        /** @type {string} Active topic identifier */
         this.topic = 'tables_basic';
+        /** @type {boolean} Automatically submit when correct answer is matched */
         this.instantSubmit = true;
 
+        /** @type {Object|null} Currently presented question */
         this.currentQuestion = null;
+        /** @type {string} User input string */
         this.currentInput = '';
+        /** @type {number} Total questions attempted in session */
         this.questionIndex = 0;
+        /** @type {number} Total correct questions */
         this.score = 0;
+        /** @type {number} Consecutive correct streak */
         this.streak = 0;
+        /** @type {number} Maximum streak achieved */
         this.maxStreak = 0;
+        /** @type {Array<{prompt: string, correct: string, userVal: string, timeSpent: string}>} Mistakes logged */
         this.mistakes = [];
+        /** @type {number[]} Response latency array (seconds) */
         this.times = [];
+        /** @type {number} High-resolution timestamp when question rendered */
         this.questionStartTime = 0;
+        /** @type {boolean} Session state flag */
         this.isSessionActive = false;
       }
 
+      /**
+       * Updates the active training topic.
+       * @param {string} t - Topic identifier
+       */
       setTopic(t) { this.topic = t; }
 
+      /**
+       * Generates a new problem matching the configured discipline.
+       * Enforces anti-repeat check against immediately preceding question.
+       * @returns {Object} Newly formulated question metadata
+       */
       generateQuestion() {
         let selectedType = this.topic;
         if (this.topic === 'mixed') {
@@ -698,6 +732,10 @@
         return question;
       }
 
+      /**
+       * Initializes a fresh session and serves the first question.
+       * @returns {Object} Initial question
+       */
       start() {
         this.isSessionActive = true;
         this.currentInput = '';
@@ -710,6 +748,10 @@
         return this.generateQuestion();
       }
 
+      /**
+       * Submits the active buffer, scores accuracy, logs mistakes, and cues next problem.
+       * @returns {Object|null} Evaluation payload { isCorrect, finished } or null if empty
+       */
       submitInput() {
         if (!this.currentInput.length || !this.currentQuestion) return null;
         const rawInput = this.currentInput.trim();
@@ -741,11 +783,19 @@
         return { isCorrect, finished: false };
       }
 
+      /**
+       * Terminates active session and triggers debrief screen.
+       */
       finishSession() {
         this.isSessionActive = false;
         showResultsScreen();
       }
 
+      /**
+       * Appends character to active user input buffer.
+       * Evaluates instant match when instantSubmit flag is enabled.
+       * @param {string} val - Digit or decimal point
+       */
       appendInput(val) {
         if (this.currentInput.length >= 8) return;
         if (val === '.' && this.currentInput.includes('.')) return;
@@ -762,6 +812,9 @@
         }
       }
 
+      /**
+       * Deletes the trailing character from current input.
+       */
       backspace() {
         this.currentInput = this.currentInput.slice(0, -1);
       }

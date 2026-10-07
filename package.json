@@ -1,0 +1,32 @@
+{
+  "name": "math",
+  "version": "1.0.0",
+  "description": "Minimal black-and-white mental math trainer for tables, squares, cubes, and fractions.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx --yes serve -l 3000 .",
+    "dev": "npx --yes serve -l 3000 ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ParvShah2001/Math.git"
+  },
+  "keywords": [
+    "mental-math",
+    "math-trainer",
+    "speed-math",
+    "multiplication-tables",
+    "squares",
+    "cubes",
+    "fractions",
+    "vanilla-js",
+    "mobile-first",
+    "minimalist"
+  ],
+  "author": "Parv Shah <parvshah240@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ParvShah2001/Math/issues"
+  },
+  "homepage": "https://github.com/ParvShah2001/Math#readme"
+}
