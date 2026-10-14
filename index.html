@@ -178,7 +178,7 @@
               <label class="text-[11px] font-bold uppercase tracking-wider text-mono-400 font-mono">1. Workout Mode</label>
               <span id="modeBadgeInfo" class="text-[11px] text-white font-mono font-bold">Endless</span>
             </div>
-            <div class="grid grid-cols-3 gap-1.5 text-xs sm:text-sm font-mono">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs sm:text-sm font-mono">
               <button type="button" data-mode="endless" class="mode-btn opt-active py-2 px-1 rounded-xl border text-center font-mono">
                 Endless
               </button>
@@ -187,6 +187,9 @@
               </button>
               <button type="button" data-mode="sprint50" class="mode-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
                 50 Qs Attack 🎯
+              </button>
+              <button type="button" data-mode="speedgate" class="mode-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Speed Gate ☠
               </button>
             </div>
           </div>
@@ -289,6 +292,11 @@
           
           <div class="w-full flex items-center justify-center text-[11px] sm:text-xs text-mono-400 mb-1 font-mono font-bold px-1 shrink-0">
             <span id="cardCategoryBadge" class="uppercase tracking-widest">TABLE</span>
+          </div>
+
+          <!-- Dynamic Speed Gate Countdown Bar -->
+          <div id="speedGateContainer" class="w-full max-w-[260px] sm:max-w-xs h-1 sm:h-1.5 bg-mono-900 rounded-full overflow-hidden my-1 hidden border border-mono-800 shrink-0">
+            <div id="speedGateBar" class="h-full bg-white transition-[width] duration-75" style="width: 100%;"></div>
           </div>
 
           <!-- Problem Display (Fluid Clamp to Always Fit Screen) -->
@@ -717,13 +725,123 @@
     }
 
     /**
+     * Tracks problem response latency and mistakes to power Problem Difficulty Weighting.
+     * Slow questions (e.g. 17×8 taking >2.5s) or failed calculations reappear significantly
+     * more frequently than automatic ones like 2×5.
+     */
+    class PerformanceTracker {
+      constructor() {
+        this.storageKey = 'math_problem_performance';
+        this.stats = this.loadStats();
+      }
+
+      loadStats() {
+        try {
+          const raw = localStorage.getItem(this.storageKey);
+          return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          return {};
+        }
+      }
+
+      saveStats() {
+        try {
+          localStorage.setItem(this.storageKey, JSON.stringify(this.stats));
+        } catch (e) {}
+      }
+
+      /**
+       * Records response time and correctness for a given problem signature.
+       * @param {string} promptKey
+       * @param {number} elapsedSec
+       * @param {boolean} isCorrect
+       */
+      record(promptKey, elapsedSec, isCorrect) {
+        if (!promptKey) return;
+        if (!this.stats[promptKey]) {
+          this.stats[promptKey] = {
+            attempts: 0,
+            correct: 0,
+            avgTime: elapsedSec,
+            lastTime: elapsedSec,
+            slowCount: 0,
+            mistakes: 0
+          };
+        }
+        const item = this.stats[promptKey];
+        item.attempts++;
+        if (isCorrect) {
+          item.correct++;
+        } else {
+          item.mistakes++;
+        }
+        item.lastTime = elapsedSec;
+        // Running average
+        item.avgTime = (item.avgTime * (item.attempts - 1) + elapsedSec) / item.attempts;
+        if (elapsedSec > 2.5 || !isCorrect) {
+          item.slowCount++;
+        }
+        this.saveStats();
+      }
+
+      /**
+       * Returns sampling weight for a problem.
+       * - Slow (>2.5s) or mistakes: High weight (up to 12.0x)
+       * - Automatic (<1.2s): Low weight (down to 0.15x)
+       * @param {string} promptKey
+       * @param {number} intrinsicPrior
+       * @returns {number}
+       */
+      getWeight(promptKey, intrinsicPrior = 1.0) {
+        const item = this.stats[promptKey];
+        if (!item) {
+          return intrinsicPrior;
+        }
+
+        let weight = 1.0;
+        if (item.avgTime > 2.5) {
+          // Escalates for every fraction of a second above 2.5s, plus repeated slows
+          weight = 1.0 + (item.avgTime - 2.5) * 2.5 + (item.slowCount * 1.2);
+        } else if (item.avgTime < 1.2 && item.mistakes === 0) {
+          // Heavily downweight automatic items like 2x5
+          weight = Math.max(0.15, 0.45 - (1.2 - item.avgTime) * 0.35);
+        } else {
+          // Moderate speed 1.2s - 2.5s
+          weight = 0.8 + (item.avgTime - 1.2) * 0.4;
+        }
+
+        if (item.mistakes > 0) {
+          weight += item.mistakes * 2.5;
+        }
+
+        return Math.min(12.0, Math.max(0.15, weight));
+      }
+
+      /**
+       * Selects one candidate from an array using roulette-wheel weighted probability.
+       * @param {Array<{candidate: any, weight: number}>} weightedList
+       * @returns {any}
+       */
+      weightedPick(weightedList) {
+        if (!weightedList.length) return null;
+        const totalWeight = weightedList.reduce((acc, cur) => acc + cur.weight, 0);
+        let rnd = Math.random() * totalWeight;
+        for (let i = 0; i < weightedList.length; i++) {
+          rnd -= weightedList[i].weight;
+          if (rnd <= 0) return weightedList[i].candidate;
+        }
+        return weightedList[weightedList.length - 1].candidate;
+      }
+    }
+
+    /**
      * Core game engine managing active drills, question queues, spaced repetition, timed modes, and metrics.
      */
     class GameEngine {
       constructor() {
         /** @type {string} Active topic identifier */
         this.topic = 'tables_basic';
-        /** @type {string} Active mode: 'endless', 'blitz', 'sprint50' */
+        /** @type {string} Active mode: 'endless', 'blitz', 'sprint50', 'speedgate' */
         this.mode = 'endless';
         /** @type {boolean} Automatically submit when correct answer is matched */
         this.instantSubmit = true;
@@ -751,6 +869,9 @@
         /** @type {boolean} Session state flag */
         this.isSessionActive = false;
 
+        /** @type {PerformanceTracker} Persistent difficulty and latency tracker */
+        this.tracker = new PerformanceTracker();
+
         /** @type {Array<{question: Object, dueAt: number}>} Spaced repetition retry queue */
         this.retryQueue = [];
         /** @type {Object[]} Cumulative mistake history for "Drill Mistakes" mode */
@@ -760,6 +881,17 @@
         this.blitzSecondsLeft = 60;
         /** @type {any} Blitz timer interval handle */
         this.timerInterval = null;
+
+        /** @type {number} All-time personal best streak in Speed Gate */
+        this.speedGateBest = parseInt(localStorage.getItem('math_speedgate_best') || '0', 10);
+        /** @type {number} Dynamic seconds limit for current Speed Gate question */
+        this.gateTimeLimit = 2.2;
+        /** @type {any} RequestAnimationFrame handle for dynamic countdown bar */
+        this.speedGateRaf = null;
+        /** @type {string|null} Sudden Death elimination cause: 'TIMEOUT' | 'MISCALCULATION' */
+        this.eliminationReason = null;
+        /** @type {Object|null} Question on which elimination happened */
+        this.eliminatedOn = null;
       }
 
       /**
@@ -770,13 +902,74 @@
 
       /**
        * Updates the active workout mode.
-       * @param {string} m - Mode identifier ('endless', 'blitz', 'sprint50')
+       * @param {string} m - Mode identifier ('endless', 'blitz', 'sprint50', 'speedgate')
        */
       setMode(m) { this.mode = m; }
 
       /**
+       * Computes dynamic Speed Gate time window based on current survival streak.
+       * Starts at 2.2s and tightens down to 1.3s as streak increases.
+       * @param {number} streak
+       * @returns {number} Time window in seconds
+       */
+      getGateTimeLimit(streak) {
+        if (streak < 3) return 2.2;
+        if (streak < 6) return 2.0;
+        if (streak < 10) return 1.8;
+        if (streak < 15) return 1.6;
+        if (streak < 20) return 1.5;
+        return 1.3;
+      }
+
+      /**
+       * Starts high-precision countdown for the active Speed Gate question.
+       * Triggers instant sudden death when time runs out.
+       */
+      startSpeedGateTimer() {
+        cancelAnimationFrame(this.speedGateRaf);
+        if (this.mode !== 'speedgate') return;
+
+        this.gateTimeLimit = this.getGateTimeLimit(this.streak);
+        const startTime = performance.now();
+        const durationMs = this.gateTimeLimit * 1000;
+
+        const tick = () => {
+          if (!this.isSessionActive || this.mode !== 'speedgate') return;
+          const elapsed = performance.now() - startTime;
+          const remaining = Math.max(0, durationMs - elapsed);
+          const ratio = remaining / durationMs;
+
+          // Update UI countdown bar and HUD
+          const bar = document.getElementById('speedGateBar');
+          if (bar) bar.style.width = `${(ratio * 100).toFixed(1)}%`;
+          const timeVal = document.getElementById('hudStat1Value');
+          if (timeVal) timeVal.textContent = `${(remaining / 1000).toFixed(1)}s`;
+
+          if (remaining <= 0) {
+            // Elimination: TIMEOUT!
+            this.eliminationReason = 'TIMEOUT';
+            this.eliminatedOn = {
+              prompt: this.currentQuestion ? this.currentQuestion.prompt : '',
+              answer: this.currentQuestion ? this.currentQuestion.primaryAnswer : '',
+              userVal: this.currentInput || 'Timeout'
+            };
+            triggerFailureShake();
+            if ('vibrate' in navigator) navigator.vibrate([40, 60, 40]);
+            this.finishSession();
+            return;
+          }
+
+          this.speedGateRaf = requestAnimationFrame(tick);
+        };
+
+        this.speedGateRaf = requestAnimationFrame(tick);
+      }
+
+      /**
        * Generates a new problem matching the configured discipline.
-       * Automatically prioritizes spaced-repetition retry items when due.
+       * Applies Problem Difficulty Weighting so slower calculations (e.g. 17×8 taking >2.5s)
+       * reappear significantly more frequently than automatic ones like 2×5.
+       * Prioritizes spaced-repetition retry items when due.
        * @returns {Object} Newly formulated question metadata
        */
       generateQuestion() {
@@ -815,8 +1008,20 @@
         }
 
         if (selectedType === 'tables_basic') {
-          n = Math.floor(Math.random() * 10) + 1;
-          m = Math.floor(Math.random() * 10) + 1;
+          // Weighted sampling across candidates
+          const candidates = [];
+          for (let c = 0; c < 8; c++) {
+            const cn = Math.floor(Math.random() * 10) + 1;
+            const cm = Math.floor(Math.random() * 10) + 1;
+            const prompt = `${cn} × ${cm}`;
+            const isTrivial = (cn === 1 || cn === 2 || cn === 10 || cm === 1 || cm === 2 || cm === 10);
+            const isTricky = (cn >= 7 && cm >= 7);
+            const intrinsic = isTrivial ? 0.35 : (isTricky ? 1.6 : 1.0);
+            candidates.push({ candidate: { n: cn, m: cm }, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          const chosen = this.tracker.weightedPick(candidates);
+          n = chosen.n;
+          m = chosen.m;
           const ans = n * m;
           acceptableAnswers = [ans.toString()];
           promptText = `${n} × ${m}`;
@@ -824,8 +1029,20 @@
           internalCategory = 'table_basic';
 
         } else if (selectedType === 'tables_advanced') {
-          n = Math.floor(Math.random() * 10) + 11;
-          m = Math.floor(Math.random() * 10) + 1;
+          // Weighted sampling favoring tricky tables (17×8, 19×7, etc.) over automatic ones
+          const candidates = [];
+          for (let c = 0; c < 8; c++) {
+            const cn = Math.floor(Math.random() * 10) + 11;
+            const cm = Math.floor(Math.random() * 10) + 1;
+            const prompt = `${cn} × ${cm}`;
+            const isEasy = (cn === 20 || cm === 1 || cm === 2 || cm === 10 || cn === 11);
+            const isHard = (cn === 17 || cn === 19 || cn === 18 || cn === 14 || cn === 16) && (cm >= 6 && cm <= 9);
+            const intrinsic = isEasy ? 0.4 : (isHard ? 1.8 : 1.0);
+            candidates.push({ candidate: { n: cn, m: cm }, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          const chosen = this.tracker.weightedPick(candidates);
+          n = chosen.n;
+          m = chosen.m;
           const ans = n * m;
           acceptableAnswers = [ans.toString()];
           promptText = `${n} × ${m}`;
@@ -833,8 +1050,19 @@
           internalCategory = 'table_adv';
 
         } else if (selectedType === 'tables_all') {
-          n = Math.floor(Math.random() * 20) + 1;
-          m = Math.floor(Math.random() * 10) + 1;
+          const candidates = [];
+          for (let c = 0; c < 8; c++) {
+            const cn = Math.floor(Math.random() * 20) + 1;
+            const cm = Math.floor(Math.random() * 10) + 1;
+            const prompt = `${cn} × ${cm}`;
+            const isEasy = (cn <= 2 || cn === 10 || cn === 20 || cm <= 2 || cm === 10);
+            const isHard = (cn >= 13 && cn !== 20 && cm >= 6 && cm <= 9);
+            const intrinsic = isEasy ? 0.35 : (isHard ? 1.8 : 1.0);
+            candidates.push({ candidate: { n: cn, m: cm }, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          const chosen = this.tracker.weightedPick(candidates);
+          n = chosen.n;
+          m = chosen.m;
           const ans = n * m;
           acceptableAnswers = [ans.toString()];
           promptText = `${n} × ${m}`;
@@ -842,7 +1070,16 @@
           internalCategory = n <= 10 ? 'table_basic' : 'table_adv';
 
         } else if (selectedType === 'squares') {
-          n = Math.floor(Math.random() * 30) + 1;
+          // Weighted across all 30 squares
+          const candidates = [];
+          for (let i = 1; i <= 30; i++) {
+            const prompt = `${i}²`;
+            const isEasy = (i <= 10 || i === 20 || i === 25 || i === 30);
+            const isHard = (i === 17 || i === 19 || i === 23 || i === 24 || i === 26 || i === 27 || i === 28 || i === 29);
+            const intrinsic = isEasy ? 0.4 : (isHard ? 1.7 : 1.0);
+            candidates.push({ candidate: i, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          n = this.tracker.weightedPick(candidates);
           const ans = n * n;
           acceptableAnswers = [ans.toString()];
           promptText = `${n}²`;
@@ -850,7 +1087,16 @@
           internalCategory = 'square';
 
         } else if (selectedType === 'cubes') {
-          n = Math.floor(Math.random() * 15) + 1;
+          // Weighted across all 15 cubes
+          const candidates = [];
+          for (let i = 1; i <= 15; i++) {
+            const prompt = `${i}³`;
+            const isEasy = (i <= 5 || i === 10);
+            const isHard = (i >= 11 && i !== 15);
+            const intrinsic = isEasy ? 0.4 : (isHard ? 1.7 : 1.0);
+            candidates.push({ candidate: i, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          n = this.tracker.weightedPick(candidates);
           const ans = n * n * n;
           acceptableAnswers = [ans.toString()];
           promptText = `${n}³`;
@@ -858,7 +1104,14 @@
           internalCategory = 'cube';
 
         } else if (selectedType === 'square_roots') {
-          n = Math.floor(Math.random() * 29) + 2; // 2 to 30
+          const candidates = [];
+          for (let i = 2; i <= 30; i++) {
+            const prompt = `√${i * i}`;
+            const isEasy = (i <= 10 || i === 20 || i === 25 || i === 30);
+            const intrinsic = isEasy ? 0.4 : 1.4;
+            candidates.push({ candidate: i, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          n = this.tracker.weightedPick(candidates);
           const sq = n * n;
           acceptableAnswers = [n.toString()];
           promptText = `√${sq}`;
@@ -867,7 +1120,14 @@
           customHint = `Ends in ${sq % 10}. Check base between ${Math.floor(n/10)*10}² and ${(Math.floor(n/10)+1)*10}².`;
 
         } else if (selectedType === 'cube_roots') {
-          n = Math.floor(Math.random() * 14) + 2; // 2 to 15
+          const candidates = [];
+          for (let i = 2; i <= 15; i++) {
+            const prompt = `∛${i * i * i}`;
+            const isEasy = (i <= 5 || i === 10);
+            const intrinsic = isEasy ? 0.4 : 1.4;
+            candidates.push({ candidate: i, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          n = this.tracker.weightedPick(candidates);
           const cb = n * n * n;
           acceptableAnswers = [n.toString()];
           promptText = `∛${cb}`;
@@ -877,7 +1137,11 @@
           customHint = `Last digit ${lastDigit} swaps with ${lastDigit === 2 ? 8 : lastDigit === 8 ? 2 : lastDigit === 3 ? 7 : lastDigit === 7 ? 3 : lastDigit}!`;
 
         } else if (selectedType === 'fractions') {
-          const item = FRACTION_DATA[Math.floor(Math.random() * FRACTION_DATA.length)];
+          const candidates = FRACTION_DATA.map(item => ({
+            candidate: item,
+            weight: this.tracker.getWeight(`${item.fraction} → %`, 1.0)
+          }));
+          const item = this.tracker.weightedPick(candidates);
           acceptableAnswers = item.answers;
           promptText = `${item.fraction} → %`;
           categoryName = 'Fraction to %';
@@ -885,8 +1149,18 @@
           customHint = item.hint;
 
         } else if (selectedType === 'addition') {
-          const a = Math.floor(Math.random() * 89) + 11;
-          const b = Math.floor(Math.random() * 89) + 11;
+          const candidates = [];
+          for (let c = 0; c < 8; c++) {
+            const ca = Math.floor(Math.random() * 89) + 11;
+            const cb = Math.floor(Math.random() * 89) + 11;
+            const prompt = `${ca} + ${cb}`;
+            const hasCarry = (ca % 10) + (cb % 10) >= 10;
+            const intrinsic = hasCarry ? 1.6 : 0.8;
+            candidates.push({ candidate: { a: ca, b: cb }, weight: this.tracker.getWeight(prompt, intrinsic) });
+          }
+          const chosen = this.tracker.weightedPick(candidates);
+          const a = chosen.a;
+          const b = chosen.b;
           const ans = a + b;
           acceptableAnswers = [ans.toString()];
           promptText = `${a} + ${b}`;
@@ -897,7 +1171,11 @@
           customHint = `Split tens: (${a} + ${tensB}) + ${unitsB} = ${a + tensB} + ${unitsB}`;
 
         } else if (selectedType === 'percentages') {
-          const item = PERCENTAGE_DRILL_DATA[Math.floor(Math.random() * PERCENTAGE_DRILL_DATA.length)];
+          const candidates = PERCENTAGE_DRILL_DATA.map(item => ({
+            candidate: item,
+            weight: this.tracker.getWeight(`${item.pct}% of ${item.base}`, 1.0)
+          }));
+          const item = this.tracker.weightedPick(candidates);
           acceptableAnswers = [item.ans.toString()];
           promptText = `${item.pct}% of ${item.base}`;
           categoryName = 'Percentage';
@@ -929,7 +1207,7 @@
 
       /**
        * Initializes a fresh session and serves the first question.
-       * Starts countdown timer if in Blitz mode.
+       * Starts countdown timer if in Blitz mode, or resets Speed Gate.
        * @returns {Object} Initial question
        */
       start() {
@@ -942,9 +1220,12 @@
         this.mistakes = [];
         this.times = [];
         this.retryQueue = [];
+        this.eliminationReason = null;
+        this.eliminatedOn = null;
         this.sessionStartTime = performance.now();
 
         clearInterval(this.timerInterval);
+        cancelAnimationFrame(this.speedGateRaf);
 
         if (this.mode === 'blitz') {
           this.blitzSecondsLeft = 60;
@@ -963,6 +1244,7 @@
 
       /**
        * Submits the active buffer, scores accuracy, logs mistakes, and queues retry.
+       * In Speed Gate mode, one miscalculation ends the streak instantly (Sudden Death).
        * @returns {Object|null} Evaluation payload { isCorrect, finished } or null if empty
        */
       submitInput() {
@@ -975,7 +1257,47 @@
           return ans.toLowerCase().replace('%', '') === rawInput.toLowerCase().replace('%', '');
         });
 
+        // Record problem latency and accuracy for Difficulty Weighting
+        this.tracker.record(this.currentQuestion.prompt, elapsed, isCorrect);
+
         this.questionIndex++;
+
+        // Speed Gate (Sudden Death) verification
+        if (this.mode === 'speedgate') {
+          cancelAnimationFrame(this.speedGateRaf);
+          if (!isCorrect) {
+            // Miscalculation ends streak instantly
+            this.eliminationReason = 'MISCALCULATION';
+            this.eliminatedOn = {
+              prompt: this.currentQuestion.prompt,
+              answer: this.currentQuestion.primaryAnswer,
+              userVal: rawInput
+            };
+            this.mistakes.push({
+              prompt: this.currentQuestion.prompt,
+              correct: this.currentQuestion.primaryAnswer,
+              userVal: rawInput,
+              timeSpent: elapsed.toFixed(1)
+            });
+            this.mistakesHistory.push(Object.assign({}, this.currentQuestion));
+            updateMistakesButtonState();
+            triggerFailureShake();
+            if ('vibrate' in navigator) navigator.vibrate([40, 60, 40]);
+            this.finishSession();
+            return { isCorrect: false, finished: true };
+          } else {
+            this.score++;
+            this.streak++;
+            if (this.streak > this.maxStreak) this.maxStreak = this.streak;
+            if (this.streak > this.speedGateBest) {
+              this.speedGateBest = this.streak;
+              localStorage.setItem('math_speedgate_best', this.speedGateBest.toString());
+            }
+            this.currentInput = '';
+            this.generateQuestion();
+            return { isCorrect: true, finished: false };
+          }
+        }
 
         if (isCorrect) {
           this.score++;
@@ -1016,6 +1338,11 @@
       finishSession() {
         this.isSessionActive = false;
         clearInterval(this.timerInterval);
+        cancelAnimationFrame(this.speedGateRaf);
+        if (this.mode === 'speedgate' && this.streak > this.speedGateBest) {
+          this.speedGateBest = this.streak;
+          localStorage.setItem('math_speedgate_best', this.speedGateBest.toString());
+        }
         showResultsScreen();
       }
 
@@ -1108,7 +1435,8 @@
       const names = {
         endless: 'Endless',
         blitz: '60s Blitz',
-        sprint50: '50 Qs Attack'
+        sprint50: '50 Qs Attack',
+        speedgate: 'Speed Gate ☠'
       };
       modeBadgeInfo.textContent = names[m] || 'Endless';
     }
@@ -1274,6 +1602,13 @@
         hudStat2Value.textContent = `${elapsedSec}s`;
         hudStat3Label.textContent = 'ACC:';
         hudStat3Value.textContent = `${acc}%`;
+      } else if (engine.mode === 'speedgate') {
+        hudStat1Label.textContent = 'GATE:';
+        hudStat1Value.textContent = `${engine.gateTimeLimit.toFixed(1)}s`;
+        hudStat2Label.textContent = 'SURVIVAL:';
+        hudStat2Value.textContent = `${engine.streak}`;
+        hudStat3Label.textContent = 'RECORD:';
+        hudStat3Value.textContent = `${engine.speedGateBest}`;
       } else {
         hudStat1Label.textContent = 'SOLVED:';
         hudStat1Value.textContent = `${engine.score}`;
@@ -1289,12 +1624,29 @@
       promptEquation.textContent = q.prompt;
       userInputText.textContent = '';
 
+      const perfStat = engine.tracker.stats[q.prompt];
+      const isSlowProblem = perfStat && (perfStat.avgTime > 2.5 || perfStat.slowCount >= 1);
+
       if (q.isRetry) {
         cardCategoryBadge.textContent = `RETRY ↻ ${q.categoryName}`;
         cardCategoryBadge.classList.add('text-white', 'underline');
+      } else if (isSlowProblem) {
+        cardCategoryBadge.textContent = `${q.categoryName} · FOCUS (SLOW)`;
+        cardCategoryBadge.classList.add('text-white');
+        cardCategoryBadge.classList.remove('underline');
       } else {
         cardCategoryBadge.textContent = q.categoryName;
         cardCategoryBadge.classList.remove('text-white', 'underline');
+      }
+
+      // Dynamic Speed Gate countdown bar
+      const speedGateContainer = document.getElementById('speedGateContainer');
+      if (engine.mode === 'speedgate') {
+        speedGateContainer.classList.remove('hidden');
+        engine.startSpeedGateTimer();
+      } else {
+        speedGateContainer.classList.add('hidden');
+        cancelAnimationFrame(engine.speedGateRaf);
       }
 
       // Reset hint
@@ -1336,20 +1688,33 @@
       if (engine.mode === 'blitz') {
         metric1.textContent = '60S SCORE';
         document.getElementById('resultScore').textContent = `${correct}`;
+        metric2.textContent = 'ACCURACY';
+        document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
+        metric3.textContent = 'AVG PACE';
+        document.getElementById('resultPace').textContent = `${avgTime}s`;
       } else if (engine.mode === 'sprint50') {
         metric1.textContent = 'TOTAL TIME';
         const totalDuration = ((performance.now() - engine.sessionStartTime) / 1000).toFixed(1);
         document.getElementById('resultScore').textContent = `${totalDuration}s`;
+        metric2.textContent = 'ACCURACY';
+        document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
+        metric3.textContent = 'AVG PACE';
+        document.getElementById('resultPace').textContent = `${avgTime}s`;
+      } else if (engine.mode === 'speedgate') {
+        metric1.textContent = 'SURVIVAL';
+        document.getElementById('resultScore').textContent = `${engine.streak}`;
+        metric2.textContent = 'ELIMINATION';
+        document.getElementById('resultAccuracy').textContent = engine.eliminationReason === 'TIMEOUT' ? 'TIMEOUT' : 'MISCALC';
+        metric3.textContent = 'BEST RECORD';
+        document.getElementById('resultPace').textContent = `${engine.speedGateBest}`;
       } else {
         metric1.textContent = 'SOLVED';
         document.getElementById('resultScore').textContent = `${correct}`;
+        metric2.textContent = 'ACCURACY';
+        document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
+        metric3.textContent = 'AVG PACE';
+        document.getElementById('resultPace').textContent = `${avgTime}s`;
       }
-
-      metric2.textContent = 'ACCURACY';
-      document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
-
-      metric3.textContent = 'AVG PACE';
-      document.getElementById('resultPace').textContent = `${avgTime}s`;
 
       const mistakeListEl = document.getElementById('mistakesList');
       const mistakeCountEl = document.getElementById('mistakeCount');
@@ -1382,11 +1747,18 @@
       }
 
       const recText = document.getElementById('recommendationText');
-      if (engine.mistakes.length > 0) {
+      if (engine.mode === 'speedgate') {
+        if (engine.eliminatedOn) {
+          const cause = engine.eliminationReason === 'TIMEOUT' ? 'Time expired (Gate limit exceeded)' : `Miscalculated "${engine.eliminatedOn.userVal}"`;
+          recText.innerHTML = `Sudden Death ended at streak <strong class="text-white">${engine.streak}</strong>. Elimination: ${cause} on <strong class="text-white">${engine.eliminatedOn.prompt} = ${engine.eliminatedOn.answer}</strong>.<br><span class="text-mono-400">All-time Speed Gate Record: ${engine.speedGateBest}</span>`;
+        } else {
+          recText.innerHTML = `Speed Gate session completed at streak <strong class="text-white">${engine.streak}</strong>. Record: ${engine.speedGateBest}`;
+        }
+      } else if (engine.mistakes.length > 0) {
         const errorPrompts = engine.mistakes.map(m => m.prompt);
         recText.textContent = `Review: ${[...new Set(errorPrompts)].slice(0, 4).join(', ')}. Use spaced repetition to solidify these!`;
       } else if (parseFloat(avgTime) > 1.8) {
-        recText.textContent = `High accuracy. Try 60s Blitz mode to bring response pace under 1.5s!`;
+        recText.textContent = `High accuracy. Try 60s Blitz or Speed Gate mode to bring response pace under 1.5s!`;
       } else {
         recText.textContent = `World-class lightning pace under 1.5s! You have sharp recall.`;
       }

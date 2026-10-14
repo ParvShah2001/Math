@@ -67,19 +67,19 @@ Most online math trainers suffer from cluttered interfaces, distracting gamifica
 ## Key Features
 
 - **Strict Zero-Scroll Viewport Lock**: The entire practice interface is fixed to `100dvh` (Dynamic Viewport Height). No layout shifts, accidental page scrolls, or double-tap zooming occur during high-speed typing.
-- **7 Core Drill Disciplines**:
-  - **Tables (1–10)**: Foundational single-digit multiplication.
-  - **Tables (11–20)**: Essential high-table recall.
-  - **All Tables (1–20)**: Full multiplication spectrum.
-  - **Squares (1–30)**: Complete squares from $1^2$ to $30^2$.
-  - **Cubes (1–15)**: Benchmark cubes from $1^3$ to $15^3$.
-  - **Fractions $\rightarrow$ %**: 34 high-frequency benchmark fractions (halves, quarters, eighths, thirds, sixths, ninths, fifths, elevenths, and twelfths).
-  - **Mixed All**: Dynamically samples problems across all categories without consecutive duplicates.
+- **4 Workout Modes**:
+  - **Endless**: Continuous practice with zero time pressure.
+  - **60s Blitz ⚡**: Real-time 60-second countdown benchmark testing active recall under time pressure.
+  - **50 Qs Attack 🎯**: Precision sprint measuring the exact time required to clear 50 problems.
+  - **Speed Gate ☠ (Sudden Death)**: Answer each problem within an adaptive, dynamic time window ($2.2\text{s} \rightarrow 1.3\text{s}$). One timeout or miscalculation ends the streak instantly.
+- **Problem Difficulty Weighting**: Problems with slower response times (e.g., $17 \times 8$ taking $>2.5\text{s}$) or past errors reappear significantly more frequently via weighted roulette sampling than automatic calculations like $2 \times 5$.
+- **Smart Spaced Repetition**: Missed questions automatically requeue 3–5 items later, and persist into a cumulative "Drill Mistakes" weak-spot engine.
+- **Expanded Drill Disciplines**: Multiplication tables (1–20), squares (1–30), cubes (1–15), square roots ($\sqrt{x}$), cube roots ($\sqrt[3]{x}$), 2-digit addition, benchmark percentage splits, and mixed training.
 - **High-Frequency Fraction Engine**: Supports flexible input tolerance for percentages (e.g., handles both `12.5` and `12.5%`, `33.33` or `33.3`).
 - **Instant Advance Mode**: An optional toggle that immediately advances to the next question the moment the correct answer is entered, saving an extra tap per problem.
 - **Tactile Haptic Feedback**: Vibrates lightly (`navigator.vibrate`) upon keypress on supported mobile devices to emulate physical calculator keys.
 - **Dual Input Architecture**: Symmetrical virtual 12-key numpad for mobile thumbs, alongside full physical keyboard keybindings (`0`–`9`, `.`, `Backspace`, `Enter`, `Escape`, `H`).
-- **Built-in Reference Book**: An overlay study handbook displaying all multiplication tables up to 20, squares to 30, cubes to 15, and common fraction-to-percentage tables.
+- **Built-in Reference Book**: An overlay study handbook displaying all multiplication tables up to 20, squares to 30, cubes to 15, square/cube roots, fractions, and percentage conversion rules.
 - **Zero Runtime Dependencies**: Written entirely in vanilla HTML5, CSS3, and ES6+ JavaScript. Operates 100% offline.
 
 ---
