@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>MATH</title>
-  <meta name="description" content="Minimal black and white mental math practice for tables, squares, cubes, and fractions.">
+  <meta name="description" content="Minimal black and white mental math practice for tables, squares, cubes, roots, fractions, and percentages.">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -160,65 +160,99 @@
     <main class="flex-1 overflow-hidden flex flex-col items-center justify-center p-2 sm:p-4 w-full h-full min-h-0">
       
       <!-- =========================================================================
-           VIEW 1: PRACTICE SETUP SCREEN (Fit 100% into Viewport)
+           VIEW 1: PRACTICE SETUP SCREEN (Tier 1: Modes + Expanded Topics)
            ========================================================================= -->
-      <div id="lobbyScreen" class="w-full max-w-xl mx-auto h-full flex flex-col justify-center items-center gap-3 sm:gap-5 py-1 px-1 sm:px-4 overflow-hidden">
+      <div id="lobbyScreen" class="w-full max-w-xl mx-auto h-full flex flex-col justify-center items-center gap-2.5 sm:gap-4 py-1 px-1 sm:px-4 overflow-hidden">
         
-        <div class="text-center space-y-0.5 sm:space-y-1 shrink-0">
-          <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white font-mono uppercase">PRACTICE</h2>
-          <p class="text-xs sm:text-base text-mono-400 font-mono">Tables (1–20) · Squares (1–30) · Cubes (1–15) · Fractions</p>
+        <div class="text-center space-y-0.5 shrink-0">
+          <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white font-mono uppercase">PRACTICE</h2>
+          <p class="text-xs sm:text-sm text-mono-400 font-mono">Tables · Squares · Cubes · Roots · Fractions · Percentages</p>
         </div>
 
         <!-- Configuration Card -->
-        <div class="w-full bg-mono-900 border border-mono-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-3 sm:space-y-4 shadow-2xl shrink-0">
+        <div class="w-full bg-mono-900 border border-mono-800 rounded-2xl sm:rounded-3xl p-3 sm:p-5 space-y-2.5 sm:space-y-3.5 shadow-2xl shrink-0">
           
+          <!-- Mode Selection -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-[11px] font-bold uppercase tracking-wider text-mono-400 font-mono">1. Workout Mode</label>
+              <span id="modeBadgeInfo" class="text-[11px] text-white font-mono font-bold">Endless</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5 text-xs sm:text-sm font-mono">
+              <button type="button" data-mode="endless" class="mode-btn opt-active py-2 px-1 rounded-xl border text-center font-mono">
+                Endless
+              </button>
+              <button type="button" data-mode="blitz" class="mode-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                60s Blitz ⚡
+              </button>
+              <button type="button" data-mode="sprint50" class="mode-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                50 Qs Attack 🎯
+              </button>
+            </div>
+          </div>
+
           <!-- Concept Selection -->
           <div>
-            <div class="flex items-center justify-between mb-2">
-              <label class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-mono-400 font-mono">Select Topic</label>
-              <span id="topicBadgeInfo" class="text-[11px] sm:text-xs text-white font-mono font-bold">Tables 1–10</span>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-[11px] font-bold uppercase tracking-wider text-mono-400 font-mono">2. Select Discipline</label>
+              <span id="topicBadgeInfo" class="text-[11px] text-white font-mono font-bold">Tables 1–10</span>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
-              <button type="button" data-topic="tables_basic" class="topic-btn opt-active py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
-                Tables (1–10)
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-1.5 text-[11px] sm:text-xs">
+              <button type="button" data-topic="tables_basic" class="topic-btn opt-active py-2 px-1 rounded-xl border text-center font-mono">
+                Tables 1–10
               </button>
-              <button type="button" data-topic="tables_advanced" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
-                Tables (11–20)
+              <button type="button" data-topic="tables_advanced" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Tables 11–20
               </button>
-              <button type="button" data-topic="tables_all" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
-                All Tables (1–20)
+              <button type="button" data-topic="tables_all" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                All 1–20
               </button>
-              <button type="button" data-topic="squares" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
-                Squares (1–30)
+              <button type="button" data-topic="squares" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Squares 1–30
               </button>
-              <button type="button" data-topic="cubes" class="topic-btn opt-inactive py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
-                Cubes (1–15)
+              <button type="button" data-topic="cubes" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Cubes 1–15
               </button>
-              <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-2.5 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="square_roots" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Roots √
+              </button>
+              <button type="button" data-topic="cube_roots" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Cube Roots ∛
+              </button>
+              <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
                 Fractions → %
               </button>
-              <button type="button" data-topic="mixed" class="topic-btn opt-inactive col-span-2 sm:col-span-3 py-2.5 sm:py-3 px-2 rounded-xl border text-center font-mono">
+              <button type="button" data-topic="addition" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Addition 2D
+              </button>
+              <button type="button" data-topic="percentages" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
+                Percentages %
+              </button>
+              <button type="button" data-topic="mixed" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
                 Mixed All
+              </button>
+              <button type="button" data-topic="mistakes" id="mistakesTopicBtn" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono text-mono-400">
+                Drill Mistakes
               </button>
             </div>
           </div>
 
           <!-- Instant Check Toggle -->
           <div class="pt-2 border-t border-mono-800 flex items-center justify-between text-xs sm:text-sm">
-            <span class="text-mono-300 font-mono">Instant advance on correct:</span>
-            <button id="instantSubmitToggleBtn" type="button" class="px-3 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-xs transition">
+            <span class="text-mono-300 font-mono text-[11px] sm:text-xs">Instant advance on correct:</span>
+            <button id="instantSubmitToggleBtn" type="button" class="px-2.5 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-xs transition">
               ON
             </button>
           </div>
 
           <!-- Start Practice Button -->
-          <button id="startPracticeBtn" class="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white hover:bg-mono-200 text-black font-mono font-black text-sm sm:text-lg tracking-wider uppercase transition active:scale-[0.98] shadow-lg">
+          <button id="startPracticeBtn" class="w-full py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-white hover:bg-mono-200 text-black font-mono font-black text-sm sm:text-base tracking-wider uppercase transition active:scale-[0.98] shadow-lg">
             START PRACTICE →
           </button>
         </div>
 
         <div class="text-center text-[10px] sm:text-xs text-mono-500 font-mono shrink-0">
-          Endless practice · ESC or EXIT anytime to finish
+          Smart Spaced Repetition · ESC or EXIT anytime to finish
         </div>
       </div>
 
@@ -236,16 +270,16 @@
 
           <div class="flex items-center gap-3 sm:gap-5">
             <div class="flex items-center gap-1">
-              <span class="text-mono-500">SOLVED:</span>
-              <span id="solvedCountDisplay" class="font-extrabold text-white">0</span>
+              <span id="hudStat1Label" class="text-mono-500">SOLVED:</span>
+              <span id="hudStat1Value" class="font-extrabold text-white">0</span>
             </div>
             <div class="flex items-center gap-1">
-              <span class="text-mono-500">STREAK:</span>
-              <span id="streakDisplay" class="font-extrabold text-white">0</span>
+              <span id="hudStat2Label" class="text-mono-500">STREAK:</span>
+              <span id="hudStat2Value" class="font-extrabold text-white">0</span>
             </div>
             <div class="flex items-center gap-1">
-              <span class="text-mono-500">ACC:</span>
-              <span id="accuracyLiveBadge" class="font-extrabold text-white">100%</span>
+              <span id="hudStat3Label" class="text-mono-500">ACC:</span>
+              <span id="hudStat3Value" class="font-extrabold text-white">100%</span>
             </div>
           </div>
         </div>
@@ -258,7 +292,7 @@
           </div>
 
           <!-- Problem Display (Fluid Clamp to Always Fit Screen) -->
-          <div id="promptEquation" class="font-black font-mono tracking-tight text-white my-1 sm:my-3 select-none text-[clamp(2.75rem,8vh,6rem)] leading-none">
+          <div id="promptEquation" class="font-black font-mono tracking-tight text-white my-1 sm:my-3 select-none text-[clamp(2.75rem,8vh,5.5rem)] leading-none">
             7 × 8
           </div>
 
@@ -310,7 +344,7 @@
            VIEW 3: RESULTS / SUMMARY SCREEN (Zero-Scroll Responsive Fit)
            ========================================================================= -->
       <div id="resultsScreen" class="hidden w-full max-w-xl mx-auto h-full flex flex-col justify-center items-center py-2 px-2 overflow-hidden">
-        <div class="w-full bg-mono-900 border border-mono-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-3 sm:space-y-4 text-center shadow-2xl shrink-0 overflow-hidden">
+        <div class="w-full bg-mono-900 border border-mono-800 rounded-2xl sm:rounded-3xl p-4 sm:p-5 space-y-3 text-center shadow-2xl shrink-0 overflow-hidden">
           
           <div>
             <span class="px-2.5 py-0.5 rounded-lg border border-mono-700 text-[10px] font-mono uppercase tracking-wider text-mono-400">
@@ -321,27 +355,27 @@
 
           <!-- Key Metrics -->
           <div class="grid grid-cols-3 gap-2 text-center font-mono">
-            <div class="bg-black border border-mono-800 rounded-xl p-2.5 sm:p-3">
-              <span class="text-[10px] text-mono-500 block uppercase font-bold">SOLVED</span>
+            <div class="bg-black border border-mono-800 rounded-xl p-2 sm:p-3">
+              <span id="metric1Label" class="text-[10px] text-mono-500 block uppercase font-bold">SOLVED</span>
               <span id="resultScore" class="text-xl sm:text-2xl font-black text-white mt-0.5 block">0</span>
             </div>
-            <div class="bg-black border border-mono-800 rounded-xl p-2.5 sm:p-3">
-              <span class="text-[10px] text-mono-500 block uppercase font-bold">ACCURACY</span>
+            <div class="bg-black border border-mono-800 rounded-xl p-2 sm:p-3">
+              <span id="metric2Label" class="text-[10px] text-mono-500 block uppercase font-bold">ACCURACY</span>
               <span id="resultAccuracy" class="text-xl sm:text-2xl font-black text-white mt-0.5 block">100%</span>
             </div>
-            <div class="bg-black border border-mono-800 rounded-xl p-2.5 sm:p-3">
-              <span class="text-[10px] text-mono-500 block uppercase font-bold">AVG PACE</span>
+            <div class="bg-black border border-mono-800 rounded-xl p-2 sm:p-3">
+              <span id="metric3Label" class="text-[10px] text-mono-500 block uppercase font-bold">AVG PACE</span>
               <span id="resultPace" class="text-xl sm:text-2xl font-black text-white mt-0.5 block">0.0s</span>
             </div>
           </div>
 
           <!-- Mistakes List -->
-          <div id="mistakesSection" class="text-left space-y-1.5">
+          <div id="mistakesSection" class="text-left space-y-1">
             <div class="flex items-center justify-between text-xs font-mono text-mono-400">
               <span class="uppercase font-bold">MISTAKES (<span id="mistakeCount">0</span>)</span>
-              <span class="text-mono-500">Review</span>
+              <span class="text-mono-500">Spaced Repetition Active</span>
             </div>
-            <div id="mistakesList" class="max-h-24 sm:max-h-28 overflow-y-auto space-y-1.5 custom-scroll pr-1 font-mono text-xs"></div>
+            <div id="mistakesList" class="max-h-24 overflow-y-auto space-y-1.5 custom-scroll pr-1 font-mono text-xs"></div>
           </div>
 
           <!-- Focus Tip -->
@@ -353,13 +387,18 @@
           </div>
 
           <!-- Actions -->
-          <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm">
-            <button id="retrySessionBtn" class="py-3 px-3 rounded-xl bg-white text-black font-bold hover:bg-mono-200 transition shadow-lg">
-              AGAIN ↻
+          <div class="space-y-1.5 pt-1 font-mono text-xs sm:text-sm">
+            <button id="drillMistakesResultsBtn" class="w-full py-2.5 px-3 rounded-xl bg-white text-black font-black hover:bg-mono-200 transition shadow-lg hidden">
+              DRILL THESE MISTAKES ↻
             </button>
-            <button id="backToMenuBtn" class="py-3 px-3 rounded-xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
-              MENU ⚙
-            </button>
+            <div class="grid grid-cols-2 gap-2">
+              <button id="retrySessionBtn" class="py-2.5 px-3 rounded-xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
+                AGAIN ↻
+              </button>
+              <button id="backToMenuBtn" class="py-2.5 px-3 rounded-xl bg-mono-800 border border-mono-700 text-white font-bold hover:bg-mono-700 transition">
+                MENU ⚙
+              </button>
+            </div>
           </div>
 
         </div>
@@ -379,7 +418,7 @@
       <div class="p-4 sm:p-5 border-b border-mono-800 flex items-center justify-between shrink-0 bg-black">
         <div>
           <h3 class="text-base sm:text-xl font-black text-white">REFERENCE BOOK</h3>
-          <p class="text-xs sm:text-sm text-mono-400">Tables (1–20), Squares (1–30), Cubes (1–15), Fractions → %</p>
+          <p class="text-xs sm:text-sm text-mono-400">Tables (1–20), Squares (1–30), Cubes (1–15), Roots, Fractions, Percentages</p>
         </div>
         <button id="closeCheatSheetBtn" class="p-2 px-3 rounded-xl border border-mono-700 hover:border-white text-mono-400 hover:text-white text-sm sm:text-base transition font-bold">
           ✕
@@ -392,7 +431,9 @@
         <button data-tab="tab-tables-adv" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Tables (11–20)</button>
         <button data-tab="tab-squares" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Squares (1–30)</button>
         <button data-tab="tab-cubes" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Cubes (1–15)</button>
+        <button data-tab="tab-roots" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Roots (√ & ∛)</button>
         <button data-tab="tab-fractions" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Fractions → %</button>
+        <button data-tab="tab-percentages" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Percentages %</button>
       </div>
 
       <!-- Tab Content Area (Scrolling allowed here!) -->
@@ -408,6 +449,23 @@
 
         <!-- Cubes 1 to 15 -->
         <div id="tab-cubes" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3"></div>
+
+        <!-- Roots (Square & Cube Roots) -->
+        <div id="tab-roots" class="tab-content hidden space-y-4 font-mono">
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Square Roots (Perfect Squares 1 to 30)</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 text-sm">
+              <div id="rootsSquareList" class="contents"></div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Cube Roots (Perfect Cubes 1 to 15)</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 text-sm">
+              <div id="rootsCubeList" class="contents"></div>
+            </div>
+          </div>
+        </div>
 
         <!-- Fractions to % -->
         <div id="tab-fractions" class="tab-content hidden space-y-4 font-mono">
@@ -465,6 +523,39 @@
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/12</span><span class="text-white font-black">8.33%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/14</span><span class="text-white font-black">7.14%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/15</span><span class="text-white font-black">6.67%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Percentages Reference -->
+        <div id="tab-percentages" class="tab-content hidden space-y-4 font-mono">
+          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Essential Mental Percentage Benchmarks</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+              <div class="p-2.5 rounded-xl bg-black border border-mono-800">
+                <span class="text-white font-black">10%</span> = Shift decimal left 1 place<br>
+                <span class="text-mono-400 text-xs">10% of 420 = 42</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-black border border-mono-800">
+                <span class="text-white font-black">5%</span> = Half of 10%<br>
+                <span class="text-mono-400 text-xs">5% of 420 = 21</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-black border border-mono-800">
+                <span class="text-white font-black">1%</span> = Shift decimal left 2 places<br>
+                <span class="text-mono-400 text-xs">1% of 420 = 4.2</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-black border border-mono-800">
+                <span class="text-white font-black">15%</span> = 10% + 5%<br>
+                <span class="text-mono-400 text-xs">15% of 800 = 80 + 40 = 120</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-black border border-mono-800">
+                <span class="text-white font-black">20%</span> = 10% × 2 (or ÷ 5)<br>
+                <span class="text-mono-400 text-xs">20% of 350 = 35 × 2 = 70</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-black border border-mono-800">
+                <span class="text-white font-black">25%</span> = Divide by 4 (Half of 50%)<br>
+                <span class="text-mono-400 text-xs">25% of 64 = 16</span>
+              </div>
             </div>
           </div>
         </div>
@@ -528,6 +619,30 @@
       { fraction: '1/20', answers: ['5', '5%'], hint: '100 ÷ 20 = 5%' },
       { fraction: '1/25', answers: ['4', '4%'], hint: '100 ÷ 25 = 4%' },
       { fraction: '1/50', answers: ['2', '2%'], hint: '100 ÷ 50 = 2%' }
+    ];
+
+    /** Percentages dataset for speed practice */
+    const PERCENTAGE_DRILL_DATA = [
+      { pct: 10, base: 240, ans: 24, hint: '10% = shift decimal left: 240 → 24' },
+      { pct: 10, base: 350, ans: 35, hint: '10% = shift decimal left: 350 → 35' },
+      { pct: 10, base: 780, ans: 78, hint: '10% = shift decimal left: 780 → 78' },
+      { pct: 20, base: 45, ans: 9, hint: '20% = (10% is 4.5) × 2 = 9' },
+      { pct: 20, base: 350, ans: 70, hint: '20% = (10% is 35) × 2 = 70' },
+      { pct: 20, base: 600, ans: 120, hint: '20% = 600 ÷ 5 = 120' },
+      { pct: 25, base: 64, ans: 16, hint: '25% = divide by 4: 64 ÷ 4 = 16' },
+      { pct: 25, base: 160, ans: 40, hint: '25% = 160 ÷ 4 = 40' },
+      { pct: 25, base: 280, ans: 70, hint: '25% = 280 ÷ 4 = 70' },
+      { pct: 50, base: 140, ans: 70, hint: '50% = half: 140 ÷ 2 = 70' },
+      { pct: 50, base: 860, ans: 430, hint: '50% = half: 860 ÷ 2 = 430' },
+      { pct: 75, base: 80, ans: 60, hint: '75% = 3/4 of 80 = 60' },
+      { pct: 75, base: 120, ans: 90, hint: '75% = 3/4 of 120 = 90' },
+      { pct: 5, base: 300, ans: 15, hint: '5% = half of 10% (30 ÷ 2 = 15)' },
+      { pct: 5, base: 640, ans: 32, hint: '5% = half of 10% (64 ÷ 2 = 32)' },
+      { pct: 15, base: 80, ans: 12, hint: '15% = 10% (8) + 5% (4) = 12' },
+      { pct: 15, base: 200, ans: 30, hint: '15% = 10% (20) + 5% (10) = 30' },
+      { pct: 15, base: 800, ans: 120, hint: '15% = 10% (80) + 5% (40) = 120' },
+      { pct: 30, base: 400, ans: 120, hint: '30% = 10% (40) × 3 = 120' },
+      { pct: 40, base: 250, ans: 100, hint: '40% = 10% (25) × 4 = 100' }
     ];
 
     /**
@@ -602,12 +717,14 @@
     }
 
     /**
-     * Core game engine managing active drills, question queues, input tolerance, and metrics.
+     * Core game engine managing active drills, question queues, spaced repetition, timed modes, and metrics.
      */
     class GameEngine {
       constructor() {
         /** @type {string} Active topic identifier */
         this.topic = 'tables_basic';
+        /** @type {string} Active mode: 'endless', 'blitz', 'sprint50' */
+        this.mode = 'endless';
         /** @type {boolean} Automatically submit when correct answer is matched */
         this.instantSubmit = true;
 
@@ -629,8 +746,20 @@
         this.times = [];
         /** @type {number} High-resolution timestamp when question rendered */
         this.questionStartTime = 0;
+        /** @type {number} High-resolution timestamp when session began */
+        this.sessionStartTime = 0;
         /** @type {boolean} Session state flag */
         this.isSessionActive = false;
+
+        /** @type {Array<{question: Object, dueAt: number}>} Spaced repetition retry queue */
+        this.retryQueue = [];
+        /** @type {Object[]} Cumulative mistake history for "Drill Mistakes" mode */
+        this.mistakesHistory = [];
+
+        /** @type {number} Seconds remaining in 60s Blitz */
+        this.blitzSecondsLeft = 60;
+        /** @type {any} Blitz timer interval handle */
+        this.timerInterval = null;
       }
 
       /**
@@ -640,21 +769,52 @@
       setTopic(t) { this.topic = t; }
 
       /**
+       * Updates the active workout mode.
+       * @param {string} m - Mode identifier ('endless', 'blitz', 'sprint50')
+       */
+      setMode(m) { this.mode = m; }
+
+      /**
        * Generates a new problem matching the configured discipline.
-       * Enforces anti-repeat check against immediately preceding question.
+       * Automatically prioritizes spaced-repetition retry items when due.
        * @returns {Object} Newly formulated question metadata
        */
       generateQuestion() {
+        // 1. Check if a spaced repetition retry item is due
+        const retryIdx = this.retryQueue.findIndex(item => this.questionIndex >= item.dueAt);
+        if (retryIdx !== -1 && this.topic !== 'mistakes') {
+          const retry = this.retryQueue.splice(retryIdx, 1)[0];
+          const q = Object.assign({}, retry.question, { isRetry: true });
+          this.currentQuestion = q;
+          this.questionStartTime = performance.now();
+          return q;
+        }
+
+        // 2. Select topic pool
         let selectedType = this.topic;
         if (this.topic === 'mixed') {
-          const pool = ['tables_basic', 'tables_advanced', 'squares', 'cubes', 'fractions'];
+          const pool = [
+            'tables_basic', 'tables_advanced', 'squares', 'cubes',
+            'square_roots', 'cube_roots', 'fractions', 'addition', 'percentages'
+          ];
           selectedType = pool[Math.floor(Math.random() * pool.length)];
         }
 
         let n = 1, m = 1, acceptableAnswers = [], promptText = '', categoryName = '', internalCategory = '', customHint = null;
 
+        if (selectedType === 'mistakes') {
+          if (this.mistakesHistory.length > 0) {
+            const randomMistake = this.mistakesHistory[Math.floor(Math.random() * this.mistakesHistory.length)];
+            const q = Object.assign({}, randomMistake, { isRetry: true });
+            this.currentQuestion = q;
+            this.questionStartTime = performance.now();
+            return q;
+          } else {
+            selectedType = 'tables_basic';
+          }
+        }
+
         if (selectedType === 'tables_basic') {
-          // Tables 1 to 10
           n = Math.floor(Math.random() * 10) + 1;
           m = Math.floor(Math.random() * 10) + 1;
           const ans = n * m;
@@ -664,7 +824,6 @@
           internalCategory = 'table_basic';
 
         } else if (selectedType === 'tables_advanced') {
-          // Tables 11 to 20
           n = Math.floor(Math.random() * 10) + 11;
           m = Math.floor(Math.random() * 10) + 1;
           const ans = n * m;
@@ -674,7 +833,6 @@
           internalCategory = 'table_adv';
 
         } else if (selectedType === 'tables_all') {
-          // All Tables 1 to 20
           n = Math.floor(Math.random() * 20) + 1;
           m = Math.floor(Math.random() * 10) + 1;
           const ans = n * m;
@@ -684,7 +842,6 @@
           internalCategory = n <= 10 ? 'table_basic' : 'table_adv';
 
         } else if (selectedType === 'squares') {
-          // Squares 1 to 30
           n = Math.floor(Math.random() * 30) + 1;
           const ans = n * n;
           acceptableAnswers = [ans.toString()];
@@ -693,7 +850,6 @@
           internalCategory = 'square';
 
         } else if (selectedType === 'cubes') {
-          // Cubes up to 15
           n = Math.floor(Math.random() * 15) + 1;
           const ans = n * n * n;
           acceptableAnswers = [ans.toString()];
@@ -701,13 +857,51 @@
           categoryName = 'Cube (1–15)';
           internalCategory = 'cube';
 
+        } else if (selectedType === 'square_roots') {
+          n = Math.floor(Math.random() * 29) + 2; // 2 to 30
+          const sq = n * n;
+          acceptableAnswers = [n.toString()];
+          promptText = `√${sq}`;
+          categoryName = 'Square Root';
+          internalCategory = 'square_root';
+          customHint = `Ends in ${sq % 10}. Check base between ${Math.floor(n/10)*10}² and ${(Math.floor(n/10)+1)*10}².`;
+
+        } else if (selectedType === 'cube_roots') {
+          n = Math.floor(Math.random() * 14) + 2; // 2 to 15
+          const cb = n * n * n;
+          acceptableAnswers = [n.toString()];
+          promptText = `∛${cb}`;
+          categoryName = 'Cube Root';
+          internalCategory = 'cube_root';
+          const lastDigit = cb % 10;
+          customHint = `Last digit ${lastDigit} swaps with ${lastDigit === 2 ? 8 : lastDigit === 8 ? 2 : lastDigit === 3 ? 7 : lastDigit === 7 ? 3 : lastDigit}!`;
+
         } else if (selectedType === 'fractions') {
-          // Fractions to %
           const item = FRACTION_DATA[Math.floor(Math.random() * FRACTION_DATA.length)];
           acceptableAnswers = item.answers;
           promptText = `${item.fraction} → %`;
           categoryName = 'Fraction to %';
           internalCategory = 'fraction';
+          customHint = item.hint;
+
+        } else if (selectedType === 'addition') {
+          const a = Math.floor(Math.random() * 89) + 11;
+          const b = Math.floor(Math.random() * 89) + 11;
+          const ans = a + b;
+          acceptableAnswers = [ans.toString()];
+          promptText = `${a} + ${b}`;
+          categoryName = 'Addition 2D';
+          internalCategory = 'addition';
+          const tensB = Math.floor(b / 10) * 10;
+          const unitsB = b % 10;
+          customHint = `Split tens: (${a} + ${tensB}) + ${unitsB} = ${a + tensB} + ${unitsB}`;
+
+        } else if (selectedType === 'percentages') {
+          const item = PERCENTAGE_DRILL_DATA[Math.floor(Math.random() * PERCENTAGE_DRILL_DATA.length)];
+          acceptableAnswers = [item.ans.toString()];
+          promptText = `${item.pct}% of ${item.base}`;
+          categoryName = 'Percentage';
+          internalCategory = 'percentage';
           customHint = item.hint;
         }
 
@@ -724,7 +918,8 @@
           primaryAnswer: acceptableAnswers[0],
           prompt: promptText,
           categoryName: categoryName,
-          customHint: customHint
+          customHint: customHint,
+          isRetry: false
         };
 
         this.currentQuestion = question;
@@ -734,6 +929,7 @@
 
       /**
        * Initializes a fresh session and serves the first question.
+       * Starts countdown timer if in Blitz mode.
        * @returns {Object} Initial question
        */
       start() {
@@ -745,11 +941,28 @@
         this.maxStreak = 0;
         this.mistakes = [];
         this.times = [];
+        this.retryQueue = [];
+        this.sessionStartTime = performance.now();
+
+        clearInterval(this.timerInterval);
+
+        if (this.mode === 'blitz') {
+          this.blitzSecondsLeft = 60;
+          this.timerInterval = setInterval(() => {
+            this.blitzSecondsLeft--;
+            renderHUD();
+            if (this.blitzSecondsLeft <= 0) {
+              clearInterval(this.timerInterval);
+              this.finishSession();
+            }
+          }, 1000);
+        }
+
         return this.generateQuestion();
       }
 
       /**
-       * Submits the active buffer, scores accuracy, logs mistakes, and cues next problem.
+       * Submits the active buffer, scores accuracy, logs mistakes, and queues retry.
        * @returns {Object|null} Evaluation payload { isCorrect, finished } or null if empty
        */
       submitInput() {
@@ -776,6 +989,20 @@
             userVal: rawInput,
             timeSpent: elapsed.toFixed(1)
           });
+          // Add to historical pool and schedule retry in 3-5 problems
+          this.mistakesHistory.push(Object.assign({}, this.currentQuestion));
+          updateMistakesButtonState();
+
+          this.retryQueue.push({
+            question: Object.assign({}, this.currentQuestion),
+            dueAt: this.questionIndex + Math.floor(Math.random() * 2) + 3
+          });
+        }
+
+        // Check if 50 Questions Attack finished
+        if (this.mode === 'sprint50' && this.questionIndex >= 50) {
+          this.finishSession();
+          return { isCorrect, finished: true };
         }
 
         this.currentInput = '';
@@ -788,6 +1015,7 @@
        */
       finishSession() {
         this.isSessionActive = false;
+        clearInterval(this.timerInterval);
         showResultsScreen();
       }
 
@@ -831,24 +1059,73 @@
     const userInputText = document.getElementById('userInputText');
     const challengeCard = document.getElementById('challengeCard');
     const cardCategoryBadge = document.getElementById('cardCategoryBadge');
-    const accuracyLiveBadge = document.getElementById('accuracyLiveBadge');
-    const streakDisplay = document.getElementById('streakDisplay');
-    const solvedCountDisplay = document.getElementById('solvedCountDisplay');
+
+    const hudStat1Label = document.getElementById('hudStat1Label');
+    const hudStat1Value = document.getElementById('hudStat1Value');
+    const hudStat2Label = document.getElementById('hudStat2Label');
+    const hudStat2Value = document.getElementById('hudStat2Value');
+    const hudStat3Label = document.getElementById('hudStat3Label');
+    const hudStat3Value = document.getElementById('hudStat3Value');
+
     const topicBadgeInfo = document.getElementById('topicBadgeInfo');
+    const modeBadgeInfo = document.getElementById('modeBadgeInfo');
+    const mistakesTopicBtn = document.getElementById('mistakesTopicBtn');
+    const drillMistakesResultsBtn = document.getElementById('drillMistakesResultsBtn');
 
     const showHintBtn = document.getElementById('showHintBtn');
     const hintText = document.getElementById('hintText');
 
-    function updateTopicBadgeText() {
-      const topic = engine.topic;
-      if (topic === 'tables_basic') topicBadgeInfo.textContent = 'Tables 1–10';
-      else if (topic === 'tables_advanced') topicBadgeInfo.textContent = 'Tables 11–20';
-      else if (topic === 'tables_all') topicBadgeInfo.textContent = 'Tables 1–20';
-      else if (topic === 'squares') topicBadgeInfo.textContent = 'Squares 1–30';
-      else if (topic === 'cubes') topicBadgeInfo.textContent = 'Cubes 1–15';
-      else if (topic === 'fractions') topicBadgeInfo.textContent = 'Fractions → %';
-      else topicBadgeInfo.textContent = 'Mixed All';
+    function updateMistakesButtonState() {
+      const count = engine.mistakesHistory.length;
+      if (mistakesTopicBtn) {
+        mistakesTopicBtn.textContent = count > 0 ? `Mistakes (${count})` : 'Drill Mistakes';
+        mistakesTopicBtn.classList.toggle('text-white', count > 0);
+        mistakesTopicBtn.classList.toggle('text-mono-400', count === 0);
+      }
     }
+
+    function updateTopicBadgeText() {
+      const t = engine.topic;
+      const names = {
+        tables_basic: 'Tables 1–10',
+        tables_advanced: 'Tables 11–20',
+        tables_all: 'Tables 1–20',
+        squares: 'Squares 1–30',
+        cubes: 'Cubes 1–15',
+        square_roots: 'Square Roots',
+        cube_roots: 'Cube Roots',
+        fractions: 'Fractions → %',
+        addition: 'Addition 2D',
+        percentages: 'Percentages %',
+        mixed: 'Mixed All',
+        mistakes: `Drill Mistakes (${engine.mistakesHistory.length})`
+      };
+      topicBadgeInfo.textContent = names[t] || 'Custom';
+    }
+
+    function updateModeBadgeText() {
+      const m = engine.mode;
+      const names = {
+        endless: 'Endless',
+        blitz: '60s Blitz',
+        sprint50: '50 Qs Attack'
+      };
+      modeBadgeInfo.textContent = names[m] || 'Endless';
+    }
+
+    // Mode Selection Setup
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => {
+          b.classList.remove('opt-active');
+          b.classList.add('opt-inactive');
+        });
+        btn.classList.add('opt-active');
+        btn.classList.remove('opt-inactive');
+        engine.setMode(btn.dataset.mode);
+        updateModeBadgeText();
+      });
+    });
 
     // Topic Selection Setup
     document.querySelectorAll('.topic-btn').forEach(btn => {
@@ -870,8 +1147,8 @@
       engine.instantSubmit = !engine.instantSubmit;
       instantSubmitToggleBtn.textContent = engine.instantSubmit ? 'ON' : 'OFF';
       instantSubmitToggleBtn.className = engine.instantSubmit
-        ? 'px-3 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-xs transition'
-        : 'px-3 py-1 rounded-lg border border-mono-700 bg-mono-900 text-mono-400 font-mono font-bold text-xs transition';
+        ? 'px-2.5 py-1 rounded-lg border border-white bg-white text-black font-mono font-bold text-xs transition'
+        : 'px-2.5 py-1 rounded-lg border border-mono-700 bg-mono-900 text-mono-400 font-mono font-bold text-xs transition';
     });
 
     // Start Session
@@ -927,7 +1204,9 @@
         triggerFailureShake();
       }
 
-      renderQuestion();
+      if (!result.finished) {
+        renderQuestion();
+      }
     }
 
     function updateInputView() {
@@ -976,23 +1255,53 @@
       }
     });
 
+    function renderHUD() {
+      const totalAttempts = engine.questionIndex;
+      const acc = totalAttempts === 0 ? 100 : Math.round((engine.score / totalAttempts) * 100);
+
+      if (engine.mode === 'blitz') {
+        hudStat1Label.textContent = 'TIME:';
+        hudStat1Value.textContent = `${engine.blitzSecondsLeft}s`;
+        hudStat2Label.textContent = 'SCORE:';
+        hudStat2Value.textContent = `${engine.score}`;
+        hudStat3Label.textContent = 'ACC:';
+        hudStat3Value.textContent = `${acc}%`;
+      } else if (engine.mode === 'sprint50') {
+        hudStat1Label.textContent = 'Q:';
+        hudStat1Value.textContent = `${engine.questionIndex + 1}/50`;
+        const elapsedSec = Math.floor((performance.now() - engine.sessionStartTime) / 1000);
+        hudStat2Label.textContent = 'TIME:';
+        hudStat2Value.textContent = `${elapsedSec}s`;
+        hudStat3Label.textContent = 'ACC:';
+        hudStat3Value.textContent = `${acc}%`;
+      } else {
+        hudStat1Label.textContent = 'SOLVED:';
+        hudStat1Value.textContent = `${engine.score}`;
+        hudStat2Label.textContent = 'STREAK:';
+        hudStat2Value.textContent = `${engine.streak}`;
+        hudStat3Label.textContent = 'ACC:';
+        hudStat3Value.textContent = `${acc}%`;
+      }
+    }
+
     function renderQuestion() {
       const q = engine.currentQuestion;
       promptEquation.textContent = q.prompt;
-      cardCategoryBadge.textContent = q.categoryName;
       userInputText.textContent = '';
+
+      if (q.isRetry) {
+        cardCategoryBadge.textContent = `RETRY ↻ ${q.categoryName}`;
+        cardCategoryBadge.classList.add('text-white', 'underline');
+      } else {
+        cardCategoryBadge.textContent = q.categoryName;
+        cardCategoryBadge.classList.remove('text-white', 'underline');
+      }
 
       // Reset hint
       hintText.classList.add('hidden');
       showHintBtn.classList.remove('hidden');
 
-      // Update HUD
-      streakDisplay.textContent = engine.streak;
-      solvedCountDisplay.textContent = engine.score;
-
-      const totalAttempts = engine.questionIndex;
-      const acc = totalAttempts === 0 ? 100 : Math.round((engine.score / totalAttempts) * 100);
-      accuracyLiveBadge.textContent = `${acc}%`;
+      renderHUD();
     }
 
     function triggerSuccessFlash() {
@@ -1020,8 +1329,26 @@
         ? (engine.times.reduce((a, b) => a + b, 0) / engine.times.length).toFixed(1)
         : '0.0';
 
-      document.getElementById('resultScore').textContent = `${correct}`;
+      const metric1 = document.getElementById('metric1Label');
+      const metric2 = document.getElementById('metric2Label');
+      const metric3 = document.getElementById('metric3Label');
+
+      if (engine.mode === 'blitz') {
+        metric1.textContent = '60S SCORE';
+        document.getElementById('resultScore').textContent = `${correct}`;
+      } else if (engine.mode === 'sprint50') {
+        metric1.textContent = 'TOTAL TIME';
+        const totalDuration = ((performance.now() - engine.sessionStartTime) / 1000).toFixed(1);
+        document.getElementById('resultScore').textContent = `${totalDuration}s`;
+      } else {
+        metric1.textContent = 'SOLVED';
+        document.getElementById('resultScore').textContent = `${correct}`;
+      }
+
+      metric2.textContent = 'ACCURACY';
       document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
+
+      metric3.textContent = 'AVG PACE';
       document.getElementById('resultPace').textContent = `${avgTime}s`;
 
       const mistakeListEl = document.getElementById('mistakesList');
@@ -1035,6 +1362,7 @@
             ★ Clean session! Zero errors made.
           </div>
         `;
+        drillMistakesResultsBtn.classList.add('hidden');
       } else {
         engine.mistakes.forEach(item => {
           const row = document.createElement('div');
@@ -1048,20 +1376,31 @@
           `;
           mistakeListEl.appendChild(row);
         });
+
+        drillMistakesResultsBtn.textContent = `DRILL THESE MISTAKES (${engine.mistakes.length}) ↻`;
+        drillMistakesResultsBtn.classList.remove('hidden');
       }
 
       const recText = document.getElementById('recommendationText');
       if (engine.mistakes.length > 0) {
         const errorPrompts = engine.mistakes.map(m => m.prompt);
-        recText.textContent = `Review mistakes: ${[...new Set(errorPrompts)].slice(0, 4).join(', ')}. Check reference tables for tips!`;
+        recText.textContent = `Review: ${[...new Set(errorPrompts)].slice(0, 4).join(', ')}. Use spaced repetition to solidify these!`;
       } else if (parseFloat(avgTime) > 1.8) {
-        recText.textContent = `Great accuracy. Aim to bring average response pace under 1.5 seconds.`;
+        recText.textContent = `High accuracy. Try 60s Blitz mode to bring response pace under 1.5s!`;
       } else {
-        recText.textContent = `Excellent pace under 1.5s! You have sharp recall.`;
+        recText.textContent = `World-class lightning pace under 1.5s! You have sharp recall.`;
       }
     }
 
     // Results Actions
+    drillMistakesResultsBtn.addEventListener('click', () => {
+      resultsScreen.classList.add('hidden');
+      gameplayScreen.classList.remove('hidden');
+      engine.setTopic('mistakes');
+      engine.start();
+      renderQuestion();
+    });
+
     document.getElementById('retrySessionBtn').addEventListener('click', () => {
       resultsScreen.classList.add('hidden');
       gameplayScreen.classList.remove('hidden');
@@ -1072,6 +1411,8 @@
     document.getElementById('backToMenuBtn').addEventListener('click', () => {
       resultsScreen.classList.add('hidden');
       lobbyScreen.classList.remove('hidden');
+      updateMistakesButtonState();
+      updateTopicBadgeText();
     });
 
     /* 5. POPULATE REFERENCE BOOK TABLES (Scrollable only inside this modal) */
@@ -1141,6 +1482,31 @@
         `;
       }
       cbContainer.innerHTML = cbHtml;
+
+      // Roots: Square Roots & Cube Roots
+      const rootsSq = document.getElementById('rootsSquareList');
+      let rSqHtml = '';
+      for (let i = 1; i <= 30; i++) {
+        rSqHtml += `
+          <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800">
+            <span class="text-mono-400 font-bold">√${i * i}</span>
+            <span class="text-white font-black">${i}</span>
+          </div>
+        `;
+      }
+      rootsSq.innerHTML = rSqHtml;
+
+      const rootsCb = document.getElementById('rootsCubeList');
+      let rCbHtml = '';
+      for (let i = 1; i <= 15; i++) {
+        rCbHtml += `
+          <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800">
+            <span class="text-mono-400 font-bold">∛${i * i * i}</span>
+            <span class="text-white font-black">${i}</span>
+          </div>
+        `;
+      }
+      rootsCb.innerHTML = rCbHtml;
     }
 
     populateReferenceSheets();
@@ -1167,6 +1533,7 @@
     });
 
     updateTopicBadgeText();
+    updateModeBadgeText();
   </script>
 </body>
 </html>
