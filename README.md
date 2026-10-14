@@ -83,14 +83,14 @@ Most online math trainers suffer from cluttered interfaces, distracting gamifica
   - Multiplication Tables (1–12, with 11 and 12 integrated)
   - Squares (1–20)
   - Cubes (1–12)
-  - Common Fraction to Percentage conversions
+  - Fractions & %: Bidirectional active recall covering all unit fractions from 1/2 to 1/20 plus common multiples (both Fraction to % and Percentage to Fraction in the same discipline)
   - 2-Digit Addition
   - Mixed Training & Drill Mistakes
-- **High-Frequency Fraction Engine**: Supports flexible input tolerance for percentages (e.g., handles both `12.5` and `12.5%`, `33.33` or `33.3`).
+- **Bidirectional Fraction Engine**: Includes full 1/2 through 1/20 unit fraction conversions and common multiples. Drills both directions (e.g., `1/8 to %` and `12.5% to fraction`) with on-screen `/` key support and flexible input tolerance for percentages.
 - **Instant Advance Mode**: An optional toggle that immediately advances to the next question the moment the correct answer is entered, saving an extra tap per problem.
 - **Tactile Haptic Feedback**: Vibrates lightly (`navigator.vibrate`) upon keypress on supported mobile devices to emulate physical calculator keys.
-- **Dual Input Architecture**: Symmetrical virtual 12-key numpad for mobile thumbs, alongside full physical keyboard keybindings (`0`–`9`, `.`, `Backspace`, `Enter`, `Escape`, `H`).
-- **Built-in Reference Book**: An overlay study handbook displaying all multiplication tables up to 12, squares to 20, cubes to 12, and common fraction-to-percentage rules.
+- **Dual Input Architecture**: Symmetrical virtual 13-key numpad for mobile thumbs (featuring dedicated `.` and `/` keys), alongside full physical keyboard keybindings (`0`–`9`, `.`, `/`, `Backspace`, `Enter`, `Escape`, `H`).
+- **Built-in Reference Book**: An overlay study handbook displaying all multiplication tables up to 12, squares to 20, cubes to 12, and complete unit fractions (1/2 to 1/20) & common percentage rules.
 - **Zero Runtime Dependencies**: Written entirely in vanilla HTML5, CSS3, and ES6+ JavaScript. Operates 100% offline.
 
 ---
@@ -172,16 +172,19 @@ Then visit `http://localhost:3000` in your browser.
 - **Keypad / Keyboard Input**: `1` $\rightarrow$ `3` $\rightarrow$ `6`
 - **Result**: Immediate visual flash feedback. With **Instant Advance** enabled, the app automatically transitions to the next problem without pressing `Enter`.
 
-### 2. Fraction Conversion
-- **Prompt**: `1/8 → %`
-- **Keypad / Keyboard Input**: `1` $\rightarrow$ `2` $\rightarrow$ `.` $\rightarrow$ `5`
-- **Tolerance**: Accepted as correct either as `12.5` or `12.5%`.
+### 2. Fraction & Percentage Drills (Bidirectional)
+- **Forward Prompt**: `1/8 to %`
+  - **Input**: `1` -> `2` -> `.` -> `5`
+  - **Tolerance**: Accepted as `12.5` or `12.5%`. With Instant Advance enabled, auto-submits on entry.
+- **Reverse Prompt**: `12.5% to fraction`
+  - **Input**: `1` -> `/` -> `8`
+  - **Tolerance**: Accepted as `1/8`. Auto-submits instantly upon tapping `8`.
 
 ### 3. Physical Keyboard Shortcuts
 
 | Key | Action |
 | :--- | :--- |
-| `0`–`9` and `.` | Type numeric values or decimal point |
+| `0`–`9`, `.`, and `/` | Type numeric values, decimal points, or fraction slashes |
 | `Backspace` | Delete last entered character |
 | `Enter` or `Space` | Submit answer (when Instant Advance is off) / Start session / Retry |
 | `Escape` | Abort active session and view Debrief summary |

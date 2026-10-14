@@ -222,7 +222,7 @@
                 Cubes 1–12
               </button>
               <button type="button" data-topic="fractions" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
-                Fractions to %
+                Fractions & %
               </button>
               <button type="button" data-topic="addition" class="topic-btn opt-inactive py-2 px-1 rounded-xl border text-center font-mono">
                 Addition 2D
@@ -329,8 +329,11 @@
             <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="7">7</button>
             <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="8">8</button>
             <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="9">9</button>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5 sm:gap-2 mt-1.5 select-none">
             <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl text-mono-300 font-bold" data-val=".">.</button>
             <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl" data-val="0">0</button>
+            <button class="numpad-key h-11 sm:h-13 md:h-14 text-xl sm:text-2xl text-mono-300 font-bold" data-val="/">/</button>
             <button class="numpad-key h-11 sm:h-13 md:h-14 text-base sm:text-lg font-mono font-bold text-mono-400 hover:text-white" data-action="backspace">DEL</button>
           </div>
           <div class="mt-1.5 select-none">
@@ -421,7 +424,7 @@
       <div class="p-4 sm:p-5 border-b border-mono-800 flex items-center justify-between shrink-0 bg-black">
         <div>
           <h3 class="text-base sm:text-xl font-black text-white">REFERENCE BOOK</h3>
-          <p class="text-xs sm:text-sm text-mono-400">Tables (1–12), Squares (1–20), Cubes (1–12), Fractions to %</p>
+          <p class="text-xs sm:text-sm text-mono-400">Tables (1–12), Squares (1–20), Cubes (1–12), Fractions (1/2–1/20) & %</p>
         </div>
         <button id="closeCheatSheetBtn" class="px-3 py-1.5 rounded-xl border border-mono-700 hover:border-white text-mono-400 hover:text-white text-xs sm:text-sm transition font-bold">
           CLOSE
@@ -433,7 +436,7 @@
         <button data-tab="tab-tables" class="tab-btn px-4 py-2.5 border-b-2 border-white text-white font-bold whitespace-nowrap">Tables (1–12)</button>
         <button data-tab="tab-squares" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Squares (1–20)</button>
         <button data-tab="tab-cubes" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Cubes (1–12)</button>
-        <button data-tab="tab-fractions" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Fractions to %</button>
+        <button data-tab="tab-fractions" class="tab-btn px-4 py-2.5 border-b-2 border-transparent text-mono-400 hover:text-white font-bold whitespace-nowrap">Fractions & %</button>
       </div>
 
       <!-- Tab Content Area -->
@@ -447,62 +450,54 @@
         <!-- Cubes 1 to 12 -->
         <div id="tab-cubes" class="tab-content hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3"></div>
 
-        <!-- Fractions to % -->
+        <!-- Fractions & % -->
         <div id="tab-fractions" class="tab-content hidden space-y-4 font-mono">
           <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
-            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Halves, Quarters & Eighths</div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm sm:text-base">
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Unit Fractions (1/2 to 1/20)</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 text-xs sm:text-sm">
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/2</span><span class="text-white font-black">50%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/3</span><span class="text-white font-black">33.33%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/4</span><span class="text-white font-black">25%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/4</span><span class="text-white font-black">75%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/5</span><span class="text-white font-black">20%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/6</span><span class="text-white font-black">16.67%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/7</span><span class="text-white font-black">14.28%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/8</span><span class="text-white font-black">12.5%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/8</span><span class="text-white font-black">37.5%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/8</span><span class="text-white font-black">62.5%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">7/8</span><span class="text-white font-black">87.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/9</span><span class="text-white font-black">11.11%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/10</span><span class="text-white font-black">10%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/11</span><span class="text-white font-black">9.09%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/12</span><span class="text-white font-black">8.33%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/13</span><span class="text-white font-black">7.69%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/14</span><span class="text-white font-black">7.14%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/15</span><span class="text-white font-black">6.67%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/16</span><span class="text-white font-black">6.25%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/17</span><span class="text-white font-black">5.88%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/18</span><span class="text-white font-black">5.56%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/19</span><span class="text-white font-black">5.26%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/20</span><span class="text-white font-black">5%</span></div>
             </div>
           </div>
 
           <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
-            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Thirds, Sixths & Ninths</div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm sm:text-base">
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/3</span><span class="text-white font-black">33.33%</span></div>
+            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Common Fraction Multiples</div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 text-xs sm:text-sm">
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/3</span><span class="text-white font-black">66.67%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/6</span><span class="text-white font-black">16.67%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/4</span><span class="text-white font-black">75%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/5</span><span class="text-white font-black">40%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/5</span><span class="text-white font-black">60%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">4/5</span><span class="text-white font-black">80%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/6</span><span class="text-white font-black">83.33%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/9</span><span class="text-white font-black">11.11%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/7</span><span class="text-white font-black">28.57%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/7</span><span class="text-white font-black">42.85%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">4/7</span><span class="text-white font-black">57.14%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/8</span><span class="text-white font-black">37.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/8</span><span class="text-white font-black">62.5%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">7/8</span><span class="text-white font-black">87.5%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/9</span><span class="text-white font-black">22.22%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">4/9</span><span class="text-white font-black">44.44%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">5/9</span><span class="text-white font-black">55.55%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">7/9</span><span class="text-white font-black">77.77%</span></div>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
-            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Fifths, Tenths & Decimal Multiples</div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm sm:text-base">
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/5</span><span class="text-white font-black">20%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/5</span><span class="text-white font-black">40%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/5</span><span class="text-white font-black">60%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">4/5</span><span class="text-white font-black">80%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/10</span><span class="text-white font-black">10%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/20</span><span class="text-white font-black">5%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/25</span><span class="text-white font-black">4%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/50</span><span class="text-white font-black">2%</span></div>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-2xl border border-mono-800 bg-mono-900">
-            <div class="text-white text-sm sm:text-base font-bold mb-3 pb-2 border-b border-mono-800">Sevenths, Elevenths & Others</div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm sm:text-base">
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/7</span><span class="text-white font-black">14.28%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/7</span><span class="text-white font-black">28.57%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/7</span><span class="text-white font-black">42.85%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/11</span><span class="text-white font-black">9.09%</span></div>
               <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">2/11</span><span class="text-white font-black">18.18%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/12</span><span class="text-white font-black">8.33%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/14</span><span class="text-white font-black">7.14%</span></div>
-              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">1/15</span><span class="text-white font-black">6.67%</span></div>
+              <div class="flex justify-between p-2 rounded-xl bg-black border border-mono-800"><span class="text-mono-400 font-bold">3/11</span><span class="text-white font-black">27.27%</span></div>
             </div>
           </div>
         </div>
@@ -629,40 +624,45 @@
 
     /** @type {FractionItem[]} Benchmark fraction-to-percentage reference dataset */
     const FRACTION_DATA = [
-      { fraction: '1/2', answers: ['50', '50%'], hint: 'Half of 100% = 50%' },
-      { fraction: '1/3', answers: ['33.33', '33.3', '33.33%'], hint: '100 ÷ 3 = 33.33%' },
-      { fraction: '2/3', answers: ['66.67', '66.66', '66.6', '66.67%'], hint: '2 × 33.33% = 66.67%' },
-      { fraction: '1/4', answers: ['25', '25%'], hint: 'Half of 50% = 25%' },
-      { fraction: '3/4', answers: ['75', '75%'], hint: '3 × 25% = 75%' },
-      { fraction: '1/5', answers: ['20', '20%'], hint: '100 ÷ 5 = 20%' },
-      { fraction: '2/5', answers: ['40', '40%'], hint: '2 × 20% = 40%' },
-      { fraction: '3/5', answers: ['60', '60%'], hint: '3 × 20% = 60%' },
-      { fraction: '4/5', answers: ['80', '80%'], hint: '4 × 20% = 80%' },
-      { fraction: '1/6', answers: ['16.67', '16.66', '16.6', '16.67%'], hint: 'Half of 33.33% = 16.67%' },
-      { fraction: '5/6', answers: ['83.33', '83.3', '83.33%'], hint: '100% - 16.67% = 83.33%' },
-      { fraction: '1/7', answers: ['14.28', '14.29', '14.28%'], hint: 'Double 7 is 14, double 14 is 28: 14.28%' },
-      { fraction: '2/7', answers: ['28.57', '28.56', '28.57%'], hint: '2 × 14.28% = 28.57%' },
-      { fraction: '3/7', answers: ['42.85', '42.86', '42.85%'], hint: '3 × 14.28% = 42.85%' },
-      { fraction: '4/7', answers: ['57.14', '57.14%'], hint: '4 × 14.28% = 57.14%' },
-      { fraction: '1/8', answers: ['12.5', '12.5%'], hint: 'Half of 25% = 12.5%' },
-      { fraction: '3/8', answers: ['37.5', '37.5%'], hint: '25% + 12.5% = 37.5%' },
-      { fraction: '5/8', answers: ['62.5', '62.5%'], hint: '50% + 12.5% = 62.5%' },
-      { fraction: '7/8', answers: ['87.5', '87.5%'], hint: '100% - 12.5% = 87.5%' },
-      { fraction: '1/9', answers: ['11.11', '11.1', '11.11%'], hint: '9s repeat 11: 11.11%' },
-      { fraction: '2/9', answers: ['22.22', '22.2', '22.22%'], hint: '2 × 11.11% = 22.22%' },
-      { fraction: '4/9', answers: ['44.44', '44.4', '44.44%'], hint: '4 × 11.11% = 44.44%' },
-      { fraction: '5/9', answers: ['55.55', '55.5', '55.55%'], hint: '5 × 11.11% = 55.55%' },
-      { fraction: '1/10', answers: ['10', '10%'], hint: '100 ÷ 10 = 10%' },
-      { fraction: '1/11', answers: ['9.09', '9.09%'], hint: '11s repeat 9: 09.09%' },
-      { fraction: '2/11', answers: ['18.18', '18.18%'], hint: '2 × 9.09% = 18.18%' },
-      { fraction: '3/11', answers: ['27.27', '27.27%'], hint: '3 × 9.09% = 27.27%' },
-      { fraction: '1/12', answers: ['8.33', '8.3', '8.33%'], hint: 'Half of 16.67% = 8.33%' },
-      { fraction: '1/14', answers: ['7.14', '7.14%'], hint: 'Half of 14.28% = 7.14%' },
-      { fraction: '1/15', answers: ['6.67', '6.66', '6.67%'], hint: '100 ÷ 15 = 6.67%' },
-      { fraction: '1/16', answers: ['6.25', '6.25%'], hint: 'Half of 12.5% = 6.25%' },
-      { fraction: '1/20', answers: ['5', '5%'], hint: '100 ÷ 20 = 5%' },
-      { fraction: '1/25', answers: ['4', '4%'], hint: '100 ÷ 25 = 4%' },
-      { fraction: '1/50', answers: ['2', '2%'], hint: '100 ÷ 50 = 2%' }
+      // Unit fractions 1/2 to 1/20
+      { fraction: '1/2', pctDisplay: '50%', answers: ['50', '50%'], hint: 'Half of 100% = 50%' },
+      { fraction: '1/3', pctDisplay: '33.33%', answers: ['33.33', '33.3', '33.33%'], hint: '100 ÷ 3 = 33.33%' },
+      { fraction: '1/4', pctDisplay: '25%', answers: ['25', '25%'], hint: 'Half of 50% = 25%' },
+      { fraction: '1/5', pctDisplay: '20%', answers: ['20', '20%'], hint: '100 ÷ 5 = 20%' },
+      { fraction: '1/6', pctDisplay: '16.67%', answers: ['16.67', '16.66', '16.6', '16.67%'], hint: 'Half of 33.33% = 16.67%' },
+      { fraction: '1/7', pctDisplay: '14.28%', answers: ['14.28', '14.29', '14.28%'], hint: 'Double 7 is 14, double 14 is 28: 14.28%' },
+      { fraction: '1/8', pctDisplay: '12.5%', answers: ['12.5', '12.5%'], hint: 'Half of 25% = 12.5%' },
+      { fraction: '1/9', pctDisplay: '11.11%', answers: ['11.11', '11.1', '11.11%'], hint: '9s repeat 11: 11.11%' },
+      { fraction: '1/10', pctDisplay: '10%', answers: ['10', '10%'], hint: '100 ÷ 10 = 10%' },
+      { fraction: '1/11', pctDisplay: '9.09%', answers: ['9.09', '9.1', '9.09%'], hint: '11s repeat 9: 09.09%' },
+      { fraction: '1/12', pctDisplay: '8.33%', answers: ['8.33', '8.3', '8.33%'], hint: 'Half of 16.67% = 8.33%' },
+      { fraction: '1/13', pctDisplay: '7.69%', answers: ['7.69', '7.7', '7.69%'], hint: '100 ÷ 13 = 7.69%' },
+      { fraction: '1/14', pctDisplay: '7.14%', answers: ['7.14', '7.1', '7.14%'], hint: 'Half of 14.28% = 7.14%' },
+      { fraction: '1/15', pctDisplay: '6.67%', answers: ['6.67', '6.66', '6.7', '6.67%'], hint: '100 ÷ 15 = 6.67%' },
+      { fraction: '1/16', pctDisplay: '6.25%', answers: ['6.25', '6.25%'], hint: 'Half of 12.5% = 6.25%' },
+      { fraction: '1/17', pctDisplay: '5.88%', answers: ['5.88', '5.9', '5.88%'], hint: '100 ÷ 17 = 5.88%' },
+      { fraction: '1/18', pctDisplay: '5.56%', answers: ['5.56', '5.55', '5.6', '5.56%'], hint: 'Half of 11.11% = 5.56%' },
+      { fraction: '1/19', pctDisplay: '5.26%', answers: ['5.26', '5.3', '5.26%'], hint: '100 ÷ 19 = 5.26%' },
+      { fraction: '1/20', pctDisplay: '5%', answers: ['5', '5%'], hint: '100 ÷ 20 = 5%' },
+      // Common fraction multiples
+      { fraction: '2/3', pctDisplay: '66.67%', answers: ['66.67', '66.66', '66.6', '66.67%'], hint: '2 × 33.33% = 66.67%' },
+      { fraction: '3/4', pctDisplay: '75%', answers: ['75', '75%'], hint: '3 × 25% = 75%' },
+      { fraction: '2/5', pctDisplay: '40%', answers: ['40', '40%'], hint: '2 × 20% = 40%' },
+      { fraction: '3/5', pctDisplay: '60%', answers: ['60', '60%'], hint: '3 × 20% = 60%' },
+      { fraction: '4/5', pctDisplay: '80%', answers: ['80', '80%'], hint: '4 × 20% = 80%' },
+      { fraction: '5/6', pctDisplay: '83.33%', answers: ['83.33', '83.3', '83.33%'], hint: '100% - 16.67% = 83.33%' },
+      { fraction: '2/7', pctDisplay: '28.57%', answers: ['28.57', '28.56', '28.57%'], hint: '2 × 14.28% = 28.57%' },
+      { fraction: '3/7', pctDisplay: '42.85%', answers: ['42.85', '42.86', '42.85%'], hint: '3 × 14.28% = 42.85%' },
+      { fraction: '4/7', pctDisplay: '57.14%', answers: ['57.14', '57.14%'], hint: '4 × 14.28% = 57.14%' },
+      { fraction: '3/8', pctDisplay: '37.5%', answers: ['37.5', '37.5%'], hint: '25% + 12.5% = 37.5%' },
+      { fraction: '5/8', pctDisplay: '62.5%', answers: ['62.5', '62.5%'], hint: '50% + 12.5% = 62.5%' },
+      { fraction: '7/8', pctDisplay: '87.5%', answers: ['87.5', '87.5%'], hint: '100% - 12.5% = 87.5%' },
+      { fraction: '2/9', pctDisplay: '22.22%', answers: ['22.22', '22.2', '22.22%'], hint: '2 × 11.11% = 22.22%' },
+      { fraction: '4/9', pctDisplay: '44.44%', answers: ['44.44', '44.4', '44.44%'], hint: '4 × 11.11% = 44.44%' },
+      { fraction: '5/9', pctDisplay: '55.55%', answers: ['55.55', '55.5', '55.55%'], hint: '5 × 11.11% = 55.55%' },
+      { fraction: '7/9', pctDisplay: '77.77%', answers: ['77.77', '77.7', '77.78', '77.77%'], hint: '7 × 11.11% = 77.77%' },
+      { fraction: '2/11', pctDisplay: '18.18%', answers: ['18.18', '18.18%'], hint: '2 × 9.09% = 18.18%' },
+      { fraction: '3/11', pctDisplay: '27.27%', answers: ['27.27', '27.27%'], hint: '3 × 9.09% = 27.27%' }
     ];
 
     /**
@@ -1143,16 +1143,30 @@
           internalCategory = 'cube';
 
         } else if (selectedType === 'fractions') {
-          const candidates = FRACTION_DATA.map(item => ({
-            candidate: item,
-            weight: this.tracker.getWeight(`${item.fraction} to %`, 1.0)
-          }));
+          // Bidirectional: Fraction to % (50%) and Percentage to Fraction (50%)
+          const isReverse = Math.random() < 0.5;
+          const candidates = FRACTION_DATA.map(item => {
+            const promptKey = isReverse ? `${item.pctDisplay} to frac` : `${item.fraction} to %`;
+            return {
+              candidate: item,
+              weight: this.tracker.getWeight(promptKey, 1.0)
+            };
+          });
           const item = this.tracker.weightedPick(candidates);
-          acceptableAnswers = item.answers;
-          promptText = `${item.fraction} to %`;
-          categoryName = 'Fraction to %';
-          internalCategory = 'fraction';
-          customHint = item.hint;
+
+          if (isReverse) {
+            acceptableAnswers = [item.fraction];
+            promptText = `${item.pctDisplay} to fraction`;
+            categoryName = 'Percentage to Fraction';
+            internalCategory = 'fraction_reverse';
+            customHint = `${item.pctDisplay} = ${item.fraction}. ${item.hint}`;
+          } else {
+            acceptableAnswers = item.answers;
+            promptText = `${item.fraction} to %`;
+            categoryName = 'Fraction to %';
+            internalCategory = 'fraction';
+            customHint = item.hint;
+          }
 
         } else if (selectedType === 'addition') {
           const candidates = [];
@@ -1350,6 +1364,7 @@
       appendInput(val) {
         if (this.currentInput.length >= 8) return;
         if (val === '.' && this.currentInput.includes('.')) return;
+        if (val === '/' && (this.currentInput.length === 0 || this.currentInput.includes('/'))) return;
         this.currentInput += val;
 
         if (this.instantSubmit && this.currentQuestion) {
@@ -1415,7 +1430,7 @@
         tables: 'Tables 1–12',
         squares: 'Squares 1–20',
         cubes: 'Cubes 1–12',
-        fractions: 'Fractions to %',
+        fractions: 'Fractions & %',
         addition: 'Addition 2D',
         mixed: 'Mixed All',
         mistakes: `Drill Mistakes (${engine.mistakesHistory.length})`
@@ -1508,7 +1523,7 @@
         updateInputView();
       } else if (val === 'submit') {
         processSubmission();
-      } else if (val === '.' || !isNaN(parseInt(val, 10))) {
+      } else if (val === '.' || val === '/' || !isNaN(parseInt(val, 10))) {
         engine.appendInput(val);
         updateInputView();
       }
@@ -1563,7 +1578,7 @@
         return;
       }
 
-      if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
+      if ((e.key >= '0' && e.key <= '9') || e.key === '.' || e.key === '/') {
         handleKeyInput(e.key);
       } else if (e.key === 'Backspace') {
         handleKeyInput('backspace');
