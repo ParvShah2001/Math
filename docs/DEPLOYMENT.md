@@ -58,13 +58,22 @@ vercel deploy --prod
 
 ---
 
-## 4. Cloudflare Pages
+## 4. Cloudflare Pages & Cloudflare Workers
 
+### Option A: Cloudflare Pages
 1. Log in to the [Cloudflare Dashboard](https://dash.cloudflare.com/) and navigate to **Workers & Pages**.
 2. Click **Create Application** → **Pages** → **Connect to Git**.
 3. Select the `Math` repository.
-4. Set **Build command** to empty and **Build output directory** to `.`.
+4. In build settings:
+   - **Framework preset**: `None`
+   - **Build command**: *Leave empty* (do not enter any command)
+   - **Build output directory**: `.` (or `/`)
 5. Click **Save and Deploy**.
+
+### Option B: Cloudflare Workers with Static Assets
+- If deploying via Cloudflare Workers Static Assets, `.assetsignore` in the repository root automatically excludes `node_modules` (including the internal `workerd` 129 MiB binary), ensuring static assets remain well below the 25 MiB Workers limit.
+- **Assets directory**: `.` (or root `/`)
+- **Build command**: *Leave empty*
 
 ---
 

@@ -1,0 +1,16 @@
+# Cloudflare Workers & Pages static assets ignore file
+node_modules
+node_modules/
+node_modules/**
+.git
+.git/
+.github
+.github/
+.wrangler
+.wrangler/
+docs
+docs/
+package.json
+package-lock.json
+README.md
+LICENSE
