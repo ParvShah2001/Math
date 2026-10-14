@@ -51,10 +51,10 @@ Most online math trainers suffer from cluttered interfaces, distracting gamifica
 │       ├─────────┼─────────┼─────────┤                  │
 │       │    7    │    8    │    9    │                  │
 │       ├─────────┼─────────┼─────────┤                  │
-│       │    .    │    0    │    ⌫    │                  │
+│       │    .    │    0    │   DEL   │                  │
 │       └─────────┴─────────┴─────────┘                  │
 │       ┌─────────────────────────────┐                  │
-│       │           ENTER ↵           │                  │
+│       │            ENTER            │                  │
 │       └─────────────────────────────┘                  │
 └────────────────────────────────────────────────────────┘
 ```
@@ -69,17 +69,28 @@ Most online math trainers suffer from cluttered interfaces, distracting gamifica
 - **Strict Zero-Scroll Viewport Lock**: The entire practice interface is fixed to `100dvh` (Dynamic Viewport Height). No layout shifts, accidental page scrolls, or double-tap zooming occur during high-speed typing.
 - **4 Workout Modes**:
   - **Endless**: Continuous practice with zero time pressure.
-  - **60s Blitz ⚡**: Real-time 60-second countdown benchmark testing active recall under time pressure.
-  - **50 Qs Attack 🎯**: Precision sprint measuring the exact time required to clear 50 problems.
-  - **Speed Gate ☠ (Sudden Death)**: Answer each problem within an adaptive, dynamic time window ($2.2\text{s} \rightarrow 1.3\text{s}$). One timeout or miscalculation ends the streak instantly.
-- **Problem Difficulty Weighting**: Problems with slower response times (e.g., $17 \times 8$ taking $>2.5\text{s}$) or past errors reappear significantly more frequently via weighted roulette sampling than automatic calculations like $2 \times 5$.
+  - **60s Blitz**: Real-time 60-second countdown benchmark testing active recall under time pressure.
+  - **50 Qs Attack**: Precision sprint measuring the exact time required to clear 50 problems.
+  - **Speed Gate (Sudden Death)**: Answer each problem within an adaptive, dynamic time window (2.2s down to 1.3s). One timeout or miscalculation ends the streak instantly.
+- **Problem Difficulty Weighting**: Problems with slower response times (e.g., $12 \times 8$ taking >2.5s) or past errors reappear significantly more frequently via weighted roulette sampling than automatic calculations like $2 \times 5$.
+- **Local-First Analytics & Multiplication Heatmap**:
+  - **Daily Goal & Streak Tracking**: Real-time daily solved counter (goal: 50) and consecutive day streak tracker.
+  - **12 × 10 Matrix Heatmap**: Visual grid showing exact average latency per table combination (1–12), highlighting slow bottlenecks (>2.5s) in white.
+  - **Weak-Spot Diagnostics**: Instant ranking of slowest latency bottlenecks.
+  - **Full Data Portability**: Export, import, and reset training records as standard JSON files directly in the browser with zero cloud tracking.
 - **Smart Spaced Repetition**: Missed questions automatically requeue 3–5 items later, and persist into a cumulative "Drill Mistakes" weak-spot engine.
-- **Expanded Drill Disciplines**: Multiplication tables (1–20), squares (1–30), cubes (1–15), square roots ($\sqrt{x}$), cube roots ($\sqrt[3]{x}$), 2-digit addition, benchmark percentage splits, and mixed training.
+- **Curated High-Value Disciplines**:
+  - Multiplication Tables (1–12, with 11 and 12 integrated)
+  - Squares (1–20)
+  - Cubes (1–12)
+  - Common Fraction to Percentage conversions
+  - 2-Digit Addition
+  - Mixed Training & Drill Mistakes
 - **High-Frequency Fraction Engine**: Supports flexible input tolerance for percentages (e.g., handles both `12.5` and `12.5%`, `33.33` or `33.3`).
 - **Instant Advance Mode**: An optional toggle that immediately advances to the next question the moment the correct answer is entered, saving an extra tap per problem.
 - **Tactile Haptic Feedback**: Vibrates lightly (`navigator.vibrate`) upon keypress on supported mobile devices to emulate physical calculator keys.
 - **Dual Input Architecture**: Symmetrical virtual 12-key numpad for mobile thumbs, alongside full physical keyboard keybindings (`0`–`9`, `.`, `Backspace`, `Enter`, `Escape`, `H`).
-- **Built-in Reference Book**: An overlay study handbook displaying all multiplication tables up to 20, squares to 30, cubes to 15, square/cube roots, fractions, and percentage conversion rules.
+- **Built-in Reference Book**: An overlay study handbook displaying all multiplication tables up to 12, squares to 20, cubes to 12, and common fraction-to-percentage rules.
 - **Zero Runtime Dependencies**: Written entirely in vanilla HTML5, CSS3, and ES6+ JavaScript. Operates 100% offline.
 
 ---
@@ -180,10 +191,11 @@ Then visit `http://localhost:3000` in your browser.
 
 ## Roadmap
 
-- [ ] **Configurable Sprint Timers**: Add timed endurance modes (e.g., 60-second or 120-second blitz).
-- [ ] **LocalStorage Analytics**: Persist personal records, speed trends, and historical mistake rates.
+- [x] **Configurable Workout Modes**: 60s Blitz, 50 Qs Attack, and adaptive Speed Gate (Sudden Death).
+- [x] **Problem Difficulty Weighting**: Latency-aware spaced repetition prioritizing slow calculations.
+- [x] **Local-First Analytics & Heatmap**: Daily streak tracker, 12×10 multiplication heatmap, bottleneck diagnostics, and JSON backup.
 - [ ] **Full PWA Manifest & Service Worker**: Enable installability as an offline home-screen standalone app.
-- [ ] **Custom Range Builder**: Allow users to specify custom factor bounds (e.g., drilling specifically the 13, 17, and 19 tables).
+- [ ] **Custom Range Builder**: Allow users to specify custom factor bounds (e.g., drilling specifically the 11 and 12 tables).
 
 ---
 
